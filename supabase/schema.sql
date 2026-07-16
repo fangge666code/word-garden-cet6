@@ -48,3 +48,9 @@ create policy "users manage own word progress" on public.word_progress
 drop policy if exists "users manage own daily records" on public.daily_records;
 create policy "users manage own daily records" on public.daily_records
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+grant select, insert, update, delete on public.user_profiles to authenticated;
+grant select, insert, update, delete on public.word_progress to authenticated;
+grant select, insert, update, delete on public.daily_records to authenticated;
+grant usage, select on sequence public.word_progress_id_seq to authenticated;
+grant usage, select on sequence public.daily_records_id_seq to authenticated;
