@@ -12,7 +12,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { SupabaseClient } from "./lib/supabase-client.js";
+import { SupabaseClient } from "./lib/supabase-client.js?v=3301a89";
 
 const STORAGE_KEY = "word-garden-data-v1";
 const AUTH_KEY = "word-garden-auth-v1";
