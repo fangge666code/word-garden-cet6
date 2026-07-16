@@ -43,6 +43,23 @@ test("expired sessions are refreshed", async () => {
   assert.equal(restored.username, "learner");
 });
 
+test("a forced session restore refreshes a token that has not reached local expiry", async () => {
+  let requestCount = 0;
+  const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async () => {
+    requestCount += 1;
+    return response({ access_token: "replacement", refresh_token: "replacement-refresh", expires_in: 3600, user: { id: "user-1" } });
+  });
+  const restored = await client.restoreSession({
+    objectId: "user-1",
+    username: "learner",
+    sessionToken: "rejected-token",
+    refreshToken: "refresh",
+    expiresAt: Date.now() + 3_000_000,
+  }, { force: true });
+  assert.equal(requestCount, 1);
+  assert.equal(restored.sessionToken, "replacement");
+});
+
 test("owned records are filtered by user and upserted with the same user id", async () => {
   const calls = [];
   const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async (url, options) => {
@@ -67,6 +84,15 @@ test("Supabase authentication errors become safe Chinese messages", async () => 
     response({ error_description: "Invalid login credentials" }, 400)
   ));
   await assert.rejects(() => client.login("learner", "wrong-pass"), /用户名或密码不正确/);
+});
+
+test("expired authorization errors are marked for one automatic refresh", async () => {
+  const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async () => (
+    response({ message: "JWT expired" }, 401)
+  ));
+  await assert.rejects(() => client.listOwned("UserProfile", { objectId: "user-1", sessionToken: "expired" }), (error) => (
+    error.code === "AUTH_EXPIRED" && /登录状态已失效/u.test(error.message)
+  ));
 });
 
 test("an XMLHttpRequest fallback is used when browser fetch is blocked", async () => {

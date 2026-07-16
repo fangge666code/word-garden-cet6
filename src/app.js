@@ -12,7 +12,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { SupabaseClient } from "./lib/supabase-client.js?v=3301a89";
+import { SupabaseClient } from "./lib/supabase-client.js?v=3";
 
 const STORAGE_KEY = "word-garden-data-v1";
 const AUTH_KEY = "word-garden-auth-v1";
@@ -163,11 +163,21 @@ async function syncNow({ silent = false } = {}) {
   syncError = "";
   refreshSettingsIfVisible();
   try {
-    const refreshedUser = await cloudClient.restoreSession(userAtStart);
+    let refreshedUser = await cloudClient.restoreSession(userAtStart);
     if (currentUser?.objectId !== userAtStart.objectId) return false;
     currentUser = refreshedUser;
     localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
-    const result = await syncLearningData(cloudClient, refreshedUser, data);
+    let result;
+    try {
+      result = await syncLearningData(cloudClient, refreshedUser, data);
+    } catch (error) {
+      if (error.code !== "AUTH_EXPIRED" || !refreshedUser.refreshToken) throw error;
+      refreshedUser = await cloudClient.restoreSession(refreshedUser, { force: true });
+      if (currentUser?.objectId !== userAtStart.objectId) return false;
+      currentUser = refreshedUser;
+      localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
+      result = await syncLearningData(cloudClient, refreshedUser, data);
+    }
     if (currentUser?.objectId !== userAtStart.objectId) return false;
     const changedDuringSync = revisionAtStart !== localRevision;
     const currentSession = data.session;

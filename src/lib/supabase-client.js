@@ -83,7 +83,11 @@ function safeError(payload, status) {
   if (status === 400 && (message.includes("invalid login") || message.includes("invalid credentials"))) {
     return new Error("用户名或密码不正确");
   }
-  if (status === 401 || status === 403) return new Error("登录状态已失效，请重新登录");
+  if (status === 401 || status === 403) {
+    const error = new Error("登录状态已失效，请重新登录");
+    error.code = "AUTH_EXPIRED";
+    return error;
+  }
   return new Error("云端服务暂时不可用，学习记录已保存在本机");
 }
 
@@ -172,8 +176,8 @@ export class SupabaseClient {
     return mapUser(payload, username);
   }
 
-  async restoreSession(user) {
-    if (user.sessionToken && user.expiresAt > Date.now() + 60_000) return user;
+  async restoreSession(user, { force = false } = {}) {
+    if (!force && user.sessionToken && user.expiresAt > Date.now() + 60_000) return user;
     if (!user.refreshToken) throw new Error("登录状态已失效，请重新登录");
     const payload = await this.request("/auth/v1/token?grant_type=refresh_token", {
       method: "POST",
