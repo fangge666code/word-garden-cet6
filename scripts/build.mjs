@@ -9,10 +9,16 @@ await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await cp(join(root, "index.html"), join(dist, "index.html"));
 await cp(join(root, "src"), join(dist, "src"), { recursive: true });
+await Promise.all(["manifest.webmanifest", "service-worker.js", "offline.html"].map((filename) => (
+  cp(join(root, filename), join(dist, filename))
+)));
 await mkdir(join(dist, "server"), { recursive: true });
 
 const assetPaths = [
   "/index.html",
+  "/manifest.webmanifest",
+  "/service-worker.js",
+  "/offline.html",
   "/src/app.js",
   "/src/styles.css",
   "/src/lib/core.js",
@@ -23,7 +29,7 @@ const assets = Object.fromEntries(await Promise.all(assetPaths.map(async (pathna
   await readFile(join(root, pathname.slice(1)), "utf8"),
 ])));
 const worker = `const ASSETS = ${JSON.stringify(assets)};
-const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".webmanifest": "application/manifest+json; charset=utf-8" };
 export default {
   async fetch(request) {
     const url = new URL(request.url);

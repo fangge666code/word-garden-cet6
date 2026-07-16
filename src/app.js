@@ -22,6 +22,7 @@ let flipped = false;
 let toastTimer;
 let corruptRaw = null;
 let needsDataSave = false;
+let deferredInstallPrompt = null;
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
@@ -362,6 +363,7 @@ function renderSettings() {
           <div class="divider"></div>
           <button class="danger-button" id="clear-data">清空全部记录</button>
         </section>
+        ${installAppCard()}
       </div>
     </section>`;
   document.querySelector("#settings-form").addEventListener("submit", saveSettings);
@@ -371,6 +373,47 @@ function renderSettings() {
   document.querySelector("#import-data").addEventListener("change", importData);
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
   document.querySelector("#export-corrupt")?.addEventListener("click", () => downloadText(corruptRaw, `word-garden-damaged-${localDateKey()}.json`));
+  document.querySelector("#install-app")?.addEventListener("click", installApp);
+}
+
+function isStandaloneApp() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+function isAppleMobile() {
+  return /iphone|ipad|ipod/iu.test(window.navigator.userAgent);
+}
+
+function installAppCard() {
+  let message = "在浏览器菜单中选择“安装应用”或“添加到主屏幕”，即可像普通 App 一样打开词间。";
+  let action = "";
+  if (isStandaloneApp()) {
+    message = "词间已经以 App 模式运行。学习记录会继续保存在这台设备中。";
+    action = '<span class="installed-badge">✓ 已安装</span>';
+  } else if (deferredInstallPrompt) {
+    message = "安装后会在桌面生成词间图标，并使用独立窗口打开。使用时需要连接网络。";
+    action = '<button class="primary-button" id="install-app">安装词间 App</button>';
+  } else if (isAppleMobile()) {
+    message = "请使用 Safari 打开本网站，点击分享按钮，再选择“添加到主屏幕”。使用时需要连接网络。";
+  }
+  return `
+    <section class="settings-card install-app-card">
+      <div class="install-mark" aria-hidden="true">W</div>
+      <div><p class="eyebrow">Install on your phone</p><h2>安装词间 App</h2><p>${message}</p></div>
+      <div class="install-action">${action}</div>
+    </section>`;
+}
+
+async function installApp() {
+  if (!deferredInstallPrompt) return;
+  const promptEvent = deferredInstallPrompt;
+  await promptEvent.prompt();
+  const choice = await promptEvent.userChoice;
+  if (choice.outcome === "accepted") {
+    deferredInstallPrompt = null;
+    showToast("安装请求已确认");
+  }
+  if (route() === "settings") renderSettings();
 }
 
 function saveSettings(event) {
@@ -478,5 +521,22 @@ document.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("hashchange", render);
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  if (route() === "settings") renderSettings();
+});
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  showToast("词间 App 已安装");
+  if (route() === "settings") renderSettings();
+});
+window.addEventListener("load", () => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch((error) => {
+      console.warn("Service worker registration failed", error);
+    });
+  }
+});
 applyPreferences();
 render();
