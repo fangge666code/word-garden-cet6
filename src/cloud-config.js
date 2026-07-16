@@ -1,6 +1,6 @@
 export const CLOUD_CONFIG = Object.freeze({
-  projectURL: "",
-  anonKey: "",
+  projectURL: "https://qwjbitkuiccnmwejrlcd.supabase.co",
+  anonKey: "sb_publishable_v7_RDyTSqtqf2Fp5CldrDQ_j4MIzmnc",
 });
 
 export function cloudConfigured(config = CLOUD_CONFIG) {
