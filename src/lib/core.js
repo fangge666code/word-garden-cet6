@@ -83,6 +83,18 @@ function freshDailyRecord() {
   return { newIds: [], reviewIds: [], ratings: 0, completed: false };
 }
 
+function stableRank(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  hash ^= hash >>> 16;
+  hash = Math.imul(hash, 2246822507);
+  hash ^= hash >>> 13;
+  return hash >>> 0;
+}
+
 export function makeSession(words, data, now = new Date()) {
   const date = localDateKey(now);
   if (data.session?.date === date) {
@@ -93,7 +105,10 @@ export function makeSession(words, data, now = new Date()) {
     .sort((a, b) => new Date(data.progress[a.id].nextReviewAt) - new Date(data.progress[b.id].nextReviewAt));
   const today = data.daily[date] ?? freshDailyRecord();
   const remaining = Math.max(0, data.settings.dailyGoal - today.newIds.length);
-  const unseen = words.filter((word) => !data.progress[word.id]).slice(0, remaining);
+  const unseen = words
+    .filter((word) => !data.progress[word.id])
+    .sort((a, b) => stableRank(`${date}:${a.id}`) - stableRank(`${date}:${b.id}`) || a.id.localeCompare(b.id))
+    .slice(0, remaining);
   return {
     date,
     position: 0,

@@ -29,18 +29,28 @@ test("due reviews appear before new words", () => {
   const data = createDefaultData();
   data.settings.dailyGoal = 2;
   data.progress.w3 = { nextReviewAt: "2026-07-14T08:00:00.000Z" };
-  assert.deepEqual(makeSession(words, data, now).queue, [
-    { id: "w3", source: "review" }, { id: "w1", source: "new" }, { id: "w2", source: "new" },
-  ]);
+  const session = makeSession(words, data, now);
+  assert.deepEqual(session.queue[0], { id: "w3", source: "review" });
+  assert.equal(session.queue.filter((entry) => entry.source === "new").length, 2);
+});
+
+test("new-word order is deterministic for the same day", () => {
+  const data = createDefaultData();
+  data.settings.dailyGoal = 5;
+  const first = makeSession(words, data, now).queue;
+  const second = makeSession(words, data, now).queue;
+  assert.deepEqual(first, second);
+  assert.notDeepEqual(first.map((entry) => entry.id), words.map((word) => word.id));
 });
 
 test("forgot word is reinserted after at least three cards", () => {
   const data = createDefaultData();
   data.settings.dailyGoal = 5;
   data.session = makeSession(words, data, now);
+  const currentId = data.session.queue[0].id;
   const result = rateCurrent(data, "forgot", now);
-  assert.deepEqual(result.session.queue[4], { id: "w1", source: "retry" });
-  assert.equal(result.session.forgetCounts.w1, 1);
+  assert.deepEqual(result.session.queue[4], { id: currentId, source: "retry" });
+  assert.equal(result.session.forgetCounts[currentId], 1);
 });
 
 test("a completed session remains available for the result view on the same day", () => {
@@ -56,8 +66,9 @@ test("daily counts are unique while ratings count every attempt", () => {
   let data = createDefaultData();
   data.settings.dailyGoal = 1;
   data.session = makeSession(words, data, now);
+  const currentId = data.session.queue[0].id;
   data = rateCurrent(data, "forgot", now);
-  data.session.position = data.session.queue.findIndex((entry, index) => index > 0 && entry.id === "w1");
+  data.session.position = data.session.queue.findIndex((entry, index) => index > 0 && entry.id === currentId);
   data = rateCurrent(data, "known", now);
   const record = data.daily[Object.keys(data.daily)[0]];
   assert.equal(record.newIds.length, 1);

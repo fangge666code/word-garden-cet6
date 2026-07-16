@@ -24,6 +24,15 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
 }
 
+function renderMeaningItems(value) {
+  return String(value)
+    .split(/[；;\n]+/u)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => `<span>${escapeHtml(item)}</span>`)
+    .join("");
+}
+
 function loadData() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return createDefaultData();
@@ -180,24 +189,22 @@ function renderStudy() {
           <div class="progress-track" aria-label="本次学习进度"><div class="progress-fill" style="width:${percentage}%"></div></div>
           <span class="study-count">${session.position + 1} / ${session.queue.length}</span>
         </div>
-        <button class="word-card" id="word-card" aria-label="单词卡片，点击查看释义" aria-pressed="false">
-          <span class="word-card-inner">
-            <span class="word-face word-front">
-              <span class="word-tag">${entry.source === "new" ? "NEW WORD" : entry.source === "retry" ? "TRY AGAIN" : "REVIEW"}</span>
-              <strong class="word">${escapeHtml(word.word)}</strong>
-              <span class="phonetic">${escapeHtml(word.phonetic)}</span>
-              <span class="flip-hint">点击卡片查看释义 · 空格键翻面</span>
-            </span>
-            <span class="word-face word-back">
-              <span class="word-tag">MEANING</span>
-              <strong class="word" style="font-size:36px">${escapeHtml(word.word)}</strong>
-              <span class="phonetic">${escapeHtml(word.phonetic)}</span>
-              <span class="meaning"><span class="pos">${escapeHtml(word.pos)}</span>${escapeHtml(word.meaning)}</span>
-              <span class="example">${escapeHtml(word.example)}</span>
-              <span class="flip-hint">想好了吗？在下方评价你的记忆</span>
-            </span>
-          </span>
-        </button>
+        <article class="word-card" id="word-card" role="button" tabindex="0" aria-label="单词卡片，点击查看释义" aria-expanded="false">
+          <span class="word-tag">${entry.source === "new" ? "NEW WORD" : entry.source === "retry" ? "TRY AGAIN" : "REVIEW"}</span>
+          <div class="word-heading">
+            <strong class="word">${escapeHtml(word.word)}</strong>
+            <span class="phonetic">${escapeHtml(word.phonetic)}</span>
+          </div>
+          <div class="word-details" id="word-details" hidden>
+            <div class="meaning-block">
+              <span class="pos">${escapeHtml(word.pos)}</span>
+              <span class="meaning-list">${renderMeaningItems(word.meaning)}</span>
+            </div>
+            <blockquote class="example">${escapeHtml(word.example)}</blockquote>
+            <p class="answer-hint">想好了吗？在下方评价你的记忆</p>
+          </div>
+          <p class="reveal-hint" id="reveal-hint">点击卡片查看释义 · 空格键展开</p>
+        </article>
         <div class="rating-row" id="rating-row" hidden>
           <button class="rating-button forgot" data-rating="forgot">忘记了<small>1 · 稍后再见</small></button>
           <button class="rating-button fuzzy" data-rating="fuzzy">有点模糊<small>2 · 2 天后</small></button>
@@ -216,9 +223,11 @@ function renderStudy() {
 function flipCard(card, ratings) {
   if (flipped) return;
   flipped = true;
-  card.classList.add("flipped");
-  card.setAttribute("aria-pressed", "true");
+  card.classList.add("revealed");
+  card.setAttribute("aria-expanded", "true");
   card.setAttribute("aria-label", "已显示单词释义");
+  card.querySelector("#word-details").hidden = false;
+  card.querySelector("#reveal-hint").hidden = true;
   ratings.hidden = false;
   ratings.querySelector("button").focus();
 }
