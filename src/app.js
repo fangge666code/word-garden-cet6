@@ -670,10 +670,24 @@ function isAppleMobile() {
   return /iphone|ipad|ipod/iu.test(window.navigator.userAgent);
 }
 
+function isAndroidDevice() {
+  return /android/iu.test(window.navigator.userAgent);
+}
+
+function isNativeApp() {
+  return window.Capacitor?.isNativePlatform?.() === true;
+}
+
 function installAppCard() {
   let message = "在浏览器菜单中选择“安装应用”或“添加到主屏幕”，即可像普通 App 一样打开词间。";
   let action = "";
-  if (isStandaloneApp()) {
+  if (isNativeApp()) {
+    message = "你正在使用词间安卓版。登录同一账号后，手机和电脑会自动同步学习记录。";
+    action = '<span class="installed-badge">✓ 安卓版已安装</span>';
+  } else if (isAndroidDevice()) {
+    message = "下载 APK 后按提示安装。华为手机如有安全提示，请允许浏览器安装外部来源应用。";
+    action = '<a class="primary-button" href="https://github.com/fangge666code/word-garden-cet6/releases/latest/download/word-garden-android.apk">下载安卓版 APK</a>';
+  } else if (isStandaloneApp()) {
     message = "词间已经以 App 模式运行。学习记录会继续保存在这台设备中。";
     action = '<span class="installed-badge">✓ 已安装</span>';
   } else if (deferredInstallPrompt) {

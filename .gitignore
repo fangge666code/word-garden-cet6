@@ -42,3 +42,7 @@ next-env.d.ts
 /work/
 /.superpowers/
 /.pnpm-store/
+/.secrets/
+*.jks
+*.keystore
+*.p12
