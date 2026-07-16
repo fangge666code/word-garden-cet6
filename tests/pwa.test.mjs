@@ -57,3 +57,11 @@ test("application registers the service worker and provides install UI", async (
   assert.match(app, /安装词间 App/u);
   assert.match(app, /添加到主屏幕/u);
 });
+
+test("account activation keeps refresh credentials and offers safe reauthentication", async () => {
+  const app = await readText("src/app.js");
+  assert.match(app, /refreshToken: user\.refreshToken/u);
+  assert.match(app, /expiresAt: user\.expiresAt/u);
+  assert.match(app, /id="reauth-account">重新登录/u);
+  assert.match(app, /本机记录已保留，请重新登录同一账号/u);
+});

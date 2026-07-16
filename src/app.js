@@ -12,7 +12,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { SupabaseClient } from "./lib/supabase-client.js?v=3";
+import { SupabaseClient } from "./lib/supabase-client.js?v=4";
 
 const STORAGE_KEY = "word-garden-data-v1";
 const AUTH_KEY = "word-garden-auth-v1";
@@ -484,6 +484,7 @@ function renderSettings() {
   document.querySelector("#login-form")?.addEventListener("submit", loginAccount);
   document.querySelector("#register-form")?.addEventListener("submit", registerAccount);
   document.querySelector("#sync-now")?.addEventListener("click", () => syncNow());
+  document.querySelector("#reauth-account")?.addEventListener("click", reauthAccount);
   document.querySelector("#logout-account")?.addEventListener("click", logoutAccount);
 }
 
@@ -509,7 +510,9 @@ function accountCard() {
         <div><p class="eyebrow">Signed in</p><h2>${escapeHtml(currentUser.username)}</h2><p>此账号的学习记录会在手机和电脑之间同步。</p></div>
         <div class="account-actions">
           <span class="sync-pill ${syncStatus}">${escapeHtml(syncLabel())}</span>
-          <button class="secondary-button" id="sync-now">立即同步</button>
+          ${syncStatus === "failed" && syncError.includes("登录状态已失效")
+            ? '<button class="secondary-button" id="reauth-account">重新登录</button>'
+            : '<button class="secondary-button" id="sync-now">立即同步</button>'}
           <button class="text-button" id="logout-account">退出账号</button>
         </div>
       </section>`;
@@ -586,7 +589,13 @@ function showMigrationChoice(user, isNewAccount) {
 
 async function activateAccount(user, mergeAnonymous) {
   const anonymousData = structuredClone(data);
-  currentUser = { objectId: user.objectId, username: user.username, sessionToken: user.sessionToken };
+  currentUser = {
+    objectId: user.objectId,
+    username: user.username,
+    sessionToken: user.sessionToken,
+    refreshToken: user.refreshToken,
+    expiresAt: user.expiresAt,
+  };
   localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
   const userKey = activeStorageKey();
   let userData = createDefaultData();
@@ -611,6 +620,10 @@ async function logoutAccount() {
   const user = currentUser;
   const synced = await syncNow({ silent: true });
   if (!synced) {
+    if (syncError.includes("登录状态已失效")) {
+      reauthAccount();
+      return;
+    }
     showToast("仍有记录未同步，请联网同步后再退出");
     return;
   }
@@ -626,6 +639,26 @@ async function logoutAccount() {
   data = loadData();
   if (needsDataSave) commit(data, { skipSync: true });
   showToast("已安全退出账号");
+  render();
+}
+
+function reauthAccount() {
+  if (!currentUser) return;
+  let anonymousData = createDefaultData();
+  const anonymousRaw = localStorage.getItem(STORAGE_KEY);
+  if (anonymousRaw) {
+    try { anonymousData = validateData(JSON.parse(anonymousRaw), wordIds); } catch { anonymousData = createDefaultData(); }
+  }
+  const preserved = ensureShuffleSeed(mergeLearningData(anonymousData, data));
+  preserved.session = data.session;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(preserved));
+  localStorage.removeItem(AUTH_KEY);
+  currentUser = null;
+  syncStatus = "anonymous";
+  lastSyncedAt = "";
+  syncError = "";
+  data = preserved;
+  showToast("本机记录已保留，请重新登录同一账号");
   render();
 }
 

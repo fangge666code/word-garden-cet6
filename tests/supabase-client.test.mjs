@@ -95,6 +95,15 @@ test("expired authorization errors are marked for one automatic refresh", async 
   ));
 });
 
+test("database permission errors are not mistaken for an expired login", async () => {
+  const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async () => (
+    response({ message: "permission denied for table user_profiles" }, 403)
+  ));
+  await assert.rejects(() => client.listOwned("UserProfile", { objectId: "user-1", sessionToken: "access" }), (error) => (
+    error.code === "DATA_PERMISSION" && /权限未配置完整/u.test(error.message)
+  ));
+});
+
 test("an XMLHttpRequest fallback is used when browser fetch is blocked", async () => {
   const requests = [];
   const xhrFactory = () => ({

@@ -83,6 +83,11 @@ function safeError(payload, status) {
   if (status === 400 && (message.includes("invalid login") || message.includes("invalid credentials"))) {
     return new Error("用户名或密码不正确");
   }
+  if (status === 403 && message.includes("permission denied")) {
+    const error = new Error("云端数据权限未配置完整");
+    error.code = "DATA_PERMISSION";
+    return error;
+  }
   if (status === 401 || status === 403) {
     const error = new Error("登录状态已失效，请重新登录");
     error.code = "AUTH_EXPIRED";
