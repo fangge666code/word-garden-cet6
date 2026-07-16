@@ -10,7 +10,7 @@ export function localDateKey(date = new Date()) {
 export function createDefaultData() {
   return {
     version: DATA_VERSION,
-    settings: { dailyGoal: 20, reduceMotion: false },
+    settings: { dailyGoal: 20, reduceMotion: false, shuffleSeed: "" },
     progress: {},
     daily: {},
     session: null,
@@ -39,6 +39,7 @@ export function validateData(value, wordIds = null) {
     settings: {
       dailyGoal: value.settings.dailyGoal,
       reduceMotion: Boolean(value.settings.reduceMotion),
+      shuffleSeed: typeof value.settings.shuffleSeed === "string" ? value.settings.shuffleSeed : "",
     },
     progress: value.progress,
     daily: value.daily,
@@ -95,6 +96,13 @@ function stableRank(value) {
   return hash >>> 0;
 }
 
+export function orderWords(words, shuffleSeed = "") {
+  return [...words].sort((a, b) => (
+    stableRank(`${shuffleSeed}:${a.id}`) - stableRank(`${shuffleSeed}:${b.id}`)
+    || a.id.localeCompare(b.id)
+  ));
+}
+
 export function makeSession(words, data, now = new Date()) {
   const date = localDateKey(now);
   if (data.session?.date === date) {
@@ -105,16 +113,17 @@ export function makeSession(words, data, now = new Date()) {
     .sort((a, b) => new Date(data.progress[a.id].nextReviewAt) - new Date(data.progress[b.id].nextReviewAt));
   const today = data.daily[date] ?? freshDailyRecord();
   const remaining = Math.max(0, data.settings.dailyGoal - today.newIds.length);
-  const unseen = words
-    .filter((word) => !data.progress[word.id])
-    .sort((a, b) => stableRank(`${date}:${a.id}`) - stableRank(`${date}:${b.id}`) || a.id.localeCompare(b.id))
+  const unseen = orderWords(
+    words.filter((word) => !data.progress[word.id]),
+    data.settings.shuffleSeed,
+  )
     .slice(0, remaining);
   return {
     date,
     position: 0,
     queue: [
-      ...due.map((word) => ({ id: word.id, source: "review" })),
       ...unseen.map((word) => ({ id: word.id, source: "new" })),
+      ...due.map((word) => ({ id: word.id, source: "review" })),
     ],
     forgetCounts: {},
     results: { new: 0, review: 0, known: 0 },
@@ -180,4 +189,34 @@ export function calculateStats(words, data, now = new Date()) {
     cursor.setDate(cursor.getDate() - 1);
   }
   return { todayNew: today.newIds.length, due, mastered, streak, today };
+}
+
+function csvCell(value) {
+  const text = String(value ?? "");
+  return /[",\r\n]/u.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+}
+
+function learningStatus(progress) {
+  if (progress.status === "mastered") return "已掌握";
+  if (progress.lastRating === "forgot") return "未了解";
+  return "学习中";
+}
+
+export function buildProgressCsv(words, data, formatDate = (value) => new Date(value).toLocaleString("zh-CN")) {
+  const headers = ["单词", "词性", "中文释义", "学习状态", "最近复习时间", "下次复习时间", "累计评分次数"];
+  const rows = words
+    .filter((word) => Boolean(data.progress[word.id]))
+    .map((word) => {
+      const progress = data.progress[word.id];
+      return [
+        word.word,
+        word.pos,
+        word.meaning,
+        learningStatus(progress),
+        progress.lastReviewedAt ? formatDate(progress.lastReviewedAt) : "",
+        progress.nextReviewAt ? formatDate(progress.nextReviewAt) : "",
+        progress.totalRatings ?? 0,
+      ].map(csvCell).join(",");
+    });
+  return `\uFEFF${[headers.join(","), ...rows].join("\r\n")}\r\n`;
 }

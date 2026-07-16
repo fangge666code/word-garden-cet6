@@ -1,9 +1,11 @@
 import { WORDS } from "./data/cet6-words.js";
 import {
+  buildProgressCsv,
   calculateStats,
   createDefaultData,
   localDateKey,
   makeSession,
+  orderWords,
   rateCurrent,
   validateData,
 } from "./lib/core.js";
@@ -19,6 +21,7 @@ let libraryQuery = "";
 let flipped = false;
 let toastTimer;
 let corruptRaw = null;
+let needsDataSave = false;
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
@@ -33,17 +36,40 @@ function renderMeaningItems(value) {
     .join("");
 }
 
+function createShuffleSeed() {
+  return globalThis.crypto?.randomUUID?.()
+    ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+}
+
+function ensureShuffleSeed(value) {
+  if (value.settings.shuffleSeed) return value;
+  return {
+    ...value,
+    settings: { ...value.settings, shuffleSeed: createShuffleSeed() },
+    session: null,
+  };
+}
+
+function newPersonalData() {
+  return ensureShuffleSeed(createDefaultData());
+}
+
 function loadData() {
   const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return createDefaultData();
+  if (!raw) {
+    needsDataSave = true;
+    return newPersonalData();
+  }
   try {
-    const value = validateData(JSON.parse(raw), wordIds);
+    const validated = validateData(JSON.parse(raw), wordIds);
+    if (!validated.settings.shuffleSeed) needsDataSave = true;
+    const value = ensureShuffleSeed(validated);
     if (value.settings.dailyGoal > WORDS.length) value.settings.dailyGoal = WORDS.length;
     return value;
   } catch (error) {
     corruptRaw = raw;
     queueMicrotask(() => showToast(`本地记录无法读取：${error.message}`));
-    return createDefaultData();
+    return newPersonalData();
   }
 }
 
@@ -60,6 +86,8 @@ function commit(next) {
     return false;
   }
 }
+
+if (needsDataSave) commit(data);
 
 function applyPreferences() {
   document.body.classList.toggle("reduce-motion", Boolean(data.settings.reduceMotion));
@@ -118,7 +146,7 @@ function renderHome() {
           <div class="date-chip"><span aria-hidden="true">●</span>${dateLabel()}</div>
           <p class="eyebrow">Personal English Routine</p>
           <h1>今天，也让单词<br>生长一点。</h1>
-          <p class="lead">先复习，再认识新词。每一次回忆，都会让记忆的根系更稳固。</p>
+          <p class="lead">先认识今天的新词，再巩固到期复习。每一次回忆，都会让记忆的根系更稳固。</p>
         </div>
         <aside class="task-card">
           <span class="label">TODAY'S SESSION</span>
@@ -264,7 +292,7 @@ function renderCompletion(results = { new: 0, review: 0, known: 0 }) {
 }
 
 function renderLibrary() {
-  const filtered = WORDS.filter((word) => {
+  const filtered = orderWords(WORDS, data.settings.shuffleSeed).filter((word) => {
     const progress = data.progress[word.id];
     const state = progress?.status ?? "unseen";
     const matchesFilter = libraryFilter === "all" || libraryFilter === state;
@@ -326,7 +354,8 @@ function renderSettings() {
           <div class="data-note">当前已记录 ${Object.keys(data.progress).length} 个单词的学习进度。导入会整体替换现有记录。</div>
           <div class="divider"></div>
           <div class="button-row">
-            <button class="secondary-button" id="export-data">导出记录</button>
+            <button class="secondary-button" id="export-progress">导出学习状态表格</button>
+            <button class="secondary-button" id="export-data">导出完整备份</button>
             <label class="secondary-button file-label">导入记录<input id="import-data" type="file" accept="application/json,.json"></label>
             ${corruptRaw ? '<button class="secondary-button" id="export-corrupt">导出损坏数据</button>' : ""}
           </div>
@@ -337,6 +366,7 @@ function renderSettings() {
     </section>`;
   document.querySelector("#settings-form").addEventListener("submit", saveSettings);
   document.querySelector("#motion-switch").addEventListener("click", toggleMotion);
+  document.querySelector("#export-progress").addEventListener("click", exportProgressCsv);
   document.querySelector("#export-data").addEventListener("click", () => exportJson(data, `word-garden-${localDateKey()}.json`));
   document.querySelector("#import-data").addEventListener("change", importData);
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
@@ -365,8 +395,35 @@ function exportJson(value, filename) {
   showToast("学习记录已导出");
 }
 
-function downloadText(text, filename) {
-  const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+function formatLocalDate(value) {
+  return new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(new Date(value));
+}
+
+function exportProgressCsv() {
+  const orderedWords = orderWords(WORDS, data.settings.shuffleSeed);
+  if (!orderedWords.some((word) => data.progress[word.id])) {
+    showToast("还没有接触过单词，暂时没有可导出的学习状态");
+    return;
+  }
+  try {
+    const csv = buildProgressCsv(orderedWords, data, formatLocalDate);
+    downloadText(csv, `词间-学习状态-${localDateKey()}.csv`, "text/csv;charset=utf-8");
+    showToast("学习状态表格已导出，可使用 Excel 或 WPS 打开");
+  } catch {
+    showToast("表格生成失败，学习记录没有受到影响");
+  }
+}
+
+function downloadText(text, filename, type = "application/json;charset=utf-8") {
+  const blob = new Blob([text], { type });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -379,7 +436,7 @@ async function importData(event) {
   const file = event.target.files?.[0];
   if (!file) return;
   try {
-    const imported = validateData(JSON.parse(await file.text()), wordIds);
+    const imported = ensureShuffleSeed(validateData(JSON.parse(await file.text()), wordIds));
     if (imported.settings.dailyGoal > WORDS.length) throw new Error(`每日目标不能超过 ${WORDS.length}`);
     imported.session = null;
     if (commit(imported)) {
@@ -397,7 +454,7 @@ async function importData(event) {
 function confirmClear() {
   modalRoot.innerHTML = `<div class="modal-backdrop" role="presentation"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="clear-title"><h2 id="clear-title">确定清空全部记录？</h2><p>所有学习进度、连续天数和设置都会恢复初始状态。此操作无法撤销，建议先导出备份。</p><div class="button-row"><button class="danger-button" id="confirm-clear">确认清空</button><button class="secondary-button" id="cancel-clear">取消</button></div></section></div>`;
   document.querySelector("#confirm-clear").addEventListener("click", () => {
-    if (commit(createDefaultData())) {
+    if (commit(newPersonalData())) {
       modalRoot.innerHTML = "";
       showToast("学习记录已清空");
       renderSettings();
