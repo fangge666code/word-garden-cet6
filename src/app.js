@@ -12,7 +12,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { LeanCloudClient } from "./lib/leancloud-client.js";
+import { SupabaseClient } from "./lib/supabase-client.js";
 
 const STORAGE_KEY = "word-garden-data-v1";
 const AUTH_KEY = "word-garden-auth-v1";
@@ -24,7 +24,7 @@ const modalRoot = document.querySelector("#modal-root");
 const wordMap = new Map(WORDS.map((word) => [word.id, word]));
 const wordIds = new Set(wordMap.keys());
 const cloudEnabled = cloudConfigured(CLOUD_CONFIG);
-const cloudClient = cloudEnabled ? new LeanCloudClient(CLOUD_CONFIG) : null;
+const cloudClient = cloudEnabled ? new SupabaseClient(CLOUD_CONFIG) : null;
 let libraryFilter = "all";
 let libraryQuery = "";
 let flipped = false;
@@ -163,7 +163,11 @@ async function syncNow({ silent = false } = {}) {
   syncError = "";
   refreshSettingsIfVisible();
   try {
-    const result = await syncLearningData(cloudClient, userAtStart, data);
+    const refreshedUser = await cloudClient.restoreSession(userAtStart);
+    if (currentUser?.objectId !== userAtStart.objectId) return false;
+    currentUser = refreshedUser;
+    localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
+    const result = await syncLearningData(cloudClient, refreshedUser, data);
     if (currentUser?.objectId !== userAtStart.objectId) return false;
     const changedDuringSync = revisionAtStart !== localRevision;
     const currentSession = data.session;
@@ -600,6 +604,7 @@ async function logoutAccount() {
     showToast("仍有记录未同步，请联网同步后再退出");
     return;
   }
+  try { await cloudClient.logout(user); } catch { /* Local logout still protects this device. */ }
   localStorage.removeItem(`${USER_DATA_PREFIX}:${user.objectId}`);
   localStorage.removeItem(`${SYNC_PENDING_PREFIX}:${user.objectId}`);
   localStorage.removeItem(AUTH_KEY);

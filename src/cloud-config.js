@@ -1,9 +1,8 @@
 export const CLOUD_CONFIG = Object.freeze({
-  appId: "",
-  appKey: "",
-  serverURL: "",
+  projectURL: "",
+  anonKey: "",
 });
 
 export function cloudConfigured(config = CLOUD_CONFIG) {
-  return Boolean(config.appId && config.appKey && /^https:\/\//u.test(config.serverURL));
+  return Boolean(config.anonKey && /^https:\/\/[a-z0-9-]+\.supabase\.co$/iu.test(config.projectURL));
 }

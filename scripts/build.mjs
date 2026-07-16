@@ -25,7 +25,7 @@ const assetPaths = [
   "/src/lib/account-sync.js",
   "/src/lib/cloud-sync.js",
   "/src/lib/core.js",
-  "/src/lib/leancloud-client.js",
+  "/src/lib/supabase-client.js",
   "/src/data/cet6-words.js",
 ];
 const assets = Object.fromEntries(await Promise.all(assetPaths.map(async (pathname) => [
