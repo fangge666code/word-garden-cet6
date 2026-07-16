@@ -159,6 +159,23 @@ input:focus, select:focus, button:focus-visible, a:focus-visible { outline: 3px 
 .file-label { cursor: pointer; }
 .file-label input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .data-note { padding: 14px 16px; color: var(--green-dark); background: var(--sage); border-radius: 13px; font-size: 12px; line-height: 1.55; }
+.account-card, .account-auth-card { grid-column: 1 / -1; }
+.account-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px; }
+.account-card h2, .account-intro h2 { margin: 3px 0 6px; }
+.account-card p, .account-intro p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.account-avatar { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; color: white; background: var(--green); font-size: 24px; font-weight: 800; }
+.account-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 10px; }
+.sync-pill { display: inline-flex; align-items: center; min-height: 34px; padding: 0 11px; border-radius: 999px; color: var(--green); background: var(--green-soft); font-size: 11px; font-weight: 750; }
+.sync-pill.syncing, .sync-pill.waiting { color: #8a611f; background: #fff3d8; }
+.sync-pill.failed { color: #a4443f; background: #ffe7e4; }
+.text-button { min-height: 38px; padding: 0 6px; border: 0; color: var(--muted); background: transparent; font: inherit; font-size: 12px; font-weight: 700; }
+.auth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+.auth-form { padding: 22px; border: 1px solid var(--line); border-radius: 17px; background: #fbfaf4; }
+.auth-form h3 { margin: 0 0 17px; font-size: 17px; }
+.auth-form label { display: grid; gap: 7px; margin: 13px 0; color: var(--ink); font-size: 12px; font-weight: 700; }
+.auth-form input { width: 100%; min-height: 44px; padding: 0 13px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: white; font: inherit; }
+.auth-form button { width: 100%; margin-top: 8px; }
+.auth-warning { margin: 10px 0 0; color: #a15c42; font-size: 11px; line-height: 1.5; }
 .install-app-card { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 22px; }
 .install-app-card h2 { margin: 3px 0 6px; }
 .install-app-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
@@ -193,6 +210,9 @@ input:focus, select:focus, button:focus-visible, a:focus-visible { outline: 3px 
   .search-box { width: 100%; }
   .word-list { grid-template-columns: 1fr; }
   .install-app-card { grid-template-columns: auto 1fr; }
+  .account-card { grid-template-columns: auto 1fr; }
+  .account-actions { grid-column: 1 / -1; justify-content: stretch; }
+  .account-actions .secondary-button { flex: 1; }
   .install-action { grid-column: 1 / -1; justify-self: stretch; }
   .install-action .primary-button { width: 100%; }
   .mobile-nav { position: fixed; right: 12px; bottom: 12px; left: 12px; z-index: 30; display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px; border: 1px solid rgba(255,255,255,.7); border-radius: 18px; background: rgba(255,254,249,.92); box-shadow: 0 14px 40px rgba(31,64,51,.16); backdrop-filter: blur(18px); }
@@ -217,6 +237,10 @@ input:focus, select:focus, button:focus-visible, a:focus-visible { outline: 3px 
   .rating-row { gap: 7px; }
   .rating-button { min-height: 56px; padding: 4px; font-size: 13px; }
   .settings-card, .completion { padding: 22px; }
+  .auth-grid { grid-template-columns: 1fr; }
+  .account-card { grid-template-columns: 1fr; text-align: center; }
+  .account-avatar { margin: 0 auto; }
+  .account-actions { justify-content: center; }
   .install-app-card { grid-template-columns: 1fr; text-align: center; }
   .install-mark { margin: 0 auto; }
 }

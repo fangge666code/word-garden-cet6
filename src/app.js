@@ -1,4 +1,7 @@
 import { WORDS } from "./data/cet6-words.js";
+import { CLOUD_CONFIG, cloudConfigured } from "./cloud-config.js";
+import { mergeLearningData, validateCredentials } from "./lib/account-sync.js";
+import { syncLearningData } from "./lib/cloud-sync.js";
 import {
   buildProgressCsv,
   calculateStats,
@@ -9,13 +12,19 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
+import { LeanCloudClient } from "./lib/leancloud-client.js";
 
 const STORAGE_KEY = "word-garden-data-v1";
+const AUTH_KEY = "word-garden-auth-v1";
+const USER_DATA_PREFIX = "word-garden-user-data-v1";
+const SYNC_PENDING_PREFIX = "word-garden-sync-pending-v1";
 const main = document.querySelector("#main-content");
 const toast = document.querySelector("#toast");
 const modalRoot = document.querySelector("#modal-root");
 const wordMap = new Map(WORDS.map((word) => [word.id, word]));
 const wordIds = new Set(wordMap.keys());
+const cloudEnabled = cloudConfigured(CLOUD_CONFIG);
+const cloudClient = cloudEnabled ? new LeanCloudClient(CLOUD_CONFIG) : null;
 let libraryFilter = "all";
 let libraryQuery = "";
 let flipped = false;
@@ -23,6 +32,12 @@ let toastTimer;
 let corruptRaw = null;
 let needsDataSave = false;
 let deferredInstallPrompt = null;
+let currentUser = loadStoredUser();
+let syncStatus = currentUser ? "waiting" : "anonymous";
+let lastSyncedAt = "";
+let syncError = "";
+let syncTimer = null;
+let localRevision = 0;
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
@@ -55,8 +70,26 @@ function newPersonalData() {
   return ensureShuffleSeed(createDefaultData());
 }
 
+function loadStoredUser() {
+  try {
+    const value = JSON.parse(localStorage.getItem(AUTH_KEY) ?? "null");
+    if (value?.objectId && value?.sessionToken && value?.username) return value;
+  } catch {
+    localStorage.removeItem(AUTH_KEY);
+  }
+  return null;
+}
+
+function activeStorageKey() {
+  return currentUser ? `${USER_DATA_PREFIX}:${currentUser.objectId}` : STORAGE_KEY;
+}
+
+function pendingSyncKey(user = currentUser) {
+  return user ? `${SYNC_PENDING_PREFIX}:${user.objectId}` : "";
+}
+
 function loadData() {
-  const raw = localStorage.getItem(STORAGE_KEY);
+  const raw = localStorage.getItem(activeStorageKey());
   if (!raw) {
     needsDataSave = true;
     return newPersonalData();
@@ -76,11 +109,16 @@ function loadData() {
 
 let data = loadData();
 
-function commit(next) {
+function commit(next, { skipSync = false } = {}) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    localStorage.setItem(activeStorageKey(), JSON.stringify(next));
     data = next;
+    localRevision += 1;
     applyPreferences();
+    if (currentUser && !skipSync) {
+      localStorage.setItem(pendingSyncKey(), "1");
+      queueCloudSync();
+    }
     return true;
   } catch {
     showToast("保存失败，请先导出记录或释放浏览器空间");
@@ -88,7 +126,7 @@ function commit(next) {
   }
 }
 
-if (needsDataSave) commit(data);
+if (needsDataSave) commit(data, { skipSync: true });
 
 function applyPreferences() {
   document.body.classList.toggle("reduce-motion", Boolean(data.settings.reduceMotion));
@@ -99,6 +137,60 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
   toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+}
+
+function queueCloudSync() {
+  if (!currentUser || !cloudEnabled) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => syncNow({ silent: true }), 900);
+}
+
+function refreshSettingsIfVisible() {
+  if (route() === "settings") renderSettings();
+}
+
+async function syncNow({ silent = false } = {}) {
+  if (!currentUser || !cloudClient) return false;
+  if (!navigator.onLine) {
+    syncStatus = "waiting";
+    syncError = "等待网络连接";
+    refreshSettingsIfVisible();
+    return false;
+  }
+  const userAtStart = currentUser;
+  const revisionAtStart = localRevision;
+  syncStatus = "syncing";
+  syncError = "";
+  refreshSettingsIfVisible();
+  try {
+    const result = await syncLearningData(cloudClient, userAtStart, data);
+    if (currentUser?.objectId !== userAtStart.objectId) return false;
+    const changedDuringSync = revisionAtStart !== localRevision;
+    const currentSession = data.session;
+    data = changedDuringSync ? mergeLearningData(data, result.data) : result.data;
+    data.session = currentSession ?? result.data.session;
+    localStorage.setItem(activeStorageKey(), JSON.stringify(data));
+    lastSyncedAt = result.syncedAt;
+    syncStatus = changedDuringSync ? "waiting" : "synced";
+    syncError = "";
+    if (changedDuringSync) {
+      localStorage.setItem(pendingSyncKey(), "1");
+      queueCloudSync();
+    } else {
+      localStorage.removeItem(pendingSyncKey());
+    }
+    applyPreferences();
+    refreshSettingsIfVisible();
+    if (!silent) showToast("学习进度已同步");
+    return true;
+  } catch (error) {
+    syncStatus = "failed";
+    syncError = error.message;
+    localStorage.setItem(pendingSyncKey(), "1");
+    refreshSettingsIfVisible();
+    if (!silent) showToast(error.message);
+    return false;
+  }
 }
 
 function route() {
@@ -342,6 +434,7 @@ function renderSettings() {
     <section class="page">
       <div class="page-head"><div><p class="eyebrow">Preferences & Data</p><h1>设置</h1><p class="muted">调整学习节奏，也别忘了偶尔备份记录。</p></div></div>
       <div class="settings-grid">
+        ${accountCard()}
         <section class="settings-card">
           <h2>学习偏好</h2><p>选择一个能长期坚持的数量，比一开始学得很多更重要。</p>
           <form id="settings-form">
@@ -351,7 +444,7 @@ function renderSettings() {
           </form>
         </section>
         <section class="settings-card">
-          <h2>学习数据</h2><p>数据只保存在当前浏览器。导出备份后，可以在另一台设备上导入。</p>
+          <h2>学习数据</h2><p>${currentUser ? "本地记录会在后台同步到你的账号，也可以继续手动备份。" : "当前为未登录状态，数据只保存在本浏览器。登录后可跨设备同步。"}</p>
           <div class="data-note">当前已记录 ${Object.keys(data.progress).length} 个单词的学习进度。导入会整体替换现有记录。</div>
           <div class="divider"></div>
           <div class="button-row">
@@ -374,6 +467,151 @@ function renderSettings() {
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
   document.querySelector("#export-corrupt")?.addEventListener("click", () => downloadText(corruptRaw, `word-garden-damaged-${localDateKey()}.json`));
   document.querySelector("#install-app")?.addEventListener("click", installApp);
+  document.querySelector("#login-form")?.addEventListener("submit", loginAccount);
+  document.querySelector("#register-form")?.addEventListener("submit", registerAccount);
+  document.querySelector("#sync-now")?.addEventListener("click", () => syncNow());
+  document.querySelector("#logout-account")?.addEventListener("click", logoutAccount);
+}
+
+function syncLabel() {
+  if (syncStatus === "syncing") return "正在同步…";
+  if (syncStatus === "synced") return lastSyncedAt ? `已同步 · ${formatLocalDate(lastSyncedAt)}` : "已同步";
+  if (syncStatus === "failed") return `同步失败 · ${syncError}`;
+  return syncError || "等待同步";
+}
+
+function accountCard() {
+  if (!cloudEnabled) {
+    return `
+      <section class="settings-card account-card">
+        <div><p class="eyebrow">Cloud account</p><h2>账号与多设备同步</h2><p>账号功能已经准备完成，连接云端应用后即可开放注册和跨设备同步。</p></div>
+        <span class="sync-pill waiting">等待云服务配置</span>
+      </section>`;
+  }
+  if (currentUser) {
+    return `
+      <section class="settings-card account-card">
+        <div class="account-avatar" aria-hidden="true">${escapeHtml(currentUser.username.slice(0, 1).toUpperCase())}</div>
+        <div><p class="eyebrow">Signed in</p><h2>${escapeHtml(currentUser.username)}</h2><p>此账号的学习记录会在手机和电脑之间同步。</p></div>
+        <div class="account-actions">
+          <span class="sync-pill ${syncStatus}">${escapeHtml(syncLabel())}</span>
+          <button class="secondary-button" id="sync-now">立即同步</button>
+          <button class="text-button" id="logout-account">退出账号</button>
+        </div>
+      </section>`;
+  }
+  return `
+    <section class="settings-card account-auth-card">
+      <div class="account-intro"><p class="eyebrow">Cloud account</p><h2>登录后跨设备继续学习</h2><p>使用自定义用户名和密码。未登录时仍可学习，但记录只保存在当前设备。</p></div>
+      <div class="auth-grid">
+        <form id="login-form" class="auth-form">
+          <h3>登录</h3>
+          <label>用户名<input name="username" autocomplete="username" minlength="3" maxlength="20" required></label>
+          <label>密码<input name="password" type="password" autocomplete="current-password" minlength="8" required></label>
+          <button class="primary-button" type="submit">登录账号</button>
+        </form>
+        <form id="register-form" class="auth-form">
+          <h3>注册</h3>
+          <label>用户名<input name="username" autocomplete="username" minlength="3" maxlength="20" required></label>
+          <label>密码<input name="password" type="password" autocomplete="new-password" minlength="8" required></label>
+          <label>确认密码<input name="confirmation" type="password" autocomplete="new-password" minlength="8" required></label>
+          <p class="auth-warning">请牢记密码：本版本不提供密码找回。</p>
+          <button class="secondary-button" type="submit">创建账号</button>
+        </form>
+      </div>
+    </section>`;
+}
+
+async function loginAccount(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  try {
+    const credentials = validateCredentials(form.elements.username.value, form.elements.password.value);
+    setFormBusy(form, true);
+    const user = await cloudClient.login(credentials.username, credentials.password);
+    showMigrationChoice(user, false);
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    setFormBusy(form, false);
+  }
+}
+
+async function registerAccount(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  try {
+    const credentials = validateCredentials(form.elements.username.value, form.elements.password.value, form.elements.confirmation.value);
+    setFormBusy(form, true);
+    const user = await cloudClient.register(credentials.username, credentials.password);
+    showMigrationChoice(user, true);
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    setFormBusy(form, false);
+  }
+}
+
+function setFormBusy(form, busy) {
+  form.querySelectorAll("input, button").forEach((control) => { control.disabled = busy; });
+}
+
+function showMigrationChoice(user, isNewAccount) {
+  modalRoot.innerHTML = `
+    <div class="modal-backdrop" role="presentation">
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="migration-title">
+        <h2 id="migration-title">${isNewAccount ? "账号创建成功" : "登录成功"}</h2>
+        <p>是否把当前设备已有的 ${Object.keys(data.progress).length} 个单词记录合并到账号？</p>
+        <div class="button-row"><button class="primary-button" id="merge-local-data">合并本机记录</button><button class="secondary-button" id="cloud-data-only">只使用账号记录</button></div>
+      </section>
+    </div>`;
+  document.querySelector("#merge-local-data").addEventListener("click", () => activateAccount(user, true));
+  document.querySelector("#cloud-data-only").addEventListener("click", () => activateAccount(user, false));
+  document.querySelector("#merge-local-data").focus();
+}
+
+async function activateAccount(user, mergeAnonymous) {
+  const anonymousData = structuredClone(data);
+  currentUser = { objectId: user.objectId, username: user.username, sessionToken: user.sessionToken };
+  localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
+  const userKey = activeStorageKey();
+  let userData = createDefaultData();
+  const cached = localStorage.getItem(userKey);
+  if (cached) {
+    try { userData = validateData(JSON.parse(cached), wordIds); } catch { userData = createDefaultData(); }
+  }
+  data = ensureShuffleSeed(mergeAnonymous ? mergeLearningData(anonymousData, userData) : userData);
+  data.session = null;
+  syncStatus = "waiting";
+  syncError = "";
+  modalRoot.innerHTML = "";
+  commit(data, { skipSync: true });
+  localStorage.setItem(pendingSyncKey(), "1");
+  render();
+  const synced = await syncNow();
+  if (synced && mergeAnonymous) localStorage.setItem(STORAGE_KEY, JSON.stringify(newPersonalData()));
+}
+
+async function logoutAccount() {
+  if (!currentUser) return;
+  const user = currentUser;
+  const synced = await syncNow({ silent: true });
+  if (!synced) {
+    showToast("仍有记录未同步，请联网同步后再退出");
+    return;
+  }
+  localStorage.removeItem(`${USER_DATA_PREFIX}:${user.objectId}`);
+  localStorage.removeItem(`${SYNC_PENDING_PREFIX}:${user.objectId}`);
+  localStorage.removeItem(AUTH_KEY);
+  currentUser = null;
+  syncStatus = "anonymous";
+  lastSyncedAt = "";
+  syncError = "";
+  needsDataSave = false;
+  data = loadData();
+  if (needsDataSave) commit(data, { skipSync: true });
+  showToast("已安全退出账号");
+  render();
 }
 
 function isStandaloneApp() {
@@ -425,11 +663,11 @@ function saveSettings(event) {
     input.focus();
     return;
   }
-  if (commit({ ...data, settings: { ...data.settings, dailyGoal: goal }, session: null })) showToast("学习设置已保存");
+  if (commit({ ...data, settings: { ...data.settings, dailyGoal: goal }, settingsUpdatedAt: new Date().toISOString(), session: null })) showToast("学习设置已保存");
 }
 
 function toggleMotion() {
-  const next = { ...data, settings: { ...data.settings, reduceMotion: !data.settings.reduceMotion } };
+  const next = { ...data, settings: { ...data.settings, reduceMotion: !data.settings.reduceMotion }, settingsUpdatedAt: new Date().toISOString() };
   if (commit(next)) renderSettings();
 }
 
@@ -507,6 +745,12 @@ function confirmClear() {
   document.querySelector("#cancel-clear").focus();
 }
 
+async function restoreAccountSession() {
+  if (!currentUser || !cloudClient) return;
+  if (localStorage.getItem(pendingSyncKey())) syncStatus = "waiting";
+  await syncNow({ silent: true });
+}
+
 document.addEventListener("keydown", (event) => {
   if (route() !== "study") return;
   const card = document.querySelector("#word-card");
@@ -531,6 +775,15 @@ window.addEventListener("appinstalled", () => {
   showToast("词间 App 已安装");
   if (route() === "settings") renderSettings();
 });
+window.addEventListener("online", () => {
+  if (currentUser) syncNow({ silent: true });
+});
+window.addEventListener("offline", () => {
+  if (!currentUser) return;
+  syncStatus = "waiting";
+  syncError = "等待网络连接";
+  refreshSettingsIfVisible();
+});
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch((error) => {
@@ -540,3 +793,4 @@ window.addEventListener("load", () => {
 });
 applyPreferences();
 render();
+restoreAccountSession();

@@ -11,6 +11,7 @@ export function createDefaultData() {
   return {
     version: DATA_VERSION,
     settings: { dailyGoal: 20, reduceMotion: false, shuffleSeed: "" },
+    settingsUpdatedAt: "",
     progress: {},
     daily: {},
     session: null,
@@ -41,6 +42,7 @@ export function validateData(value, wordIds = null) {
       reduceMotion: Boolean(value.settings.reduceMotion),
       shuffleSeed: typeof value.settings.shuffleSeed === "string" ? value.settings.shuffleSeed : "",
     },
+    settingsUpdatedAt: typeof value.settingsUpdatedAt === "string" ? value.settingsUpdatedAt : "",
     progress: value.progress,
     daily: value.daily,
     session: value.session ?? null,
