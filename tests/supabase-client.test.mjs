@@ -68,3 +68,29 @@ test("Supabase authentication errors become safe Chinese messages", async () => 
   ));
   await assert.rejects(() => client.login("learner", "wrong-pass"), /用户名或密码不正确/);
 });
+
+test("an XMLHttpRequest fallback is used when browser fetch is blocked", async () => {
+  const requests = [];
+  const xhrFactory = () => ({
+    headers: {},
+    open(method, url) { this.method = method; this.url = url; },
+    setRequestHeader(name, value) { this.headers[name] = value; },
+    send(body) {
+      requests.push({ method: this.method, url: this.url, headers: this.headers, body });
+      this.status = 200;
+      this.responseText = JSON.stringify({
+        access_token: "access",
+        refresh_token: "refresh",
+        expires_in: 3600,
+        user: { id: "user-1", user_metadata: { username: "learner" } },
+      });
+      this.onload();
+    },
+  });
+  const blockedFetch = async () => { throw new TypeError("Failed to fetch"); };
+  const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, blockedFetch, xhrFactory);
+  const user = await client.login("learner", "password8");
+  assert.equal(user.objectId, "user-1");
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].headers.apikey, "anon-key");
+});

@@ -101,10 +101,29 @@ function mapUser(payload, fallbackUsername = "") {
 }
 
 export class SupabaseClient {
-  constructor(config, fetchImplementation = globalThis.fetch) {
+  constructor(config, fetchImplementation = globalThis.fetch, xhrFactory = () => new globalThis.XMLHttpRequest()) {
     this.projectURL = String(config.projectURL ?? "").replace(/\/+$/u, "");
     this.anonKey = config.anonKey;
-    this.fetch = fetchImplementation;
+    this.fetch = fetchImplementation.bind(globalThis);
+    this.xhrFactory = xhrFactory;
+  }
+
+  requestWithXhr(url, { method, body, headers }) {
+    return new Promise((resolve, reject) => {
+      let xhr;
+      try { xhr = this.xhrFactory(); } catch { reject(new Error("XHR unavailable")); return; }
+      xhr.open(method, url, true);
+      xhr.timeout = 15_000;
+      Object.entries(headers).forEach(([name, value]) => xhr.setRequestHeader(name, value));
+      xhr.onload = () => resolve({
+        ok: xhr.status >= 200 && xhr.status < 300,
+        status: xhr.status,
+        json: async () => JSON.parse(xhr.responseText || "{}"),
+      });
+      xhr.onerror = () => reject(new Error("XHR network error"));
+      xhr.ontimeout = () => reject(new Error("XHR timeout"));
+      xhr.send(body === undefined ? null : JSON.stringify(body));
+    });
   }
 
   async request(path, { method = "GET", body, token, prefer } = {}) {
@@ -115,14 +134,20 @@ export class SupabaseClient {
     if (token) headers.Authorization = `Bearer ${token}`;
     if (prefer) headers.Prefer = prefer;
     let response;
+    const url = `${this.projectURL}${path}`;
+    const options = {
+      method,
+      headers,
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    };
     try {
-      response = await this.fetch(`${this.projectURL}${path}`, {
-        method,
-        headers,
-        ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-      });
+      response = await this.fetch(url, options);
     } catch {
-      throw new Error("网络连接失败，学习记录已保存在本机");
+      try {
+        response = await this.requestWithXhr(url, { method, body, headers });
+      } catch {
+        throw new Error("网络连接失败，学习记录已保存在本机");
+      }
     }
     let payload = {};
     try { payload = await response.json(); } catch { payload = {}; }
