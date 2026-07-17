@@ -12,12 +12,14 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
+import { speakWord, speechSupported } from "./lib/pronunciation.js";
 import { SupabaseClient } from "./lib/supabase-client.js?v=4";
 
 const STORAGE_KEY = "word-garden-data-v1";
 const AUTH_KEY = "word-garden-auth-v1";
 const USER_DATA_PREFIX = "word-garden-user-data-v1";
 const SYNC_PENDING_PREFIX = "word-garden-sync-pending-v1";
+const PROTECTED_ROUTES = new Set(["study", "library", "settings"]);
 const main = document.querySelector("#main-content");
 const toast = document.querySelector("#toast");
 const modalRoot = document.querySelector("#modal-root");
@@ -145,8 +147,8 @@ function queueCloudSync() {
   syncTimer = setTimeout(() => syncNow({ silent: true }), 900);
 }
 
-function refreshSettingsIfVisible() {
-  if (route() === "settings") renderSettings();
+function refreshAccountIfVisible() {
+  if (route() === "home") renderHome();
 }
 
 async function syncNow({ silent = false } = {}) {
@@ -154,14 +156,14 @@ async function syncNow({ silent = false } = {}) {
   if (!navigator.onLine) {
     syncStatus = "waiting";
     syncError = "等待网络连接";
-    refreshSettingsIfVisible();
+    refreshAccountIfVisible();
     return false;
   }
   const userAtStart = currentUser;
   const revisionAtStart = localRevision;
   syncStatus = "syncing";
   syncError = "";
-  refreshSettingsIfVisible();
+  refreshAccountIfVisible();
   try {
     let refreshedUser = await cloudClient.restoreSession(userAtStart);
     if (currentUser?.objectId !== userAtStart.objectId) return false;
@@ -194,14 +196,14 @@ async function syncNow({ silent = false } = {}) {
       localStorage.removeItem(pendingSyncKey());
     }
     applyPreferences();
-    refreshSettingsIfVisible();
+    refreshAccountIfVisible();
     if (!silent) showToast("学习进度已同步");
     return true;
   } catch (error) {
     syncStatus = "failed";
     syncError = error.message;
     localStorage.setItem(pendingSyncKey(), "1");
-    refreshSettingsIfVisible();
+    refreshAccountIfVisible();
     if (!silent) showToast(error.message);
     return false;
   }
@@ -214,10 +216,23 @@ function route() {
 function updateNav(current) {
   document.querySelectorAll("[data-nav]").forEach((link) => {
     const active = link.dataset.nav === current;
+    const locked = !currentUser && PROTECTED_ROUTES.has(link.dataset.nav);
     link.classList.toggle("active", active);
+    link.classList.toggle("locked", locked);
+    if (locked) {
+      link.setAttribute("aria-disabled", "true");
+      link.tabIndex = -1;
+    } else {
+      link.removeAttribute("aria-disabled");
+      link.removeAttribute("tabindex");
+    }
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
+  if (!currentUser) {
+    document.querySelector("#header-streak").textContent = "登录后开始学习";
+    return;
+  }
   const stats = calculateStats(WORDS, data);
   document.querySelector("#header-streak").textContent = stats.streak ? `已连续学习 ${stats.streak} 天` : "从今天开始";
 }
@@ -228,6 +243,15 @@ function dateLabel() {
 
 function render() {
   const current = route();
+  if (!currentUser && PROTECTED_ROUTES.has(current)) {
+    history.replaceState(null, "", "#home");
+    updateNav("home");
+    flipped = false;
+    renderHome();
+    main.focus({ preventScroll: true });
+    showToast("请先登录账号，再开始学习");
+    return;
+  }
   updateNav(current);
   flipped = false;
   if (current === "study") renderStudy();
@@ -238,6 +262,36 @@ function render() {
 }
 
 function renderHome() {
+  if (!currentUser) {
+    renderSignedOutHome();
+    return;
+  }
+  renderDashboardHome();
+}
+
+function renderSignedOutHome() {
+  main.innerHTML = `
+    <section class="page auth-home">
+      <div class="auth-home-intro">
+        <div class="date-chip"><span aria-hidden="true">●</span>${dateLabel()}</div>
+        <p class="eyebrow">Personal English Routine</p>
+        <h1>登录后，让每一次<br>学习自然衔接。</h1>
+        <p class="lead">3000 个 CET-6 核心词，按你的专属乱序逐步学习。登录同一账号，手机和电脑都能继续上次的进度。</p>
+        <div class="auth-feature-list" aria-label="账号学习功能">
+          <span>✓ 新词优先与智能复习</span>
+          <span>✓ 单词英式发音</span>
+          <span>✓ 多设备云端同步</span>
+        </div>
+      </div>
+      <div class="auth-home-panels">
+        ${accountCard()}
+        ${installAppCard()}
+      </div>
+    </section>`;
+  bindAccountActions();
+}
+
+function renderDashboardHome() {
   const stats = calculateStats(WORDS, data);
   const learned = Object.keys(data.progress).length;
   const totalProgress = Math.round((learned / WORDS.length) * 100);
@@ -248,6 +302,9 @@ function renderHome() {
 
   main.innerHTML = `
     <section class="page">
+      <div class="home-account-bar">
+        ${accountCard()}
+      </div>
       <div class="home-hero">
         <div>
           <div class="date-chip"><span aria-hidden="true">●</span>${dateLabel()}</div>
@@ -288,6 +345,7 @@ function renderHome() {
     const next = { ...data, session: makeSession(WORDS, data) };
     if (commit(next)) location.hash = "study";
   });
+  bindAccountActions();
 }
 
 function statCard(label, value, icon) {
@@ -327,7 +385,10 @@ function renderStudy() {
         <article class="word-card" id="word-card" role="button" tabindex="0" aria-label="单词卡片，点击查看释义" aria-expanded="false">
           <span class="word-tag">${entry.source === "new" ? "NEW WORD" : entry.source === "retry" ? "TRY AGAIN" : "REVIEW"}</span>
           <div class="word-heading">
-            <strong class="word">${escapeHtml(word.word)}</strong>
+            <div class="spoken-word">
+              <strong class="word">${escapeHtml(word.word)}</strong>
+              <button class="speak-button" type="button" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button>
+            </div>
             <span class="phonetic">${escapeHtml(word.phonetic)}</span>
           </div>
           <div class="word-details" id="word-details" hidden>
@@ -350,6 +411,7 @@ function renderStudy() {
   const card = document.querySelector("#word-card");
   const ratings = document.querySelector("#rating-row");
   card.addEventListener("click", () => flipCard(card, ratings));
+  bindPronunciationButtons();
   ratings.querySelectorAll("[data-rating]").forEach((button) => {
     button.addEventListener("click", () => submitRating(button.dataset.rating));
   });
@@ -431,6 +493,7 @@ function renderLibrary() {
     libraryFilter = button.dataset.filter;
     renderLibrary();
   }));
+  bindPronunciationButtons();
 }
 
 function filterChip(value, label) {
@@ -440,7 +503,20 @@ function filterChip(value, label) {
 function wordRow(word) {
   const status = data.progress[word.id]?.status ?? "unseen";
   const labels = { unseen: "未学习", learning: "学习中", mastered: "已掌握" };
-  return `<article class="word-row"><div><h3>${escapeHtml(word.word)} <span class="pos">${escapeHtml(word.pos)}</span></h3><p>${escapeHtml(word.meaning)}</p></div><span class="state-pill ${status}">${labels[status]}</span></article>`;
+  return `<article class="word-row"><div class="word-row-copy"><h3>${escapeHtml(word.word)} <span class="pos">${escapeHtml(word.pos)}</span></h3><p>${escapeHtml(word.meaning)}</p></div><div class="word-row-actions"><button class="speak-button" type="button" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button><span class="state-pill ${status}">${labels[status]}</span></div></article>`;
+}
+
+function bindPronunciationButtons(root = document) {
+  root.querySelectorAll("[data-speak-word]").forEach((button) => {
+    const supported = speechSupported(window);
+    button.disabled = !supported;
+    if (!supported) button.title = "当前设备暂不支持单词发音";
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const result = speakWord(button.dataset.speakWord);
+      if (!result.ok) showToast("当前设备暂不支持单词发音");
+    });
+  });
 }
 
 function renderSettings() {
@@ -448,7 +524,6 @@ function renderSettings() {
     <section class="page">
       <div class="page-head"><div><p class="eyebrow">Preferences & Data</p><h1>设置</h1><p class="muted">调整学习节奏，也别忘了偶尔备份记录。</p></div></div>
       <div class="settings-grid">
-        ${accountCard()}
         <section class="settings-card">
           <h2>学习偏好</h2><p>选择一个能长期坚持的数量，比一开始学得很多更重要。</p>
           <form id="settings-form">
@@ -458,7 +533,7 @@ function renderSettings() {
           </form>
         </section>
         <section class="settings-card">
-          <h2>学习数据</h2><p>${currentUser ? "本地记录会在后台同步到你的账号，也可以继续手动备份。" : "当前为未登录状态，数据只保存在本浏览器。登录后可跨设备同步。"}</p>
+          <h2>学习数据</h2><p>本地记录会在后台同步到你的账号，也可以继续手动备份。</p>
           <div class="data-note">当前已记录 ${Object.keys(data.progress).length} 个单词的学习进度。导入会整体替换现有记录。</div>
           <div class="divider"></div>
           <div class="button-row">
@@ -480,6 +555,10 @@ function renderSettings() {
   document.querySelector("#import-data").addEventListener("change", importData);
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
   document.querySelector("#export-corrupt")?.addEventListener("click", () => downloadText(corruptRaw, `word-garden-damaged-${localDateKey()}.json`));
+  document.querySelector("#install-app")?.addEventListener("click", installApp);
+}
+
+function bindAccountActions() {
   document.querySelector("#install-app")?.addEventListener("click", installApp);
   document.querySelector("#login-form")?.addEventListener("submit", loginAccount);
   document.querySelector("#register-form")?.addEventListener("submit", registerAccount);
@@ -519,7 +598,7 @@ function accountCard() {
   }
   return `
     <section class="settings-card account-auth-card">
-      <div class="account-intro"><p class="eyebrow">Cloud account</p><h2>登录后跨设备继续学习</h2><p>使用自定义用户名和密码。未登录时仍可学习，但记录只保存在当前设备。</p></div>
+      <div class="account-intro"><p class="eyebrow">Cloud account</p><h2>登录后开始学习</h2><p>使用自定义用户名和密码，在手机和电脑之间继续同一份学习进度。</p></div>
       <div class="auth-grid">
         <form id="login-form" class="auth-form">
           <h3>登录</h3>
@@ -713,7 +792,7 @@ async function installApp() {
     deferredInstallPrompt = null;
     showToast("安装请求已确认");
   }
-  if (route() === "settings") renderSettings();
+  if (route() === "home") renderHome();
 }
 
 function saveSettings(event) {
@@ -815,6 +894,7 @@ async function restoreAccountSession() {
 
 document.addEventListener("keydown", (event) => {
   if (route() !== "study") return;
+  if (event.target.closest?.("[data-speak-word]")) return;
   const card = document.querySelector("#word-card");
   if (!card) return;
   if ((event.code === "Space" || event.code === "Enter") && !flipped) {
@@ -830,12 +910,12 @@ window.addEventListener("hashchange", render);
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   deferredInstallPrompt = event;
-  if (route() === "settings") renderSettings();
+  if (route() === "home" || route() === "settings") render();
 });
 window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
   showToast("词间 App 已安装");
-  if (route() === "settings") renderSettings();
+  if (route() === "home" || route() === "settings") render();
 });
 window.addEventListener("online", () => {
   if (currentUser) syncNow({ silent: true });
@@ -844,7 +924,7 @@ window.addEventListener("offline", () => {
   if (!currentUser) return;
   syncStatus = "waiting";
   syncError = "等待网络连接";
-  refreshSettingsIfVisible();
+  refreshAccountIfVisible();
 });
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {

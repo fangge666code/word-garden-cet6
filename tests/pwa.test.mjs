@@ -65,3 +65,29 @@ test("account activation keeps refresh credentials and offers safe reauthenticat
   assert.match(app, /id="reauth-account">重新登录/u);
   assert.match(app, /本机记录已保留，请重新登录同一账号/u);
 });
+
+test("logged-out users authenticate on Home before opening learning routes", async () => {
+  const app = await readText("src/app.js");
+  assert.match(app, /const PROTECTED_ROUTES = new Set\(\["study", "library", "settings"\]\)/u);
+  assert.match(app, /if \(!currentUser && PROTECTED_ROUTES\.has\(current\)\)/u);
+  assert.match(app, /function renderSignedOutHome\(\)/u);
+  assert.match(app, /登录后开始学习/u);
+  assert.doesNotMatch(app, /<div class="settings-grid">\s*\$\{accountCard\(\)\}/u);
+});
+
+test("study cards and vocabulary rows expose click-to-play pronunciation", async () => {
+  const app = await readText("src/app.js");
+  assert.match(app, /from "\.\/lib\/pronunciation\.js"/u);
+  assert.match(app, /data-speak-word/u);
+  assert.match(app, /播放 \$\{escapeHtml\(word\.word\)\} 的英式发音/u);
+  assert.match(app, /event\.stopPropagation\(\)/u);
+});
+
+test("authentication and pronunciation controls have responsive accessible styles", async () => {
+  const css = await readText("src/styles.css");
+  assert.match(css, /\.auth-home\s*\{/u);
+  assert.match(css, /\.home-account-bar\s*\{/u);
+  assert.match(css, /\.speak-button\s*\{/u);
+  assert.match(css, /\.speak-button:focus-visible/u);
+  assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.auth-home/u);
+});
