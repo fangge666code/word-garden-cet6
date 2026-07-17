@@ -25,6 +25,7 @@ const assetPaths = [
   "/src/lib/account-sync.js",
   "/src/lib/cloud-sync.js",
   "/src/lib/core.js",
+  "/src/lib/pronunciation.js",
   "/src/lib/supabase-client.js",
   "/src/data/cet6-words.js",
 ];
