@@ -9,7 +9,7 @@ await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await cp(join(root, "index.html"), join(dist, "index.html"));
 await cp(join(root, "src"), join(dist, "src"), { recursive: true });
-await Promise.all(["manifest.webmanifest", "service-worker.js", "offline.html"].map((filename) => (
+await Promise.all(["manifest.webmanifest", "service-worker.js", "offline.html", "version.json"].map((filename) => (
   cp(join(root, filename), join(dist, filename))
 )));
 await mkdir(join(dist, "server"), { recursive: true });
@@ -19,6 +19,7 @@ const assetPaths = [
   "/manifest.webmanifest",
   "/service-worker.js",
   "/offline.html",
+  "/version.json",
   "/src/app.js",
   "/src/cloud-config.js",
   "/src/styles.css",
@@ -26,7 +27,9 @@ const assetPaths = [
   "/src/lib/cloud-sync.js",
   "/src/lib/core.js",
   "/src/lib/pronunciation.js",
+  "/src/lib/app-update.js",
   "/src/lib/supabase-client.js",
+  "/src/data/cet6-examples.js",
   "/src/data/cet6-words.js",
 ];
 const assets = Object.fromEntries(await Promise.all(assetPaths.map(async (pathname) => [

@@ -32,3 +32,19 @@ test("GitHub workflow publishes a stable signed APK download", async () => {
   assert.match(app, /releases\/latest\/download\/word-garden-android\.apk/u);
   assert.match(app, /下载安卓版 APK/u);
 });
+
+test("Android, release tag and public manifest share version 1.2.0", async () => {
+  const [workflow, gradle, manifestText] = await Promise.all([
+    readFile(".github/workflows/android-release.yml", "utf8"),
+    readFile("android/app/build.gradle", "utf8"),
+    readFile("version.json", "utf8"),
+  ]);
+  const manifest = JSON.parse(manifestText);
+  assert.equal(manifest.versionName, "1.2.0");
+  assert.equal(manifest.versionCode, 3);
+  assert.match(gradle, /versionCode 3/u);
+  assert.match(gradle, /versionName "1\.2\.0"/u);
+  assert.match(workflow, /Verify release versions/u);
+  assert.match(workflow, /GITHUB_REF_NAME/u);
+  assert.match(workflow, /version\.json/u);
+});

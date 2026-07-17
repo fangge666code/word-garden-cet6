@@ -1,6 +1,12 @@
 import { WORDS } from "./data/cet6-words.js";
 import { CLOUD_CONFIG, cloudConfigured } from "./cloud-config.js";
 import { mergeLearningData, validateCredentials } from "./lib/account-sync.js";
+import {
+  activateWaitingWorker,
+  checkForUpdate,
+  detectRuntime,
+  snoozeUpdate,
+} from "./lib/app-update.js";
 import { syncLearningData } from "./lib/cloud-sync.js";
 import {
   buildProgressCsv,
@@ -40,6 +46,9 @@ let lastSyncedAt = "";
 let syncError = "";
 let syncTimer = null;
 let localRevision = 0;
+let serviceWorkerRegistration = null;
+let updateCheckPending = false;
+let updateReloadRequested = false;
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
@@ -396,7 +405,10 @@ function renderStudy() {
               <span class="pos">${escapeHtml(word.pos)}</span>
               <span class="meaning-list">${renderMeaningItems(word.meaning)}</span>
             </div>
-            <blockquote class="example">${escapeHtml(word.example)}</blockquote>
+            <blockquote class="example">
+              <span class="example-en">${escapeHtml(word.example)}</span>
+              ${word.exampleZh ? `<span class="example-zh">${escapeHtml(word.exampleZh)}</span>` : ""}
+            </blockquote>
             <p class="answer-hint">想好了吗？在下方评价你的记忆</p>
           </div>
           <p class="reveal-hint" id="reveal-hint">点击卡片查看释义 · 空格键展开</p>
@@ -556,6 +568,7 @@ function renderSettings() {
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
   document.querySelector("#export-corrupt")?.addEventListener("click", () => downloadText(corruptRaw, `word-garden-damaged-${localDateKey()}.json`));
   document.querySelector("#install-app")?.addEventListener("click", installApp);
+  bindUpdateActions();
 }
 
 function bindAccountActions() {
@@ -565,6 +578,13 @@ function bindAccountActions() {
   document.querySelector("#sync-now")?.addEventListener("click", () => syncNow());
   document.querySelector("#reauth-account")?.addEventListener("click", reauthAccount);
   document.querySelector("#logout-account")?.addEventListener("click", logoutAccount);
+  bindUpdateActions();
+}
+
+function bindUpdateActions() {
+  document.querySelectorAll("[data-check-update]").forEach((button) => {
+    button.addEventListener("click", () => performUpdateCheck({ force: true }));
+  });
 }
 
 function syncLabel() {
@@ -592,6 +612,7 @@ function accountCard() {
           ${syncStatus === "failed" && syncError.includes("登录状态已失效")
             ? '<button class="secondary-button" id="reauth-account">重新登录</button>'
             : '<button class="secondary-button" id="sync-now">立即同步</button>'}
+          <button class="secondary-button" type="button" data-check-update>检查更新</button>
           <button class="text-button" id="logout-account">退出账号</button>
         </div>
       </section>`;
@@ -775,6 +796,7 @@ function installAppCard() {
   } else if (isAppleMobile()) {
     message = "请使用 Safari 打开本网站，点击分享按钮，再选择“添加到主屏幕”。使用时需要连接网络。";
   }
+  action += '<button class="secondary-button" type="button" data-check-update>检查更新</button>';
   return `
     <section class="settings-card install-app-card">
       <div class="install-mark" aria-hidden="true">W</div>
@@ -793,6 +815,88 @@ async function installApp() {
     showToast("安装请求已确认");
   }
   if (route() === "home") renderHome();
+}
+
+async function performUpdateCheck({ force = false } = {}) {
+  if (updateCheckPending) return;
+  updateCheckPending = true;
+  const runtime = detectRuntime(window);
+  try {
+    const result = await checkForUpdate({
+      force,
+      runtime,
+      registration: serviceWorkerRegistration,
+    });
+    if (result.action === "none") {
+      if (force) {
+        showToast(result.reason === "network" ? "暂时无法检查更新，请稍后再试" : "当前已是最新版本");
+      }
+      return;
+    }
+    if (!modalRoot.childElementCount) showUpdatePrompt(result, runtime);
+  } finally {
+    updateCheckPending = false;
+  }
+}
+
+function showUpdatePrompt(result, runtime) {
+  const labels = {
+    android: "立即更新",
+    pwa: "立即升级",
+    web: "立即刷新",
+  };
+  const notes = result.manifest?.releaseNotes ?? ["新版本已经准备好，可以由你选择何时升级。"];
+  const version = result.manifest?.versionName ? ` v${escapeHtml(result.manifest.versionName)}` : "";
+  modalRoot.innerHTML = `
+    <div class="modal-backdrop" role="presentation">
+      <section class="modal update-modal" role="dialog" aria-modal="true" aria-labelledby="update-title">
+        <p class="eyebrow">Update available</p>
+        <h2 id="update-title">词间${version} 可以升级</h2>
+        <ul class="update-notes">${notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
+        <div class="button-row update-actions">
+          <button class="primary-button" id="apply-update">${labels[runtime]}</button>
+          <button class="secondary-button" id="snooze-update">稍后提醒</button>
+        </div>
+      </section>
+    </div>`;
+  document.querySelector("#apply-update").addEventListener("click", () => applyAvailableUpdate(result, runtime));
+  document.querySelector("#snooze-update").addEventListener("click", () => {
+    snoozeUpdate();
+    modalRoot.innerHTML = "";
+    showToast("已设置为 24 小时后提醒");
+  });
+  document.querySelector("#apply-update").focus();
+}
+
+async function applyAvailableUpdate(result, runtime) {
+  if (runtime === "android") {
+    const opened = window.open(result.manifest?.apkUrl, "_blank", "noopener,noreferrer");
+    if (!opened) showToast("浏览器未能打开下载页，请允许弹出窗口后重试");
+    modalRoot.innerHTML = "";
+    return;
+  }
+  if (runtime === "web") {
+    location.reload();
+    return;
+  }
+  updateReloadRequested = true;
+  await serviceWorkerRegistration?.update();
+  if (serviceWorkerRegistration?.waiting) {
+    activateWaitingWorker(serviceWorkerRegistration);
+    return;
+  }
+  const installing = serviceWorkerRegistration?.installing;
+  if (!installing) {
+    updateReloadRequested = false;
+    showToast("新版正在准备中，请稍后再次检查更新");
+    modalRoot.innerHTML = "";
+    return;
+  }
+  installing.addEventListener("statechange", () => {
+    if (installing.state === "installed" && serviceWorkerRegistration?.waiting) {
+      activateWaitingWorker(serviceWorkerRegistration);
+    }
+  });
 }
 
 function saveSettings(event) {
@@ -928,9 +1032,22 @@ window.addEventListener("offline", () => {
 });
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch((error) => {
-      console.warn("Service worker registration failed", error);
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!updateReloadRequested) return;
+      updateReloadRequested = false;
+      location.reload();
     });
+    navigator.serviceWorker.register("./service-worker.js", { scope: "./", updateViaCache: "none" })
+      .then((registration) => {
+        serviceWorkerRegistration = registration;
+        return performUpdateCheck();
+      })
+      .catch((error) => {
+        console.warn("Service worker registration failed", error);
+        return performUpdateCheck();
+      });
+  } else {
+    performUpdateCheck();
   }
 });
 applyPreferences();

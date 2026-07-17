@@ -45,6 +45,10 @@ test("service worker only caches the offline fallback", async () => {
   assert.match(worker, /request\.mode === "navigate"/u);
   assert.match(worker, /caches\.match/u);
   assert.doesNotMatch(worker, /cet6-words|src\/app|index\.html/u);
+  assert.match(worker, /addEventListener\("message"/u);
+  assert.match(worker, /event\.data\?\.type === "SKIP_WAITING"/u);
+  const installHandler = worker.match(/addEventListener\("install"[\s\S]*?^\}\);/mu)?.[0] ?? "";
+  assert.doesNotMatch(installHandler, /self\.skipWaiting\(\)/u);
   const offline = await readText("offline.html");
   assert.match(offline, /请连接网络后继续学习/u);
   assert.match(offline, /重新加载/u);
@@ -56,6 +60,19 @@ test("application registers the service worker and provides install UI", async (
   assert.match(app, /serviceWorker\.register/u);
   assert.match(app, /安装词间 App/u);
   assert.match(app, /添加到主屏幕/u);
+});
+
+test("Home offers user-controlled updates for Web, PWA and Android", async () => {
+  const [app, css] = await Promise.all([readText("src/app.js"), readText("src/styles.css")]);
+  assert.match(app, /from "\.\/lib\/app-update\.js"/u);
+  assert.match(app, /检查更新/u);
+  assert.match(app, /立即刷新/u);
+  assert.match(app, /立即升级/u);
+  assert.match(app, /立即更新/u);
+  assert.match(app, /稍后提醒/u);
+  assert.match(app, /controllerchange/u);
+  assert.match(css, /\.update-notes/u);
+  assert.match(css, /\.update-actions/u);
 });
 
 test("account activation keeps refresh credentials and offers safe reauthentication", async () => {
@@ -81,6 +98,12 @@ test("study cards and vocabulary rows expose click-to-play pronunciation", async
   assert.match(app, /data-speak-word/u);
   assert.match(app, /播放 \$\{escapeHtml\(word\.word\)\} 的英式发音/u);
   assert.match(app, /event\.stopPropagation\(\)/u);
+});
+
+test("hosted worker embeds the reviewed bilingual example module", async () => {
+  const buildScript = await readText("scripts/build.mjs");
+  assert.match(buildScript, /\/src\/data\/cet6-examples\.js/u);
+  assert.match(buildScript, /\/src\/data\/cet6-words\.js/u);
 });
 
 test("authentication and pronunciation controls have responsive accessible styles", async () => {

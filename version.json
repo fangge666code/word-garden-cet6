@@ -1,0 +1,11 @@
+{
+  "versionName": "1.2.0",
+  "versionCode": 3,
+  "webBuild": "2026-07-17.1",
+  "apkUrl": "https://github.com/fangge666code/word-garden-cet6/releases/download/v1.2.0/word-garden-android.apk",
+  "releaseNotes": [
+    "支持网页、PWA 和安卓自主升级",
+    "更新 3000 个单词的中英文例句"
+  ],
+  "publishedAt": "2026-07-17T00:00:00Z"
+}

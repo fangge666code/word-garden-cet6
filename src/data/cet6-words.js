@@ -1,3 +1,5 @@
+import { BILINGUAL_EXAMPLES } from "./cet6-examples.js";
+
 // Core entries are maintained locally; additions are derived from ECDICT (MIT).
 export const WORDS = [
   ["abandon", "/əˈbændən/", "v.", "放弃；抛弃", "She refused to abandon her long-term goal."],
@@ -3000,11 +3002,16 @@ export const WORDS = [
   ["encounter", "/in'kauntә/", "n.", "相会, 相遇, 遭遇；遇见, 邂逅, 会战；偶然相遇", "The report discusses the role of \"encounter\" in a broader academic context."],
   ["architecture", "/'ɑ:kitektʃә/", "n.", "建筑学, 建筑式样；体系结构", "The report discusses the role of \"architecture\" in a broader academic context."],
   ["shopping", "/'ʃɒpiŋ/", "n.", "买东西, 购物；购物, 买东西", "The report discusses the role of \"shopping\" in a broader academic context."],
-].map(([word, phonetic, pos, meaning, example], index) => ({
-  id: `cet6-${String(index + 1).padStart("3", "0")}` ,
-  word,
-  phonetic,
-  pos,
-  meaning,
-  example,
-}));
+].map(([word, phonetic, pos, meaning, example], index) => {
+  const id = `cet6-${String(index + 1).padStart("3", "0")}`;
+  const bilingual = BILINGUAL_EXAMPLES.get(id);
+  return {
+    id,
+    word,
+    phonetic,
+    pos,
+    meaning,
+    example: bilingual?.[0] ?? example,
+    exampleZh: bilingual?.[1] ?? "",
+  };
+});
