@@ -88,12 +88,27 @@ function safeError(payload, status) {
     error.code = "DATA_PERMISSION";
     return error;
   }
+  const expiredSession = [
+    "invalid refresh token",
+    "refresh token not found",
+    "refresh token already used",
+    "refresh token has already been used",
+    "session not found",
+    "jwt expired",
+    "jwt is expired",
+    "invalid jwt",
+  ].some((indicator) => message.includes(indicator));
+  if (expiredSession) return authExpiredError();
   if (status === 401 || status === 403) {
-    const error = new Error("登录状态已失效，请重新登录");
-    error.code = "AUTH_EXPIRED";
-    return error;
+    return authExpiredError();
   }
   return new Error("云端服务暂时不可用，学习记录已保存在本机");
+}
+
+function authExpiredError() {
+  const error = new Error("登录状态已失效，请重新登录");
+  error.code = "AUTH_EXPIRED";
+  return error;
 }
 
 function mapUser(payload, fallbackUsername = "") {
@@ -183,7 +198,7 @@ export class SupabaseClient {
 
   async restoreSession(user, { force = false } = {}) {
     if (!force && user.sessionToken && user.expiresAt > Date.now() + 60_000) return user;
-    if (!user.refreshToken) throw new Error("登录状态已失效，请重新登录");
+    if (!user.refreshToken) throw authExpiredError();
     const payload = await this.request("/auth/v1/token?grant_type=refresh_token", {
       method: "POST",
       body: { refresh_token: user.refreshToken },

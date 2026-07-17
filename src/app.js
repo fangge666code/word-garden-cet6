@@ -19,7 +19,7 @@ import {
   validateData,
 } from "./lib/core.js";
 import { speakWord, speechSupported } from "./lib/pronunciation.js";
-import { SupabaseClient } from "./lib/supabase-client.js?v=4";
+import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";
 const AUTH_KEY = "word-garden-auth-v1";

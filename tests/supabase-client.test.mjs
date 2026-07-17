@@ -95,6 +95,33 @@ test("expired authorization errors are marked for one automatic refresh", async 
   ));
 });
 
+test("invalid refresh tokens are treated as expired sessions instead of cloud outages", async () => {
+  const messages = [
+    "Invalid Refresh Token: Refresh Token Not Found",
+    "Refresh token already used",
+    "Session not found",
+    "JWT expired",
+    "Invalid JWT",
+  ];
+  for (const message of messages) {
+    const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async () => (
+      response({ message }, 400)
+    ));
+    await assert.rejects(
+      () => client.restoreSession({ objectId: "user-1", username: "learner", refreshToken: "stale", expiresAt: 0 }),
+      (error) => error.code === "AUTH_EXPIRED" && /重新登录/u.test(error.message),
+    );
+  }
+});
+
+test("a locally missing refresh token also asks for safe reauthentication", async () => {
+  const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async () => response({}));
+  await assert.rejects(
+    () => client.restoreSession({ objectId: "user-1", username: "learner", expiresAt: 0 }),
+    (error) => error.code === "AUTH_EXPIRED" && /重新登录/u.test(error.message),
+  );
+});
+
 test("database permission errors are not mistaken for an expired login", async () => {
   const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async () => (
     response({ message: "permission denied for table user_profiles" }, 403)
