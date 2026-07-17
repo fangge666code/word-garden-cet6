@@ -1,4 +1,4 @@
-"""Generate the checked-in 1,500-word CET-6 dataset from ECDICT.
+"""Generate the checked-in 3,000-word CET-6 dataset from ECDICT.
 
 Usage: python scripts/generate-cet6-words.py path/to/ecdict.csv
 """
@@ -13,7 +13,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "src" / "data" / "cet6-words.js"
-TARGET_COUNT = 1500
+TARGET_COUNT = 3000
+LEGACY_COUNT = 1500
 WORD_PATTERN = re.compile(r"[A-Za-z][A-Za-z-]*")
 POS_PATTERN = re.compile(r"(?<![A-Za-z])(n|v|vt|vi|adj|a|adv|prep|conj|pron|num)\.", re.I)
 
@@ -24,7 +25,9 @@ def read_existing() -> list[list[str]]:
         stripped = line.strip().removesuffix(",")
         if stripped.startswith("["):
             entries.append(json.loads(stripped))
-    return entries[:60]
+    if len(entries) < LEGACY_COUNT:
+        raise SystemExit(f"Expected at least {LEGACY_COUNT} existing entries, got {len(entries)}")
+    return entries[:LEGACY_COUNT]
 
 
 def rank(row: dict[str, str]) -> tuple[int, int, str]:
@@ -84,7 +87,7 @@ def select_rows(source: Path, existing_words: set[str], needed: int) -> list[lis
         for row in csv.DictReader(handle):
             word = (row.get("word") or "").strip().lower()
             tags = set((row.get("tag") or "").split())
-            if "cet6" not in tags or "cet4" in tags:
+            if "cet6" not in tags:
                 continue
             if not WORD_PATTERN.fullmatch(word) or len(word) > 24 or word in existing_words:
                 continue
