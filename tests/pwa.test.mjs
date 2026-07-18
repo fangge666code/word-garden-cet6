@@ -80,6 +80,15 @@ test("Home offers user-controlled updates for Web, PWA and Android", async () =>
   assert.match(css, /\.update-actions/u);
 });
 
+test("mobile layouts keep the current version and update action visible", async () => {
+  const css = await readText("src/styles.css");
+  const mobileRules = css.match(/@media \(max-width: 520px\)[\s\S]*?\n\}/u)?.[0] ?? "";
+  assert.match(mobileRules, /\.account-actions \.version-badge, \.install-action \.version-badge/u);
+  assert.match(mobileRules, /flex: 0 0 100%/u);
+  assert.match(mobileRules, /\.account-actions \[data-check-update\], \.install-action \[data-check-update\]/u);
+  assert.match(mobileRules, /width: 100%/u);
+});
+
 test("account activation keeps refresh credentials and offers safe reauthentication", async () => {
   const app = await readText("src/app.js");
   assert.match(app, /refreshToken: user\.refreshToken/u);
