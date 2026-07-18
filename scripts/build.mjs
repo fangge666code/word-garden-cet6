@@ -25,7 +25,6 @@ async function contentFiles(directory, publicPrefix) {
 
 const contentManifest = {
   schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
   resources: [
     ...(await contentFiles(join(root, "src", "assets", "pronunciation"), "src/assets/pronunciation")),
     ...(await contentFiles(join(root, "src", "assets", "pronunciation-kaoyan"), "src/assets/pronunciation-kaoyan")),
