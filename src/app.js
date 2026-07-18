@@ -18,7 +18,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { speakWord, speechSupported } from "./lib/pronunciation.js?v=4";
+import { speakWord, speechSupported } from "./lib/pronunciation.js?v=5";
 import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";
@@ -396,7 +396,7 @@ function renderStudy() {
           <div class="word-heading">
             <div class="spoken-word">
               <strong class="word">${escapeHtml(word.word)}</strong>
-              <button class="speak-button" type="button" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button>
+              <button class="speak-button" type="button" data-speak-id="${escapeHtml(word.id)}" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button>
             </div>
             <span class="phonetic">${escapeHtml(word.phonetic)}</span>
           </div>
@@ -515,7 +515,7 @@ function filterChip(value, label) {
 function wordRow(word) {
   const status = data.progress[word.id]?.status ?? "unseen";
   const labels = { unseen: "未学习", learning: "学习中", mastered: "已掌握" };
-  return `<article class="word-row"><div class="word-row-copy"><h3>${escapeHtml(word.word)} <span class="pos">${escapeHtml(word.pos)}</span></h3><p>${escapeHtml(word.meaning)}</p></div><div class="word-row-actions"><button class="speak-button" type="button" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button><span class="state-pill ${status}">${labels[status]}</span></div></article>`;
+  return `<article class="word-row"><div class="word-row-copy"><h3>${escapeHtml(word.word)} <span class="pos">${escapeHtml(word.pos)}</span></h3><p>${escapeHtml(word.meaning)}</p></div><div class="word-row-actions"><button class="speak-button" type="button" data-speak-id="${escapeHtml(word.id)}" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button><span class="state-pill ${status}">${labels[status]}</span></div></article>`;
 }
 
 function bindPronunciationButtons(root = document) {
@@ -523,10 +523,10 @@ function bindPronunciationButtons(root = document) {
     const supported = speechSupported(window);
     button.disabled = !supported;
     if (!supported) button.title = "当前设备暂不支持单词发音";
-    button.addEventListener("click", (event) => {
+    button.addEventListener("click", async (event) => {
       event.stopPropagation();
-      const result = speakWord(button.dataset.speakWord);
-      if (!result.ok) showToast("当前设备暂不支持单词发音");
+      const result = await speakWord(button.dataset.speakWord, { wordId: button.dataset.speakId });
+      if (!result.ok) showToast("发音资源暂时无法播放，请检查媒体音量或稍后重试");
     });
   });
 }

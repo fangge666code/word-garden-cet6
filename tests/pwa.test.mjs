@@ -39,11 +39,13 @@ test("page metadata connects the manifest and Apple icon", async () => {
   assert.match(html, /apple-mobile-web-app-capable/u);
 });
 
-test("service worker only caches the offline fallback", async () => {
+test("service worker caches the offline fallback and played pronunciation packages", async () => {
   const worker = await readText("service-worker.js");
   assert.match(worker, /offline\.html/u);
   assert.match(worker, /request\.mode === "navigate"/u);
   assert.match(worker, /caches\.match/u);
+  assert.match(worker, /src\/assets\/pronunciation\/chunk-/u);
+  assert.match(worker, /cache\.put/u);
   assert.doesNotMatch(worker, /cet6-words|src\/app|index\.html/u);
   assert.match(worker, /addEventListener\("message"/u);
   assert.match(worker, /event\.data\?\.type === "SKIP_WAITING"/u);
@@ -94,17 +96,19 @@ test("logged-out users authenticate on Home before opening learning routes", asy
 
 test("study cards and vocabulary rows expose click-to-play pronunciation", async () => {
   const app = await readText("src/app.js");
-  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=4"/u);
+  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=5"/u);
+  assert.match(app, /data-speak-id/u);
   assert.match(app, /data-speak-word/u);
   assert.match(app, /播放 \$\{escapeHtml\(word\.word\)\} 的英式发音/u);
   assert.match(app, /event\.stopPropagation\(\)/u);
-  assert.match(app, /speakWord\(button\.dataset\.speakWord\)/u);
-  assert.match(app, /当前设备暂不支持单词发音/u);
+  assert.match(app, /await speakWord\(button\.dataset\.speakWord, \{ wordId: button\.dataset\.speakId \}\)/u);
+  assert.match(app, /发音资源暂时无法播放/u);
 });
 
 test("hosted worker embeds the reviewed bilingual example module", async () => {
   const buildScript = await readText("scripts/build.mjs");
   assert.match(buildScript, /\/src\/data\/cet6-examples\.js/u);
+  assert.match(buildScript, /\/src\/data\/pronunciation-index\.js/u);
   assert.match(buildScript, /\/src\/data\/cet6-words\.js/u);
 });
 

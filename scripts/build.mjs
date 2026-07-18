@@ -30,6 +30,7 @@ const assetPaths = [
   "/src/lib/app-update.js",
   "/src/lib/supabase-client.js",
   "/src/data/cet6-examples.js",
+  "/src/data/pronunciation-index.js",
   "/src/data/cet6-words.js",
 ];
 const assets = Object.fromEntries(await Promise.all(assetPaths.map(async (pathname) => [
