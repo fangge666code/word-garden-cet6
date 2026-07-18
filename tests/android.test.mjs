@@ -21,6 +21,21 @@ test("Android package has internet access and release signing support", async ()
   assert.match(gradle, /signingConfig signingConfigs\.release/u);
 });
 
+test("Android registers native English pronunciation with safe locale fallbacks", async () => {
+  const [activity, plugin, manifest] = await Promise.all([
+    readFile("android/app/src/main/java/com/wordgarden/cet6/MainActivity.java", "utf8"),
+    readFile("android/app/src/main/java/com/wordgarden/cet6/NativePronunciationPlugin.java", "utf8"),
+    readFile("android/app/src/main/AndroidManifest.xml", "utf8"),
+  ]);
+  assert.match(activity, /registerPlugin\(NativePronunciationPlugin\.class\)/u);
+  assert.match(plugin, /@CapacitorPlugin\(name = "NativePronunciation"\)/u);
+  assert.match(plugin, /TextToSpeech\.QUEUE_FLUSH/u);
+  assert.match(plugin, /Locale\.UK, Locale\.US, Locale\.ENGLISH/u);
+  assert.match(plugin, /TTS_MISSING_LANGUAGE/u);
+  assert.match(plugin, /engine\.shutdown\(\)/u);
+  assert.match(manifest, /android\.intent\.action\.TTS_SERVICE/u);
+});
+
 test("GitHub workflow publishes a stable signed APK download", async () => {
   const [workflow, app] = await Promise.all([
     readFile(".github/workflows/android-release.yml", "utf8"),
@@ -39,8 +54,8 @@ test("Android and the public update manifest share one release version", async (
     readFile("version.json", "utf8"),
   ]);
   const manifest = JSON.parse(manifestText);
-  assert.equal(manifest.versionName, "1.2.1");
-  assert.equal(manifest.versionCode, 4);
+  assert.equal(manifest.versionName, "1.2.2");
+  assert.equal(manifest.versionCode, 5);
   assert.match(gradle, new RegExp(`versionCode ${manifest.versionCode}`, "u"));
   assert.match(gradle, new RegExp(`versionName "${manifest.versionName.replaceAll(".", "\\.")}"`, "u"));
   assert.match(manifest.apkUrl, new RegExp(`/v${manifest.versionName}/word-garden-android\\.apk$`, "u"));

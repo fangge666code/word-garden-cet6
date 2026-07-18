@@ -94,10 +94,12 @@ test("logged-out users authenticate on Home before opening learning routes", asy
 
 test("study cards and vocabulary rows expose click-to-play pronunciation", async () => {
   const app = await readText("src/app.js");
-  assert.match(app, /from "\.\/lib\/pronunciation\.js"/u);
+  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=2"/u);
   assert.match(app, /data-speak-word/u);
   assert.match(app, /播放 \$\{escapeHtml\(word\.word\)\} 的英式发音/u);
   assert.match(app, /event\.stopPropagation\(\)/u);
+  assert.match(app, /await speakWord/u);
+  assert.match(app, /手机缺少英文语音数据/u);
 });
 
 test("hosted worker embeds the reviewed bilingual example module", async () => {
