@@ -1,18 +1,26 @@
 import { PRONUNCIATION_SAMPLE_RATE, pronunciationClip as cet6PronunciationClip } from "../data/pronunciation-index.js";
 import { pronunciationClip as kaoyanPronunciationClip } from "../data/pronunciation-kaoyan-index.js";
+import { pronunciationClip as cet6AmericanPronunciationClip } from "../data/pronunciation-us-index.js";
+import { pronunciationClip as kaoyanAmericanPronunciationClip } from "../data/pronunciation-kaoyan-us-index.js";
 
 const PUBLIC_ASSET_ROOT = "https://fangge666code.github.io/word-garden-cet6/src/assets";
 
-export function pronunciationClip(wordId, baseUrl, scope = globalThis) {
+export function pronunciationClip(wordId, baseUrl, scope = globalThis, accent = "gb") {
   const native = scope?.Capacitor?.isNativePlatform?.() === true;
+  const american = accent === "us";
   if (String(wordId).startsWith("ky-")) {
-    return kaoyanPronunciationClip(wordId, baseUrl ?? (native ? `${PUBLIC_ASSET_ROOT}/pronunciation-kaoyan` : "./src/assets/pronunciation-kaoyan"));
+    const resolve = american ? kaoyanAmericanPronunciationClip : kaoyanPronunciationClip;
+    const directory = american ? "pronunciation-kaoyan-us" : "pronunciation-kaoyan";
+    return resolve(wordId, baseUrl ?? (native ? `${PUBLIC_ASSET_ROOT}/${directory}` : `./src/assets/${directory}`));
   }
-  return cet6PronunciationClip(wordId, baseUrl ?? (native ? `${PUBLIC_ASSET_ROOT}/pronunciation` : "./src/assets/pronunciation"));
+  const resolve = american ? cet6AmericanPronunciationClip : cet6PronunciationClip;
+  const directory = american ? "pronunciation-us" : "pronunciation";
+  return resolve(wordId, baseUrl ?? (native ? `${PUBLIC_ASSET_ROOT}/${directory}` : `./src/assets/${directory}`));
 }
 
-export function selectEnglishVoice(voices = []) {
-  return voices.find((voice) => voice.lang?.toLowerCase() === "en-gb")
+export function selectEnglishVoice(voices = [], accent = "gb") {
+  const preferred = accent === "us" ? "en-us" : "en-gb";
+  return voices.find((voice) => voice.lang?.toLowerCase() === preferred)
     ?? voices.find((voice) => voice.lang?.toLowerCase().startsWith("en-"))
     ?? voices.find((voice) => voice.lang?.toLowerCase() === "en")
     ?? null;
@@ -83,7 +91,7 @@ async function decodedChunk(url, context, fetchFn) {
 async function speakWithBundledAudio(wordId, options = {}) {
   const scope = options.scope ?? globalThis;
   const resolveClip = options.clipResolver ?? pronunciationClip;
-  const clip = resolveClip(wordId, options.audioBaseUrl, scope);
+  const clip = resolveClip(wordId, options.audioBaseUrl, scope, options.accent ?? "gb");
   const context = audioContext(scope, options.audioContext);
   const fetchFn = options.fetchFn ?? scope?.fetch?.bind(scope);
   if (!clip || !context || !fetchFn) return { ok: false, reason: "audio-unavailable" };
@@ -112,8 +120,9 @@ function speakWithWebVoice(word, options = {}) {
   if (!engine || !Utterance) return { ok: false, reason: "unsupported" };
 
   const utterance = new Utterance(String(word));
-  const voice = selectEnglishVoice(engine.getVoices());
-  utterance.lang = voice?.lang || "en-GB";
+  const accent = options.accent === "us" ? "us" : "gb";
+  const voice = selectEnglishVoice(engine.getVoices(), accent);
+  utterance.lang = voice?.lang || (accent === "us" ? "en-US" : "en-GB");
   if (voice) utterance.voice = voice;
   engine.cancel();
   engine.speak(utterance);
@@ -139,9 +148,23 @@ export async function speakWord(word, options = {}) {
     : nativePronunciationPlugin(scope);
   if (!nativePlugin) return bundled.reason === "audio-failed" ? bundled : web;
   try {
-    const detail = await nativePlugin.speak({ text: String(word) });
+    const detail = await nativePlugin.speak({ text: String(word), locale: options.accent === "us" ? "en-US" : "en-GB" });
     return { ok: true, source: "native", detail };
   } catch (error) {
     return { ok: false, reason: nativeFailureReason(error), error };
   }
+}
+
+export async function preloadPronunciation(wordId, options = {}) {
+  const scope = options.scope ?? globalThis;
+  const resolveClip = options.clipResolver ?? pronunciationClip;
+  const context = audioContext(scope, options.audioContext);
+  const fetchFn = options.fetchFn ?? scope?.fetch?.bind(scope);
+  if (!context || !fetchFn || !wordId) return false;
+  const accents = options.accents ?? ["gb", "us"];
+  const loaded = await Promise.allSettled(accents.map((accent) => {
+    const clip = resolveClip(wordId, options.audioBaseUrl, scope, accent);
+    return clip ? decodedChunk(clip.url, context, fetchFn) : Promise.reject(new Error("Audio unavailable"));
+  }));
+  return loaded.some((result) => result.status === "fulfilled");
 }

@@ -1,6 +1,6 @@
-export const CURRENT_VERSION_NAME = "1.3.1";
-export const CURRENT_VERSION_CODE = 10;
-export const CURRENT_WEB_BUILD = "2026-07-18.7";
+export const CURRENT_VERSION_NAME = "1.4.0";
+export const CURRENT_VERSION_CODE = 11;
+export const CURRENT_WEB_BUILD = "2026-07-18.8";
 export const CHECK_INTERVAL_MS = 86_400_000;
 export const UPDATE_MANIFEST_URL = "https://fangge666code.github.io/word-garden-cet6/version.json";
 

@@ -3,328 +3,2603 @@
   "resources": [
     {
       "path": "src/assets/pronunciation/chunk-001.wav",
-      "sha256": "26fbe8b931dcbc7eaaa64837f9fb7f64d22a4acd5f103c5948bb900e77a76411",
-      "size": 2425280
+      "sha256": "a329bfb10654fe2574849655f8689f35d2a17630db795527bd06d4ad20eee5c3",
+      "size": 533248
     },
     {
       "path": "src/assets/pronunciation/chunk-002.wav",
-      "sha256": "c75ddec280543cbc51c36b3a1d96575f156664a3667b9ab0e5b9358cc2871afc",
-      "size": 2362888
+      "sha256": "6a7d84cd8969ea9d70781a8cb265cf9dfbf0e6eead0b1980d5d67db8fbc443a8",
+      "size": 583656
     },
     {
       "path": "src/assets/pronunciation/chunk-003.wav",
-      "sha256": "0f1054e495f3c9a620bd8ea997e40d09a6473b50bd892da3f72aaebc7fb1eba5",
-      "size": 2345688
+      "sha256": "04d5ca9ff2106d8ae582cfd916c050fe5dc702f589b218d6a25918769db631c7",
+      "size": 581256
     },
     {
       "path": "src/assets/pronunciation/chunk-004.wav",
-      "sha256": "57463b40636c5b50e88993fe3a7acf0c27df79cac720ea52612e1b6358e341a1",
-      "size": 2391682
+      "sha256": "844327e85adf06b2b7b7ca5ccfc21fdbf373599f2146c3c959e60b4a9c22c7b4",
+      "size": 583254
     },
     {
       "path": "src/assets/pronunciation/chunk-005.wav",
-      "sha256": "da527074c2d9391c3793c47b07e78dce6ee795ef7539bb3aada349dee2aae39b",
-      "size": 2362882
+      "sha256": "a467ba5f37886a5401e95732ed840b8c8caae1f26d2041c4af7b0c1123f159ea",
+      "size": 553656
     },
     {
       "path": "src/assets/pronunciation/chunk-006.wav",
-      "sha256": "93cb18caf87936fc128ce8f55b1be3e98a41fe7a166ccf56476cff5843750f81",
-      "size": 2173694
+      "sha256": "8aaf6678f27bb93e9531e7e379937989258df3db7e3d941fc70df4dd385c4773",
+      "size": 526052
     },
     {
       "path": "src/assets/pronunciation/chunk-007.wav",
-      "sha256": "a1bbd2080aede33990c882c5a044ba476871d9739d25e063c517ac4cd464fc9f",
-      "size": 2241290
+      "sha256": "9e12225c46513b15bde9fa59bc1d09631e6d7e0c910568d0e7e71f7b80367a28",
+      "size": 584456
     },
     {
       "path": "src/assets/pronunciation/chunk-008.wav",
-      "sha256": "519f26c7d59d8bdcc100a40b7b2ca9108e0a998b395681a59e642c8a763900eb",
-      "size": 2314098
+      "sha256": "7b1e4a7f3f7c40e69b07a79d05f48f284d07dcb0b939c01d5f084ee0572a2f2a",
+      "size": 554858
     },
     {
       "path": "src/assets/pronunciation/chunk-009.wav",
-      "sha256": "37d10edc3be6538d62be7998077872d18b5f4aee57943d444358b746fc90cc6a",
-      "size": 2180496
+      "sha256": "589949f7bc8ae947dca42f361c2ea279ce6186852f8014a6faa846c2b239ecc8",
+      "size": 571252
     },
     {
       "path": "src/assets/pronunciation/chunk-010.wav",
-      "sha256": "1b5a4b2bcd97f3d0e62a7c7d0c4047aeab21c2e21d1027b3843aee29ad5c1c29",
-      "size": 2271288
+      "sha256": "1160a0de3e076829c5c7daac20b393fd9ce4ad4811d953ed717ad2ec96a272a2",
+      "size": 543648
     },
     {
       "path": "src/assets/pronunciation/chunk-011.wav",
-      "sha256": "840a70c00c36f8931c8890df88a7f8fa372320dd169f0caa6d7f292b0d3f4c87",
-      "size": 2216470
+      "sha256": "482fbad0e8c083e9605e1c533e5eb225c7910b0fd3f25f19b6dd56c3437f5034",
+      "size": 522454
     },
     {
       "path": "src/assets/pronunciation/chunk-012.wav",
-      "sha256": "a0d851a2c792cb6eb6f911f1cc18267ca1568bdb3f84d82b55fc79190aa21197",
-      "size": 2250486
+      "sha256": "df91328ccbcd9ebd9a232e79122b232ff6ac4e9f617f2d00564e2efd191d8a3c",
+      "size": 564462
     },
     {
       "path": "src/assets/pronunciation/chunk-013.wav",
-      "sha256": "05a239a71760cf9364d29048b8dd160a70727a68ee3d4e2cc664e26cdfcffdc8",
-      "size": 2160086
+      "sha256": "fd099beae79ead43ca703a232c428ebece7581f20b303d09279108b2119190ba",
+      "size": 545654
     },
     {
       "path": "src/assets/pronunciation/chunk-014.wav",
-      "sha256": "04bd8520a811edc0fd846d3c495cd0571ffe51336615129d2a78819eeb89bc3e",
-      "size": 2330088
+      "sha256": "50b603ddb187c2961434e6aaaff52c2389a3c356f916eba1e649ce5ea3dbc053",
+      "size": 530052
     },
     {
       "path": "src/assets/pronunciation/chunk-015.wav",
-      "sha256": "b530a743dee77ad6a8d9fcca0eff0a8692aa89b66fe76c3cd8dbaefa479749b2",
-      "size": 2280902
+      "sha256": "1a31a672fb84f62ae6c659355c592399bba3f6d39d29186e7006d2353856a5dd",
+      "size": 560456
     },
     {
       "path": "src/assets/pronunciation/chunk-016.wav",
-      "sha256": "093862dddaccedd6e70447734272cded15767a73ee39698884ee275528f8bcf9",
-      "size": 2015694
+      "sha256": "7ab0410a25d88887ac4c2c3feebe80cc8001af225648dfdaa82698e5b010b100",
+      "size": 611652
     },
     {
       "path": "src/assets/pronunciation/chunk-017.wav",
-      "sha256": "95d5bb407c5ecf3340251f456b11e47e150c4695578af90163827771d411d145",
-      "size": 2143292
+      "sha256": "48f2b2bba1820263c553e223e3da6fdd350e88969b8b524476b8ec04fef9a021",
+      "size": 559652
     },
     {
       "path": "src/assets/pronunciation/chunk-018.wav",
-      "sha256": "a64269216f3a4a978f07b099aa2885430c424ecbefad14e6ed63730b6a648bc9",
-      "size": 2042084
+      "sha256": "b8d5637d9f99d0be6e6d75a441796c362dfe13d296a0b4b1125f75b32e89c32b",
+      "size": 521652
     },
     {
       "path": "src/assets/pronunciation/chunk-019.wav",
-      "sha256": "d0ab08c461a5daf486eb36877d988354e8957de7b3ce1a9e144c0ea4b131a22a",
-      "size": 2173678
+      "sha256": "f8f2e8353d4a197a0ac75199877591fe2c5fd56623b74e3c89a5fb983cc2a099",
+      "size": 594856
     },
     {
       "path": "src/assets/pronunciation/chunk-020.wav",
-      "sha256": "b01cfcd3993cbadd3ce2b0498736bea8aeab79410253a5b97008510f4a41b8c2",
-      "size": 2153686
+      "sha256": "3723d5d967730c00aedc9099ccbddcc86aeafc4694fe05ab65d7b06971629d8f",
+      "size": 542854
     },
     {
       "path": "src/assets/pronunciation/chunk-021.wav",
-      "sha256": "f50d136d34795567157beb04068f21968ec5f4c6f883a92e5b8f3684ca640f35",
-      "size": 2060078
+      "sha256": "0b6640c66e9deec51e938efe4108687af53cb6c278ccbc1195cf93f172680a2d",
+      "size": 504052
     },
     {
       "path": "src/assets/pronunciation/chunk-022.wav",
-      "sha256": "bb6164e0eaae64251331c9ca88960186ea6ead8673ce1e99114e41065c86f99f",
-      "size": 2130072
+      "sha256": "48f37966e24ec342ef49896532bcc8e8b20ee5159a6a58a6f09d3a900917cde1",
+      "size": 466460
     },
     {
       "path": "src/assets/pronunciation/chunk-023.wav",
-      "sha256": "b22a4322d45c54eee6ec60bf298c8b9452680b3a1fa0e703840463e382378b0d",
-      "size": 2181284
+      "sha256": "333eebb99922f82f27bf841222f0aeca97dc861110afdaabd3b48daa0b79fc93",
+      "size": 484858
     },
     {
       "path": "src/assets/pronunciation/chunk-024.wav",
-      "sha256": "7421c170f3a13d876d364c7341f90ac5d5a069e99ed8f89fe48943164abebae0",
-      "size": 2182880
+      "sha256": "b49e61e4d44957990070d3528b35be56e6f9c68ee07c5a125f83f7a610bc5a1b",
+      "size": 574456
     },
     {
       "path": "src/assets/pronunciation/chunk-025.wav",
-      "sha256": "d8fca86d8292c36e928931ffce9d29e414427cccbe0e0a7a083085e14f887b8e",
-      "size": 2097688
+      "sha256": "3cd60d8f262ebaceb8222085db67d3b3fb702c083829889cce6d44aad4d096ef",
+      "size": 552856
     },
     {
       "path": "src/assets/pronunciation/chunk-026.wav",
-      "sha256": "b292a74c3c044a0056c3430a048d2f6fa2b4eced52efbf920b67cd86be839299",
-      "size": 2130482
+      "sha256": "659eaf07423a752a7f82a718aa05796a35a764128fd668ab5b185331513c839b",
+      "size": 488854
     },
     {
       "path": "src/assets/pronunciation/chunk-027.wav",
-      "sha256": "63fb25a1d20321ad6f4439b10507a3bf346c4f387602385708a59b2b1b02af46",
-      "size": 2191680
+      "sha256": "366e3148a833d241aa1442c054536a1d7efefe5d08027369840c3e71a5b0b4c7",
+      "size": 515252
     },
     {
       "path": "src/assets/pronunciation/chunk-028.wav",
-      "sha256": "8e6de618518da5bb5dfe69443f3d4818ad26de02d5d46a8d7a17e8b6e739cb66",
-      "size": 2207290
+      "sha256": "993b60c518957c3662f4906c80c24c30e123ce56cf3826a5a946b7769c2f432c",
+      "size": 540460
     },
     {
       "path": "src/assets/pronunciation/chunk-029.wav",
-      "sha256": "3152ee719c7f11736e7ebe58f7881d2d3a3a89db20673284ac8ae9d3edd8630f",
-      "size": 2097290
+      "sha256": "bb89e8e6c9538f6d9ecdab573fcc0735d37674f5c33f36977c4a2282dc6a0e03",
+      "size": 561254
     },
     {
       "path": "src/assets/pronunciation/chunk-030.wav",
-      "sha256": "5bb3e46fe03f43bc820b98d78685f42098d91924dd9a864ab0d293154e9e84ce",
-      "size": 2207682
+      "sha256": "58015ed05d2222586b5ac57401dffc3482afa7c256643c66720da0498a8d50cb",
+      "size": 512058
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-031.wav",
+      "sha256": "123dcd28943c9f8a517666cff430d867abcdf519227a022d56bf82ae83715efe",
+      "size": 529254
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-032.wav",
+      "sha256": "7d463854ac07ba3fa03e697b0502f32b7974e2641684b6718d14fad747a97e55",
+      "size": 567664
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-033.wav",
+      "sha256": "aa4a46732237a530c415823018ff6630173213bc1f61ad725ca3c5d279308a08",
+      "size": 520458
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-034.wav",
+      "sha256": "12dcc9c59f1d4605883bb613d1d9efd1084d852d01e068a83d852d93b768437d",
+      "size": 504452
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-035.wav",
+      "sha256": "6d72e45d43455dd35ad84e676b812c64e4695cd4e1af9901664a9cc5c66efc3c",
+      "size": 474054
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-036.wav",
+      "sha256": "ccba38b2057be46b1d6fe519f145912730caf963b86837aba3904f72b2bebddb",
+      "size": 537664
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-037.wav",
+      "sha256": "800af7ccc0069cd0ffb20a27b35411e48f7e7079c1eaf6acddd57cbe756e468a",
+      "size": 502852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-038.wav",
+      "sha256": "2be50dc7b956f3a8cc5f54f5a2f9d65d6690e476bcb53184856dd22ac124761c",
+      "size": 584056
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-039.wav",
+      "sha256": "23defda7111a864e4d6b25f7c23b560edfa5aabd27128755e462ce1402522ec3",
+      "size": 510058
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-040.wav",
+      "sha256": "aea9fb9e9cffc79b25d7c847e5cd791eecfef9329b613980fabe173fde1f7aee",
+      "size": 530454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-041.wav",
+      "sha256": "68ed6b1ec25adf7563aa6c0ef9a40909db214f109ffee834d5eeaff5cc95ffb2",
+      "size": 506046
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-042.wav",
+      "sha256": "5426932d8b5488bb0658669cc7cb22a16ba7e77854d9edb3ddd9e31cedfd6181",
+      "size": 547650
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-043.wav",
+      "sha256": "01d5cf308885d247ae0271b8c2096a70ecc3e4cdc1f20936b08aa77f6cb58d50",
+      "size": 508856
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-044.wav",
+      "sha256": "b9b4afedabbee6a7a9e8ead92ff3f697eeb0ffebea45062e7dedcc032654b9fa",
+      "size": 510050
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-045.wav",
+      "sha256": "5fa28af3ceb5d0cf47415006d94156a90105eddde75b89b259292093862deff7",
+      "size": 554454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-046.wav",
+      "sha256": "b07bbd554233717d957c71ca224f658cc2ce21330435f838ebfc96afff9a28af",
+      "size": 480456
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-047.wav",
+      "sha256": "20e312e8626fde81aa70980c0de6b512ae137b9ab7aca69ca7612bd4b730c92b",
+      "size": 509656
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-048.wav",
+      "sha256": "02864a7d578dcbb68341fc2acaf6c3d454b6e9ce58b6a046a45141670dc3178a",
+      "size": 562052
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-049.wav",
+      "sha256": "02d5367bd55efaf66f83e5520d895542fa3118cf8f410bf17752b67a5cd115e6",
+      "size": 541252
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-050.wav",
+      "sha256": "d82cfec186eba38fc78cb6439a754fc9ca368fbb226e664c7df9b2fed639f296",
+      "size": 499652
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-051.wav",
+      "sha256": "20f18385adf76a47cdfc1ebed9b68627263ec06f7669e34d784021460cdbabbb",
+      "size": 471656
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-052.wav",
+      "sha256": "142694348e3fcdc36cc97dc6d61f636d89264b6c3f8a916f0cc4fb895ad767db",
+      "size": 503658
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-053.wav",
+      "sha256": "e27215c2f1d7d155426fb014476ea3f652952a80ebea5866850f8a8e2ca763af",
+      "size": 558452
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-054.wav",
+      "sha256": "ce3c64f9d0823cbc9cea091c9dcdd5f0bc204b130fcb977a110cd5c2729242c5",
+      "size": 534860
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-055.wav",
+      "sha256": "d616f187c29ea4919460f6b87d8b883a089496420c36a56b08277f65e00e7671",
+      "size": 520456
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-056.wav",
+      "sha256": "909ae75a29f2be2650a84d6d7ee4900314224189fd9ae56222e145eb60b809d5",
+      "size": 572452
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-057.wav",
+      "sha256": "7bbbebda135d6d333cc5dbd0955a5b23ba0f2dfc63f4fdaa375251a11542cc49",
+      "size": 505658
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-058.wav",
+      "sha256": "a96b081c8c3729be6e2c4ca13f3ac6d4b6b8858f11bdf1e952bf442ab2832e69",
+      "size": 493662
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-059.wav",
+      "sha256": "95ecb410fdd0d9a25af7cabe591afd093d752df1e1ee2072c40aaa171a43609f",
+      "size": 569654
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-060.wav",
+      "sha256": "56f015451e4823e499585bb814abbfc1d061d8a20ffcf4269fd29a3892a079b8",
+      "size": 568060
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-061.wav",
+      "sha256": "bf53daf5a704f0ca70240d1029d17d327f8e8781bf694eccca9ed55c3900baac",
+      "size": 441654
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-062.wav",
+      "sha256": "3af85f52e059613833fc02c6e0c81d0e9f2fe22adcf47afb9011ffc0c0ff29c5",
+      "size": 454456
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-063.wav",
+      "sha256": "be6419a8f1bfbd23ac47c5d251dd39fa465055023a09f1ab9ec6c33515be20ae",
+      "size": 465254
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-064.wav",
+      "sha256": "003bb42f151d648c0debe73c73e91c325261f7dd35bca1657aa6a2f2aab1eda7",
+      "size": 510462
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-065.wav",
+      "sha256": "e83b0744f7c3ec84c013074f56c2ae03d59fad1e1fd538710d06b2d83e909412",
+      "size": 490858
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-066.wav",
+      "sha256": "e776e0f149c545c46a47f7fbad8d91897ad9d8d5442b6f0c7fb6159d92c353eb",
+      "size": 468850
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-067.wav",
+      "sha256": "be95d094d06b572f5f8d77878b15d0187a6a8616dc1066b07b07f49d91693fd4",
+      "size": 512450
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-068.wav",
+      "sha256": "b02a16d730eb60bd33cac2246aaa88c5909783d20c0a561c93765b6ea6768ab0",
+      "size": 527266
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-069.wav",
+      "sha256": "25a30a26fb77cf563c42ae094e14017d2a08cec03fb540d59da420062059723d",
+      "size": 462446
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-070.wav",
+      "sha256": "2f7e3897f005e77db3614629170a554a3c91e039a48dcb14ddbdd057df339a5a",
+      "size": 494858
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-071.wav",
+      "sha256": "1ccc8d76822706f22f02e5fd6fbebeeae6d5746ac974651d24bf99485d64c68d",
+      "size": 462856
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-072.wav",
+      "sha256": "ec5ff11be10649a27b616dfffc45dbc3bebdbd98f21f52197c6ef957bf9d575f",
+      "size": 478056
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-073.wav",
+      "sha256": "342a0a0087bffd3b2632c59926a39dcd003aa504edea2c0a92258e9e99cea001",
+      "size": 508052
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-074.wav",
+      "sha256": "a2a1d5ffaadff4987f04253a473fef2c5e4b29ced5db8deff264120465d71da7",
+      "size": 499648
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-075.wav",
+      "sha256": "5d2f7186fa4aadd26ebe181a1a99565b696ca5331bbe50a26ea99de294061ad4",
+      "size": 516454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-076.wav",
+      "sha256": "53e974638421834f0e1241af8e33339d98711be6ddf902e1d7ae3de50ce8000b",
+      "size": 505656
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-077.wav",
+      "sha256": "b0315bc4358ee4fea761098191e3c4a4bff6e64621f96f2487065ae31b253787",
+      "size": 496050
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-078.wav",
+      "sha256": "2d60dbd6511d33bba368fcba26cefa1416c2ee6ea55e90375d43a9b45e00ccae",
+      "size": 530854
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-079.wav",
+      "sha256": "16e5a7efc3b546fb5944bb7d5ca1fabc71f719fb74effbd82c3a162bcf5c2ae2",
+      "size": 494852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-080.wav",
+      "sha256": "9b4af3f554d7eaa32efd2af89091eb017051172947880b6239a1e9e5a27e06d2",
+      "size": 488062
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-081.wav",
+      "sha256": "fd5d7ea886f95aeae7e931bcbfb82f8bc9a15b3ad9ae43da04c0baf4341a6450",
+      "size": 448048
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-082.wav",
+      "sha256": "e32b6d743a0919478a4826b3fac70018b9204da8bea1a9a45318103108dbb3b9",
+      "size": 484456
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-083.wav",
+      "sha256": "92eda3f5a2ecbf47749fce4af3ad8f0b48902f78dc816b2aabefb8480220c9e0",
+      "size": 497252
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-084.wav",
+      "sha256": "3da4bc2484efe5f9c30824a4a8f6f0498aee45fe215d89e57e060ef38a79bc1c",
+      "size": 486454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-085.wav",
+      "sha256": "378ec9e7fd4b2d2ee64bebf9b0d12a7a23dee5ffb63baaed174b50593a70f1ed",
+      "size": 454046
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-086.wav",
+      "sha256": "8e6a231f4bbf89e70f2c53185688340543fcd596fdba21682863a943d2953c8d",
+      "size": 488852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-087.wav",
+      "sha256": "4fba7a47a1172065bfd63320f3853283a2c82cb97eb65507e0f4e445c8f7e900",
+      "size": 502454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-088.wav",
+      "sha256": "d311b8978e1d2fc93adb5f028d0b368fdf9cf357dfed1c0077ac1df12be6c33d",
+      "size": 540852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-089.wav",
+      "sha256": "ee36e2eb17b4cf2bdf19ebe801201e0a3eb692973c35a62ec12fd999d98ca0e7",
+      "size": 488852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-090.wav",
+      "sha256": "63e30cd5f58330bb8b8ef0067d2bebc1cce3a72736f7c41fc0809775a39a2f89",
+      "size": 515650
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-091.wav",
+      "sha256": "18725f8a9f848924d7a57f69f9a62dab43b18b058d238bf3b8e32472006a49f6",
+      "size": 503256
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-092.wav",
+      "sha256": "422fb3beac11d900f235062a77b874fcc9f2fee181ac681aa01d0c3632b4c125",
+      "size": 529658
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-093.wav",
+      "sha256": "cca518678778f453acc06b58620cbb7d35c6eeb9874b534b8d31f9dc1119dceb",
+      "size": 471244
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-094.wav",
+      "sha256": "d1a23c9c9e1a5242504515a4a990dcbcad543a94f1d8a52ce757f425b9f8124a",
+      "size": 547254
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-095.wav",
+      "sha256": "1998e5ca55f131f8602c2e3556bc8fffc7b76da76765cd73db96821960362c05",
+      "size": 506454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-096.wav",
+      "sha256": "0d32359cf7eb3ca094ad514f6b1721d81f427da2a1b78de36689511301341da5",
+      "size": 514060
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-097.wav",
+      "sha256": "b9cc594d44f8431a9a486d3040217fffcd7400eeffdd841ac967a2c5573ff17a",
+      "size": 512052
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-098.wav",
+      "sha256": "c51a602ba6820fbe23c65330e95f56f151a0ed76d8f40861d2b1b5c16f2eba2c",
+      "size": 462056
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-099.wav",
+      "sha256": "44ef7ec43034d2b7c315b2f8b2f2cbe593610afc49675482475d7b50d7ec7a6b",
+      "size": 490052
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-100.wav",
+      "sha256": "89fd435daac492de3e16bcd62c37d7ac8db7e1ab5f261cd8cec847419cd44e14",
+      "size": 489660
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-101.wav",
+      "sha256": "cc444aa167994a96cdbb0a3685d549a9ab1012ee31c9216617c5e7686005bbb0",
+      "size": 494858
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-102.wav",
+      "sha256": "fd1b7954e9292d124aa6fbc8f18fc924eecf94c346989504994d1f388c045b18",
+      "size": 467250
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-103.wav",
+      "sha256": "720a83de5176a8e6231ea1ae5c6bb3b81cbb20cf00ea1af7219ad6cd10c01c4b",
+      "size": 470446
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-104.wav",
+      "sha256": "c0b13432051783b3368d9ce15ac114b94f06d327dc92daeb48f65e185b074f58",
+      "size": 554060
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-105.wav",
+      "sha256": "2d4ea25584102515525b08cece2ce7fec623b10c7667dcd0910293a3d4a14d27",
+      "size": 529254
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-106.wav",
+      "sha256": "a7d6d05a8ca1c04232551b2c112ec74448bde279f32a0b74311f0140dfb1a1d1",
+      "size": 502454
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-107.wav",
+      "sha256": "ff89c5175f30d2ccd8d654b302ba5452caf1aa09964a5c480bb3ba4291baa7b0",
+      "size": 467252
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-108.wav",
+      "sha256": "b3dcdf422476b9b7bf0616098457fa6ee37c52b4bca55ffb0f83581b7360cc9b",
+      "size": 548852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-109.wav",
+      "sha256": "b43ea5ee07a414117e8e0d9c6698b0b57ca6d461336817fd389d3dcc029ba680",
+      "size": 500450
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-110.wav",
+      "sha256": "920ae8f4bd12ea472fd8e87dcd620dbb9e11d660f414a4cd203ed2159ca2a252",
+      "size": 513258
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-111.wav",
+      "sha256": "8c4e57d6766cac2fb2b31a8adee8e4952947c7c242864d2c0590f1a5b28386d5",
+      "size": 499658
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-112.wav",
+      "sha256": "4e44af8c32cf898c846dbafc0435bab99d09b3ad060b49e250c9b2e8bc018f6c",
+      "size": 550056
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-113.wav",
+      "sha256": "e698bed4faa2a4cbd168430307d82b766a3ebfb38d075abd9bf05fc78bb6d79c",
+      "size": 510058
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-114.wav",
+      "sha256": "10a3f20776619a1cb94f685d4fc399e9d3e8daebf1bbe10fb7c533ac3ec9ee4d",
+      "size": 471660
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-115.wav",
+      "sha256": "04796da17b7721bd3a2085670ea98fb6e6ef922b5d4a794a71479d35e3103d5f",
+      "size": 484050
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-116.wav",
+      "sha256": "a5383b5998d27b08d65def928ea07700d21bd9a5605fbfd4044c492a19779150",
+      "size": 487654
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-117.wav",
+      "sha256": "24076cbcfd937615f638d613bab00ce58e68c4b86b6e6a5dedf2a4b9992ed80a",
+      "size": 474852
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-118.wav",
+      "sha256": "674b8509372410ff7cee39af89f842a68fc99628bf78b8a4f801db5a5b0313b5",
+      "size": 500052
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-119.wav",
+      "sha256": "387bc5c89dc68b57a42d35dad3e5b08bf5f0f4560d650c11f63882cb6e744506",
+      "size": 515258
+    },
+    {
+      "path": "src/assets/pronunciation/chunk-120.wav",
+      "sha256": "ac699d2c29efa0eea195e1f852c491102f61b439cd881fae6655d60f6d23a410",
+      "size": 573652
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-001.wav",
-      "sha256": "2f8c1be6405b0da19b4d9b2dbd93e7c744a4ba2800f8244e09b7a2bac1c610c9",
-      "size": 1975286
+      "sha256": "d72bb01ac1509eb6cdf1f38384c86c4eac77f049263c55ecefcbad2ea1973d8c",
+      "size": 443652
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-002.wav",
-      "sha256": "fa0ed8f658a5d1ddfbe72b25b0018b1764a2fa696acfeb3a4bd092cd99e2f4fe",
-      "size": 1964480
+      "sha256": "cfc59a08b1e6243bba38e42caec31241747c96a0247ba7ef947495652fc49606",
+      "size": 446052
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-003.wav",
-      "sha256": "4f2528a2dc86b88c8e8fabfc80fcfdae9bf454ba03692c107509b586410864bb",
-      "size": 2122076
+      "sha256": "a37ef42870e99c07b2eaafed955ac9bdd3d3cbd9b6379440c2862a9a0285b444",
+      "size": 450052
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-004.wav",
-      "sha256": "ff23ccf692c89da8d93fb5d252ef75b351b355a9598f97d3a7b640ddd98b9a33",
-      "size": 2118492
+      "sha256": "da1ef97ac310c1057c54bf8fb3256746307e23f8f9f2d496a7d7433b07e0fcbe",
+      "size": 491660
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-005.wav",
-      "sha256": "f53782390bfd5f6ad1e6f96a10ab2ac697e2373a4869f54f5ee955701410fff4",
-      "size": 2127690
+      "sha256": "0fb8a48cf7d45830d9c298b074728b26220d8e515f0c8f1990694d8ef69ba63c",
+      "size": 478454
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-006.wav",
-      "sha256": "2cfe1fe301dba8289b94431f83e10170b0f9cdb38d128080e0fefc5db526b4a3",
-      "size": 1932888
+      "sha256": "9a5246886c75e4a2f1120bca65742329f0e5142a6e367d5d234376204a719631",
+      "size": 438454
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-007.wav",
-      "sha256": "f27e3310577e32fd017f5e402d466ac035bc0ac070ed699ae96c3ccd35a75a13",
-      "size": 2023682
+      "sha256": "8c250c087811a5807627173d5643f87254ce2d5e838f4ad5711fdde4c66b2aad",
+      "size": 420450
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-008.wav",
-      "sha256": "a2de8716bb580d9ae603aa7ab18b0b92c2e8a66813dac172a5b322fb807ca0a4",
-      "size": 2050884
+      "sha256": "8e7621b80b6154dbb5a764c814bc24524c28e6c5bf1dbbc7288ab9d923e7baab",
+      "size": 483256
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-009.wav",
-      "sha256": "7c0ac5de70f5f1bcf020766e7c5ec0be4e67c338fcde10abe92926e1ee9672df",
-      "size": 2202084
+      "sha256": "7c02516225261d5130bfcae35525b16cce1c1d602ae185231fe6c482e22c8935",
+      "size": 468452
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-010.wav",
-      "sha256": "66d2117be99b5ce8c2ab1e914ddab637ffe5623a557e3298a5efc110b6afcd76",
-      "size": 2228488
+      "sha256": "b01a73966a662454da348b3d5b72ec684921e4d811d0de042063e218b928e6f9",
+      "size": 487252
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-011.wav",
-      "sha256": "c895c5b52aa35fb8a953c0a3954d62a97aab9ff6091a133bf14c57ef4f3b677c",
-      "size": 2065288
+      "sha256": "9ddfb9a1e3a374a283b0653fcd66a42de979c53f241550c145aebaecef08f507",
+      "size": 479648
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-012.wav",
-      "sha256": "fdadd00e1e381679f55f609da0e012033aaeee5a59d9aac96d739ebf983e014b",
-      "size": 2058488
+      "sha256": "82da47ea5790a0f7e5bad70743da3badefe8bc374987562fcc97fed7d381d689",
+      "size": 542858
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-013.wav",
-      "sha256": "f29e76a96cd00ac7d0f70c400beceb4ecf5fe3957b371bb63c1916a6f5b1e144",
-      "size": 2052488
+      "sha256": "a3d63218d66775a83f4b791ff8ce4103d2779da0c4b1212113aa3e1668ef2c62",
+      "size": 493658
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-014.wav",
-      "sha256": "c77baf8ed180e56b47852fad6568e06654856e80b08801cd6f3cea1e60e9f79c",
-      "size": 2025676
+      "sha256": "53e2648a1528bde0fed38289acc373fed8f3daac1b94751315400d307a0f1ea0",
+      "size": 474060
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-015.wav",
-      "sha256": "3827d7bfbd10714b65ab0ff050451b28f0677b72e9339494620e888b8026a548",
-      "size": 1988484
+      "sha256": "7367207460e540398c517cabe22caaa2305e8a13b3805df06540e9208ad8dbde",
+      "size": 486450
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-016.wav",
-      "sha256": "8fc1c2f91efc859e0a1dfd940b0778f3b14a9c2fcedef12edbdd783942a49e9d",
-      "size": 2006896
+      "sha256": "8708816d298915492e4e4d9d9a646a798d55027639d9a29b51754cfcd8c563e4",
+      "size": 520456
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-017.wav",
-      "sha256": "6130e97119f891b830b82ecead919c6f6ca1c1a5d54b4724abf420cd4c10c399",
-      "size": 2225292
+      "sha256": "15ef1f7bf5fac6115435670c98b750bc24e427961c3203313431a5024de8fc11",
+      "size": 480452
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-018.wav",
-      "sha256": "01a91f4c2a0cf0a217400301fe99d6f989b958ac93a830bf3d35ccc5caf53842",
-      "size": 2049290
+      "sha256": "2a1cb48945177cb22ce81d36f8de6f3234011ae37e901b6ea34dc43dfa7f4c54",
+      "size": 485256
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-019.wav",
-      "sha256": "761ce63e2de6e766b2d51d7cfbc00b22e56b14f93e579a436034a7bd8f097d4b",
-      "size": 2127692
+      "sha256": "c09b7d3ce63bb41347ec5c20d27ae1e76f1b8e5329a666b0c5fae60b2bfe9329",
+      "size": 493254
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-020.wav",
-      "sha256": "a77332f266658695272645cd2f5562e79f17ae707436a5861fdb09db3f7090a7",
-      "size": 2064076
+      "sha256": "3eb2ebc625321985a01fd997d7d9f91cefcae2376b40cd5ae87bea3ddbfb47fb",
+      "size": 524860
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-021.wav",
-      "sha256": "fdc7293452319b3be658f0089c775d8883f7cbef0d2f058eddd8d3878f1a1043",
-      "size": 2000076
+      "sha256": "6bb4893a58252e665a3fc88c8fb7c11a977e9c12ee6c4f3d4029265421534cfd",
+      "size": 446454
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-022.wav",
-      "sha256": "8af485dd9d4a994afa25f21a8c6c38669cb3d85ce6796b68b0e333a1022fcb54",
-      "size": 1928876
+      "sha256": "e3adb7752619061bbb44b9bf5ea8be206487030e1bc2ee28711aea654cf38e7f",
+      "size": 459258
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-023.wav",
-      "sha256": "14de0953782b50aadfe281621170ff76732d3157c20ebba81f61022911782c12",
-      "size": 2298490
+      "sha256": "621164607281f289549081a8dd6b339960bfe6988f68f793f33ee790f6a9a324",
+      "size": 429250
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-024.wav",
-      "sha256": "8b3e00eab4301a9186f311d9a8fbe6ba49d5b8c494b51d66fd501e8da4ee91d1",
-      "size": 2276102
+      "sha256": "8d56f1ff6131d91a4bdc70bc781d55008c68104cf9d59f4d97a700fa6539540d",
+      "size": 454058
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-025.wav",
-      "sha256": "6f24599ce32be2f872a59938a0a3af1895a52a3808101bc25e2381ed99553427",
-      "size": 2153284
+      "sha256": "7a4f8912de1d9804f86509d46c3444e900764264e229b3bd46684df2c549ad27",
+      "size": 467256
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-026.wav",
-      "sha256": "272b1d1b90482165342f5a0d4bab742f23ef40df173062e3e7b8288e676a98ab",
-      "size": 2167684
+      "sha256": "9c4a2f91e3fa3f95db4dab0d5ff479e4597722992b7f9037fc24a6a313b7224d",
+      "size": 434854
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-027.wav",
-      "sha256": "295261ca1f9a4b7ac7f3bba9d753fa78e7e9be5df8ba4546495f409d1d2717fc",
-      "size": 2150890
+      "sha256": "951f10428edc9f6901e13de42ac180d93272b63591a7a48dfa120b2d3f915a9a",
+      "size": 464452
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-028.wav",
-      "sha256": "d03e17378633761a35107f0cb00443509755d434b1358232de599b269e8776cb",
-      "size": 2091692
+      "sha256": "f3891a4862b9c6c9d1387fc99afc197f6eadf1077846eefc9651522b3b467885",
+      "size": 513252
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-029.wav",
-      "sha256": "27fa89b378d1bb294dae2f1db6e26f977310659d50e2333cef7623b2760cdb5f",
-      "size": 2069294
+      "sha256": "dfbffef3e20677ce416f070c57772a7aa12b9e215f7393d5dbb54591fed3df92",
+      "size": 480054
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-030.wav",
-      "sha256": "ee70fceef75dd71422b1c5793209ed0713bde86a44d34c01b8e2301e3c11358c",
-      "size": 2090496
+      "sha256": "5faae7ee2f8bbd1ef7f2ea7d1d97dbaa87727ef9a71f2788c50796d77141d85c",
+      "size": 436058
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-031.wav",
-      "sha256": "c0f91200d5437ced75b757dad70f0783530f8fda420bc9f63d2099b624ba4dc8",
-      "size": 2128488
+      "sha256": "188d8b44f9f760aa35b484be09cf8eeadd243c94154157cbd24614941c8eaa37",
+      "size": 465646
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-032.wav",
-      "sha256": "0eb1ccd867c7005b2b7650c6985cff037c99e01179e00deaf289e9c326ce5702",
-      "size": 2143694
+      "sha256": "a7ac5f46da7e31a31056b8c44ff61a370b9e7a5e354585cf173e2ea2b62470ed",
+      "size": 525258
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-033.wav",
-      "sha256": "52faabc5b41298de00d6c5a05cb9c3c81f401425567659415c3ec3ee8bc29a2c",
-      "size": 2077684
+      "sha256": "cb8e879f8d48ad6426e2e8832ea7cd47ab2eedc8d36aeea6f73bb4e1c78053ac",
+      "size": 502854
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-034.wav",
-      "sha256": "50752de53c757e61f137f3259f3238bb44c1d276b9867ccf29ec05df246c102b",
-      "size": 2120880
+      "sha256": "49be96046607b19b549c09ff2c3f5c34575060e1d6413337ac04a86dc8ec52fa",
+      "size": 502452
     },
     {
       "path": "src/assets/pronunciation-kaoyan/chunk-035.wav",
-      "sha256": "3a13f386af49f2a50c527100ba081e6a8d3b74340ba46dc5651c45c981347314",
-      "size": 2031276
+      "sha256": "17a291502144fc8a2d3ff93090a7f4d20886f0a60d431105b2d82c66486bfdcb",
+      "size": 533248
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-036.wav",
+      "sha256": "841bc130451d5d8bb35d99e395954e475b8af6bc4bd0f328f6049be76a17b686",
+      "size": 519662
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-037.wav",
+      "sha256": "bb773562037b33f6b4c074ff141ec81824116efefe101070d055d685049d3549",
+      "size": 548860
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-038.wav",
+      "sha256": "a0a0f7b2477fc0f0603504f0bca49b1cd3d27318272430da66d5c4665854608f",
+      "size": 487250
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-039.wav",
+      "sha256": "6fb6e51500632dab6d30cfebf38e74a3cc7137a8111adc9df8b894943d97a9cc",
+      "size": 514050
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-040.wav",
+      "sha256": "7a0ba421af6ebf516e58884879831502afc683157bc07e7fe510e2a6f5670c1c",
+      "size": 534460
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-041.wav",
+      "sha256": "5994e34c35f68300d054571e27bb15be6bed655802f15fe137c65411b34a2508",
+      "size": 494456
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-042.wav",
+      "sha256": "e473a5449a436536d37a1f2384b54c40d664c52278db2ebac0a55bc9ece5b4a1",
+      "size": 468452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-043.wav",
+      "sha256": "48dcfc3354b57ff5f356b9d09667c31861c201d516bbdb6afa8a6d0a6d4ae7b4",
+      "size": 443654
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-044.wav",
+      "sha256": "458c70e25b57584801261085883dd48854b964a5bde4cc9e94b16f96e753fb81",
+      "size": 514858
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-045.wav",
+      "sha256": "0a632945a926eb932db0685a8ed425b4305ec6a234e9a60159c7e9bf95b5c6f9",
+      "size": 473256
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-046.wav",
+      "sha256": "e4314f7360164a684477214578f75d0aff0b0d09b7d6f3d3b7dd26b1fc591fc8",
+      "size": 479252
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-047.wav",
+      "sha256": "3dd2c461043aa2cd5deca1203dd29fec96b6c4dbd5e9a73e28338166970b40c3",
+      "size": 504056
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-048.wav",
+      "sha256": "5fb4c36991236ec4c89f75db2eeae20492ec961e98146f2cec891aebcdd8e7bd",
+      "size": 458056
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-049.wav",
+      "sha256": "2afc635292281acfec51ee0e2ede59001591d571c6b11c1ee71b08b26fb5ca29",
+      "size": 476052
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-050.wav",
+      "sha256": "0bf6dcc799426a3776d62d55ee1e7bcf4ccb54d6b2063dfc4c02489c38ea5f9b",
+      "size": 467652
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-051.wav",
+      "sha256": "2faeac1151576f4322478e2d9890fa1af09060995e0b210f164e4b5bb87950d4",
+      "size": 456452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-052.wav",
+      "sha256": "f717fe8e76ae443ac580ce1c6e403e5be0ddca4828e51864ef301de3b1a26e4b",
+      "size": 508464
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-053.wav",
+      "sha256": "c23ee210c5786d7a6c5b9be64babd9a165001b6c2dfea00c9ce5273ad9616887",
+      "size": 447252
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-054.wav",
+      "sha256": "600db05d92c13a424cc162ed91200d991d6a92ffceee23e0ada731e0f3e66c6a",
+      "size": 462852
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-055.wav",
+      "sha256": "8c32117c65f0504e1df1e083fe4b025accf045b76337de2d45f43b2786658ab0",
+      "size": 477648
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-056.wav",
+      "sha256": "aed2c63b8c82e4e5125c59bfd6c0440bed1301fffe924741ea81da6a12abd24a",
+      "size": 494056
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-057.wav",
+      "sha256": "212c5797c04ad632662f9f0decc2782fbcc5477b295f68bfdc0bc19d759020e2",
+      "size": 458052
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-058.wav",
+      "sha256": "4c31a4bfb955408bf6fc9df45994f430acc3d7bd0593c136ea99795234f6ec9a",
+      "size": 445250
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-059.wav",
+      "sha256": "3d2677976d1cd5788874c3240d66de943f1bb10665a2c9474e6d4f2dd4680c1e",
+      "size": 480454
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-060.wav",
+      "sha256": "f48af2fcfb7f30af07b3bcf0fb5485ae7b0d1af942afbd597756aaf2869219b5",
+      "size": 460860
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-061.wav",
+      "sha256": "a231cb46e0e410374a3f9b7d7f35bfcb0a178b319a2b9b2b0ad9ddbdcf01b36f",
+      "size": 419650
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-062.wav",
+      "sha256": "be665ce07d0ff16ed2370b308503d4923278f2e00d73043e99eb4c4d92a03311",
+      "size": 434452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-063.wav",
+      "sha256": "a7b7872ef2652d8c9102f2c8d6e66e1e45926f39a687033691301e90fb70a882",
+      "size": 491660
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-064.wav",
+      "sha256": "e717fcef7ac46c2888a7cf2b3b8259276dc73c23c35759584fa973bf06f7405e",
+      "size": 517266
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-065.wav",
+      "sha256": "df93d83d6edca41dcdb4c3a1913530dfa9073717f2df5359921a867f6c0a8743",
+      "size": 543250
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-066.wav",
+      "sha256": "819652312feb4077c5afe65db30bfa03ef9b59afc80ae07b555a964c70f945e1",
+      "size": 495654
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-067.wav",
+      "sha256": "25a2b4be121621bb001f6399c2770d8c0b4d6d8fbc8fc8818150aa9072383c7b",
+      "size": 516454
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-068.wav",
+      "sha256": "bb94541e021376fcc2a11717da240f6a82d3657870f180efaa5e69a1731ce000",
+      "size": 526066
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-069.wav",
+      "sha256": "846e9995a3835064e46977880affbdd234805e6aca4fcc32468f7335aef235cc",
+      "size": 501652
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-070.wav",
+      "sha256": "4eebf1d11040ccd76632d2fce11403ca527cf1700a7645403aa7cae0d1c34485",
+      "size": 484856
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-071.wav",
+      "sha256": "535fcfd24906cce60c970bea002d462c7bc68f7040df31e0db3747afa2fe3a21",
+      "size": 427654
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-072.wav",
+      "sha256": "d5c8d9f14062eb72194da690a6f5a18dd9a06dcf201279cbe5996b0d58bd88b9",
+      "size": 491260
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-073.wav",
+      "sha256": "0afeb67b33ec4f48dced7511796e5f1d4edf1aae3695ad4f38a525e06e447804",
+      "size": 467256
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-074.wav",
+      "sha256": "bbd249cecc3eafa90db510a0457f4a2da71563ca6d08bb772383687976095f21",
+      "size": 468852
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-075.wav",
+      "sha256": "42e11e48b2a4a4ddaa70acf845043ae51cf727a20024245e46486e047b2e8f7c",
+      "size": 481654
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-076.wav",
+      "sha256": "ffcade0fa3bfe8faa1441dcd59ef97136a598d0eb2bec3b770d1971003e06f52",
+      "size": 566062
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-077.wav",
+      "sha256": "347ad787012f63f522807886f3b1ba8f6947dc6082c4442df204a5b994c3c992",
+      "size": 523254
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-078.wav",
+      "sha256": "d46d054320444ed01ae49fe7dd50bf748bfc95fb9103ea42319f0325c87e3355",
+      "size": 480450
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-079.wav",
+      "sha256": "c94948c6f05d6d2a4656f50d650b2dea4484ed58f5aacf70cc5217e4bc8787bd",
+      "size": 456448
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-080.wav",
+      "sha256": "7f2c1b1cb9059bbc0ea58aeb52ae84cd263f5e568640484ad2c8dda6bb3bc5d9",
+      "size": 460056
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-081.wav",
+      "sha256": "8e4cc8fc2496a5b72f0f3addc4f8d85ee5b279e1f415bea8f2b1e688426f3138",
+      "size": 467254
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-082.wav",
+      "sha256": "5055a9eeeaa080e5f251abc2f542fb8b9a9d64b3dd18c15ba945a950d37ceda7",
+      "size": 454850
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-083.wav",
+      "sha256": "7daec809a7483e6b7d64f38f7483ac84fc45843b8cb39eb928fac42322dca6c0",
+      "size": 432450
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-084.wav",
+      "sha256": "a5b29b5e8152d7373ef843f2e830c8b52478f41f54af3b3a173674b8f74aca7c",
+      "size": 501654
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-085.wav",
+      "sha256": "4f8c87f073daba3d463feda36cf3825f9389f059038d52e8c45fb7abe8f7a3a5",
+      "size": 440850
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-086.wav",
+      "sha256": "2285172f5a31eec30a1d6201f968e48629a27320ed1492cdfef7f6dd670e34b1",
+      "size": 425650
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-087.wav",
+      "sha256": "e259e2a345d51bd474fcf4d998a4fa09e00c3253686838ca92d0bd380231304e",
+      "size": 426050
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-088.wav",
+      "sha256": "bcd363ec5c2a7c0a1a88cb1d1e7eee7178548386d656325d5e860b2803bd72a9",
+      "size": 492458
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-089.wav",
+      "sha256": "70f01883e2b0eb86f8b69e433fe6ee3e439cb86f3238665d4fcb9739a2bc1659",
+      "size": 556054
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-090.wav",
+      "sha256": "eac89f2e5d8836a7385598535e524d89e2138c4d227f0203a35e78f87ea2e441",
+      "size": 514454
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-091.wav",
+      "sha256": "9fd50bf227fc2dc4b57ce999807e2e040546547abbaf0869768289dd672e065e",
+      "size": 520456
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-092.wav",
+      "sha256": "e3d8d4134db434490b11c0b77cfd8116a2433af1a73f8945bd7c3886c06855a9",
+      "size": 563658
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-093.wav",
+      "sha256": "945b116e13418b55da1d980a62ae29bc03bef71896bcc4c33011c79bbfd32725",
+      "size": 544456
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-094.wav",
+      "sha256": "6c610247aa51eb835d095ac8292b6f650ae179772b6826c2c31bf1d8cbfef527",
+      "size": 507260
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-095.wav",
+      "sha256": "82f1b3fec8db062d55db01527bb70bf1c61eb4d3cc2202233cc7e070baf225c1",
+      "size": 538858
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-096.wav",
+      "sha256": "00c82e092a05929985a8836de378ef33ae7323ff9cf25d4fd529e33df2d2a8ea",
+      "size": 541660
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-097.wav",
+      "sha256": "ee62d5b6141a787d4f76688f7cd8edbf61dbdeab37f2b45f1dc32de919415153",
+      "size": 483256
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-098.wav",
+      "sha256": "cabc4cb1dd4295b9de000c7763fe9b16b32af6db486486b80df9afd01a840743",
+      "size": 487650
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-099.wav",
+      "sha256": "f25c9e34124a75a021ec059861d3e5066192006bd6f1fe79c8a597de06829362",
+      "size": 509650
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-100.wav",
+      "sha256": "a53fd1f7ae2d4ceac901120497445875a36e272e8c5826ad61d07f08b3201096",
+      "size": 528860
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-101.wav",
+      "sha256": "4825ceeda77b4012552cd4bdfaa6e44aa8c15feb0c76633d10c57c7501466889",
+      "size": 476854
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-102.wav",
+      "sha256": "82c91ba0fabb34a860877bf4c9d3fe630a58d22522b7cb396f84e952437da485",
+      "size": 530850
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-103.wav",
+      "sha256": "2c4db2cedbc05ff79ddad8ba053add67a51289aad059f273740597a80423eaeb",
+      "size": 504856
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-104.wav",
+      "sha256": "dbb2ef2bd13803fc867bb407f1306aec211792e6c05837af209aad38ff5d85e1",
+      "size": 511256
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-105.wav",
+      "sha256": "13867fa38ebbe92c2879e760e7818b2caac43b37b51905384c48233a71ed7e50",
+      "size": 513654
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-106.wav",
+      "sha256": "fb53ecb92e7000b7314cf4540af276dc840a3f114a877be787f92b41aab76737",
+      "size": 486858
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-107.wav",
+      "sha256": "2752e483584fa1b35e46df4287654908459aa2d482d05209e70453587e61679e",
+      "size": 506450
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-108.wav",
+      "sha256": "8486d8aa740c2a0fc4d9a10e0b34b00317b903bcdceb52aa886572886ab07837",
+      "size": 500060
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-109.wav",
+      "sha256": "f7c154fd1389651948618a86359efe4f0091da718b0440ebc4b6e3d5d480ac37",
+      "size": 469252
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-110.wav",
+      "sha256": "bbbfac9424dcd5c4bcb7d1cc7c93ebf54b00ca08ad2510e57ac83f669b12239b",
+      "size": 465252
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-111.wav",
+      "sha256": "ced72de72dd5afb6a7e0fdce340b9ac13c5e879fcd9d57629981633ac076e8d1",
+      "size": 494454
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-112.wav",
+      "sha256": "528b3014c6561190904cd957886c525b49a6f59c3f5f56144de4fabf6b0db544",
+      "size": 518866
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-113.wav",
+      "sha256": "acf505410e0e9c579f73fd6ad8e8b1786c183f43d380c8c6175eb90c35c939e4",
+      "size": 471652
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-114.wav",
+      "sha256": "7a28ea70e4396ac72c860f9d1b1e7c6b52c83c7ed78c9b4789a0088168ea81b2",
+      "size": 486462
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-115.wav",
+      "sha256": "ecee468ff530b9721c36db2da073f5c6b2a6d183a5d17cba3a6d820f04a3e024",
+      "size": 465650
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-116.wav",
+      "sha256": "ddb329aa4b7d47e7dd3092bbd32dd629c1952e7746f0bd46a43c1e86547e212a",
+      "size": 501662
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-117.wav",
+      "sha256": "8ca2d2ee11a7bb6f6269d27c41a05aae5b27b88c8b7d759819a31bfb6b80a926",
+      "size": 477656
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-118.wav",
+      "sha256": "9229da3551b91df2229f70a45392f0dbf63444d3ce6fd8e77ee6ebbc9af9e813",
+      "size": 486854
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-119.wav",
+      "sha256": "d859084ace7cdabec8988b77f16052df3fa4d7ee71cc99b64b80a9520ed24579",
+      "size": 483258
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-120.wav",
+      "sha256": "94efdb14bae1e7f947f79500fe18fdfe717c31a3945d5b48c7ecaaff2c37d36d",
+      "size": 498860
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-121.wav",
+      "sha256": "16394cd728ca4081af9a5fc4fd633cf9f3159404b9a72f3d7447bbf6d6b2a8f0",
+      "size": 532452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-122.wav",
+      "sha256": "6b0d2d2da669d49ef0fd484f00df1775eab6a54164b6db2d9a59a7394d92181b",
+      "size": 473656
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-123.wav",
+      "sha256": "c088d54a6c4617a466c05be3e7ace16ef782bf04573c21328bc0b1e70a339915",
+      "size": 483652
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-124.wav",
+      "sha256": "02b7030b6cead6401e4385b012b0cb37722298e1a110baf0ea52d8040d167cda",
+      "size": 494860
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-125.wav",
+      "sha256": "5d9dd1f4c205186694ad785a79b9632c9fd71005e817644ce5e3e7fd97fbb531",
+      "size": 514052
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-126.wav",
+      "sha256": "f2d3f560aebe6f041c5c8f22ff13cdd958f46bc7865e8068f1f52e09fbdb626e",
+      "size": 474858
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-127.wav",
+      "sha256": "8990f90a343a5ec46838322483396e691b73c43cc9951443b414ba9fba2def70",
+      "size": 502452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-128.wav",
+      "sha256": "13c24a29a739cdd55b159ebbd8d958079c04094166e54a7bc14cd06ccd982e63",
+      "size": 508464
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-129.wav",
+      "sha256": "b8a7cd120a4ad8f091f926b2ee4618234c1b1889c264c2d96132adc41fa2e11f",
+      "size": 474052
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-130.wav",
+      "sha256": "d1e5ca34230cb5113cf5ec51973a6f88c77a8ac1c06616015c6037938409c614",
+      "size": 504056
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-131.wav",
+      "sha256": "fe110c9c7224e6cd502d4fb266508273e6bf92551060707431c1cd9ff3b06c72",
+      "size": 483656
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-132.wav",
+      "sha256": "2d6f50727cdb58f6b5147794475d1e362281b519fafe9715e35bce86db5c9685",
+      "size": 472052
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-133.wav",
+      "sha256": "e660ba0c7a2668c53325efb6050223febbfe4e9fa3fb55ae8bbf16ed0c131b3e",
+      "size": 484452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-134.wav",
+      "sha256": "26ce0f668b5389d73a64fcedc38095bdab5932530d27be57f9525054b23b8aef",
+      "size": 522450
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-135.wav",
+      "sha256": "5c0f438ef7a19644379f223eb304c1574c09d0127502e883671b4be3e075b1ac",
+      "size": 484852
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-136.wav",
+      "sha256": "c5459b6c4e165a1a18cbdca0850dce554e53e07f4bee795b3b4e2d30bb683d79",
+      "size": 485258
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-137.wav",
+      "sha256": "e7e422451fc891bfcf5651c8ead0c9ff5899d127b1d3e9d1dd11d6843a7dffcf",
+      "size": 436452
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-138.wav",
+      "sha256": "ccd69f930905fad0026a53e4becf856a383af883a0b64c24ebfd41ffca8a9ff3",
+      "size": 438850
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-139.wav",
+      "sha256": "c929d801d1f3429d8b373fffd0d7a7f28a68550a65ba24eb977c093a57f1ebfb",
+      "size": 491648
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan/chunk-140.wav",
+      "sha256": "60057fcf0df6e255a67d8d43bdd9964fc45a642879e85d52ada48ce670f93678",
+      "size": 520458
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-001.wav",
+      "sha256": "19054733558003e24db5825fe2ea3eccf4b129c9bc1417f4371ef5bf37b21c2a",
+      "size": 702444
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-002.wav",
+      "sha256": "b502e1164f0467e797ae41bf720a8f63e38345af56bb2ef89c70e19d7d411741",
+      "size": 711084
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-003.wav",
+      "sha256": "ead29d3598199b7d786ece0f8ff6cb6110c0008deee989ac3cc37f2b3edda3c7",
+      "size": 721964
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-004.wav",
+      "sha256": "64c60f679bacbf05f9482d0b5fe63193ab3a940452cd915300f935fe9a4b96ad",
+      "size": 720364
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-005.wav",
+      "sha256": "7298e9465c1f135b5ed18e7d94746526be6f6edb40fabd1205553c5f0f58e327",
+      "size": 722284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-006.wav",
+      "sha256": "a9437fa757db01ac2f986693016cb9c613f3f2670ffecd38a3186780d772f9c6",
+      "size": 661484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-007.wav",
+      "sha256": "3eb84aec1b1f52c93cf6c8291ba0010f2c261010e65ec7c04919b8e17530a81a",
+      "size": 726764
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-008.wav",
+      "sha256": "bd7fe7af5ec9b0f36e5c2966e1015354946bd4ebeaf5a3f924ab369c1f7663fb",
+      "size": 686764
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-009.wav",
+      "sha256": "c38ed6be5d561750f3ba42ee6a979d3cc85bf41ac3c4e316f7cf572acde33eb3",
+      "size": 720684
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-010.wav",
+      "sha256": "d424360f8d46bb51ccd0f896a8471ffb42c45a0c86bba54ce1be9f606f412934",
+      "size": 697324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-011.wav",
+      "sha256": "a49bad56ed908293bd603b6e01fc56999b3053efd28765a8ca88581beb50b2d4",
+      "size": 690284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-012.wav",
+      "sha256": "da4263476c10e9fbfa665ade980c27f1466d3b5fbc071315f49e536ead28c15c",
+      "size": 679724
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-013.wav",
+      "sha256": "e03cd2dde42df240fcc5cff4de354232431e4d2ed77700556c65d468afebc930",
+      "size": 708204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-014.wav",
+      "sha256": "6afab5563f76c5ae48a1e99c1ecec30feee6215249067e5ea3731c152afd56b4",
+      "size": 680044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-015.wav",
+      "sha256": "bf58dbfd2423457481dcbd2a88084a8508bfba60a11df4488dbfbb0b30b5efcc",
+      "size": 681644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-016.wav",
+      "sha256": "784301730380b5bddab7cb5f83a660e8e52c1269c724d597a7c7c68d8010d6c2",
+      "size": 748524
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-017.wav",
+      "sha256": "f8d88d1976baaf0fbba1faaca929bb0a0b2bea1111a50cc5edd865f4ca1f1c20",
+      "size": 698604
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-018.wav",
+      "sha256": "18a6a8e29cf0577ae8564f46984afb8b3a13d4217d0dce3d2c8812519e568204",
+      "size": 698284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-019.wav",
+      "sha256": "edb09fdfa91f1835abdc8aecc6ec2fcd9e6df46de153561c2026fb636d50bee7",
+      "size": 717164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-020.wav",
+      "sha256": "3a370526d5db8c34a43019383704c6054bee10b9eaaf5ebecc046ddf9afb8ed0",
+      "size": 680044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-021.wav",
+      "sha256": "137ae38423e4ae126f2e84fb23f5582575e1bc9ad507c110485589ac14af86cc",
+      "size": 680364
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-022.wav",
+      "sha256": "adf9ad27ea937eda43af2882b8c9e00e1149f1c491e592f23147db9f5f9724e7",
+      "size": 642284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-023.wav",
+      "sha256": "5e0fc84fc5a2f6ba24c16e5e6b0e140510a21026066a8c685f7340bb098329e5",
+      "size": 650284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-024.wav",
+      "sha256": "7f9d0a6cedfda438d288d07be5016ecfac2e2e4bd227927efe44e3829dd51036",
+      "size": 704364
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-025.wav",
+      "sha256": "2894771b2594b495310069cd4ed3122a97ae77cf83d831e1997ce482285c8955",
+      "size": 690284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-026.wav",
+      "sha256": "cd81a4f84f37d6b5fb2b6276fdcab348fc3bda7a9f80911543e7255bf1a46a79",
+      "size": 642604
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-027.wav",
+      "sha256": "1a05e784fe97b53c5bc1336d9fd9a1559d91b890ccdbc731c539841f79bcd625",
+      "size": 662764
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-028.wav",
+      "sha256": "c3ac9a434e7cb38ee764e95e694f9a6cac60301e3b30f372d2176ce93566b1f2",
+      "size": 647084
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-029.wav",
+      "sha256": "92906af49e3c38566969c6bc271078faeda3e89a533d79b4ee3deacbbdc517f0",
+      "size": 709164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-030.wav",
+      "sha256": "b20f80eb6cbff5e739e3294222913afe282bce6a123c5b944ec1c8c909f33a95",
+      "size": 673324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-031.wav",
+      "sha256": "47b6f3d63ac714244fa3c78faa8d3a47d3a88f6e511d368832ee46dd692e65e6",
+      "size": 683244
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-032.wav",
+      "sha256": "597cbc70feb3eabc1218ee19af3da701d3dd2133ea49fda154e21a09aa52f158",
+      "size": 700204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-033.wav",
+      "sha256": "3f81400b166780ba8773cee82704e9f683785ee64aed66ce2dac74215c466960",
+      "size": 671724
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-034.wav",
+      "sha256": "aa89b0798d6aa1e785114d8fe267dc1b443e4c04cdd2ce866a4048314771f06f",
+      "size": 695404
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-035.wav",
+      "sha256": "b7fa9a52051c0a8f4475cccdbd5ad5905bbdbd4c4783b768cac0f67a24c145b8",
+      "size": 628524
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-036.wav",
+      "sha256": "74d10d464dcbd7d539538e89596cdb5d982e90edcada749a9f54eefa193d58a6",
+      "size": 661484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-037.wav",
+      "sha256": "81dd3b71ba8e4c611e0fc2953af51812cabb77ebde8f4d6f55760a457c391ca9",
+      "size": 678124
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-038.wav",
+      "sha256": "5dd6bf455bf130b3bd953bb6acaf0a394429949580c0ba6cab2ce101742b199a",
+      "size": 725164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-039.wav",
+      "sha256": "a64a1dcf3d13c88f9ef3009c6d2a6413c28d6230d2b0fd54a192e6e1087b0a91",
+      "size": 673324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-040.wav",
+      "sha256": "d74c8a78abc90a0e754400227fa5d262b5630c4de3dec5927c8ba2cb3ef12f7e",
+      "size": 646124
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-041.wav",
+      "sha256": "390ff26e1302c9d17de2635568c39be3f095e1dc5caf26585c84caed45bcd8b3",
+      "size": 672684
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-042.wav",
+      "sha256": "0eda6cbeb8fea4730ab0d0b6cf77ce0a94d36a3432cff711b3ccea659eef13da",
+      "size": 709164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-043.wav",
+      "sha256": "3dffb1a9d4c3af2530ea3fdbbaf54f89bc847b6b27f3d4be3d826abcd4e7fe37",
+      "size": 652524
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-044.wav",
+      "sha256": "2e65f71f5a1a0f7e0fff2a08e90ed0b72c108a5c1e0f3b628c0b0abd7f8d3f60",
+      "size": 641324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-045.wav",
+      "sha256": "761f1572935779504e06689fdcc775bc0726c826da9e3ad9c51f12d9c3758100",
+      "size": 700524
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-046.wav",
+      "sha256": "c983f08c863bf932ab3036f9a1aa1a69ad66f2281b08f4cb7a723d6bfa01f101",
+      "size": 672044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-047.wav",
+      "sha256": "0e0efc54c5a1ac95d8e4f4e2108411d157ab26393229c0abc9f67099576c8a23",
+      "size": 674924
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-048.wav",
+      "sha256": "fee17615f52bb7cde010bfa2ced1fcffba88287b79d1cad7ded734ae1f319c3a",
+      "size": 683884
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-049.wav",
+      "sha256": "9604f03e3d4491ca4c8478c1ef56f6130207b645540026a28009c620bb73f054",
+      "size": 685804
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-050.wav",
+      "sha256": "439e2f971a7cfb522e06446bd8ab64809b36a2aad4d317b0cd5f8fcd2ef63a6a",
+      "size": 677484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-051.wav",
+      "sha256": "1e833eb0f74246769d1197601f49a6af3686e95affcd826edd6ef4c90b571a70",
+      "size": 650924
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-052.wav",
+      "sha256": "aa069e096e865ab1d4c46b6a0fd151e0bff644810fc1c34cce3a1e8879cb1933",
+      "size": 637164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-053.wav",
+      "sha256": "6f692a336e1f842ff824e9681359cacbb0175396e9d962a591c3b63093249cb3",
+      "size": 718444
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-054.wav",
+      "sha256": "286fae93c9b4e9ae1e429943a46d32d895fcc082eefb6b3997ffd0a2c7b2c7a8",
+      "size": 693164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-055.wav",
+      "sha256": "f0ed86adadc5ec7ceaff709cf966627d71d502f3f3090df20b85e98f4be8cbaa",
+      "size": 696364
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-056.wav",
+      "sha256": "3370539b91f03e960267464d88c7f3c7d2309273f5624804e2e6c4e2c1c9c94c",
+      "size": 685484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-057.wav",
+      "sha256": "07e014fd9176170bed8d579f0eb2afc450f541a8804599f7cc84c9d45bfaaac7",
+      "size": 665324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-058.wav",
+      "sha256": "9cd519760e24422ae07758319deae7754e42a5070f3666f069aa2ee5b3eb6428",
+      "size": 664044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-059.wav",
+      "sha256": "3398cae6db2f18a1a8e23f64d5557571193e943ebc890ca696cc7771b432e81d",
+      "size": 721324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-060.wav",
+      "sha256": "85d0a28fbab92fe90297b1d73361cccb8495cae9b6a3114298220dad9d5d34fe",
+      "size": 697324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-061.wav",
+      "sha256": "dc43ab96b70d55b1953b1474c9c45f91caef2ec35187ab3d6b89d0a3526f4432",
+      "size": 619244
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-062.wav",
+      "sha256": "a26c9bf62ebd8eecfee5f6cd4e4cb9e9ca2b63537965eded019b5e1b8a494f7d",
+      "size": 610604
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-063.wav",
+      "sha256": "fb10a1e5b33dec68e6e9fc476d17a9ebcb73f463e9c734e30cff7d0e7fb6a5a3",
+      "size": 635244
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-064.wav",
+      "sha256": "8770eca8c1a091a2ac9761077a156436069251787de7a3d010385127c78826c9",
+      "size": 646124
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-065.wav",
+      "sha256": "aa4b8e860c9dcb7acab5d84e3fad717a6c282d82fdf2b801fee2fbccf3a85901",
+      "size": 658604
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-066.wav",
+      "sha256": "b766143a8f1d4e9727e4f0b6374100839f8ca4a2a112717a863e266984afbba4",
+      "size": 620204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-067.wav",
+      "sha256": "af05a3170c5602eccb17baaefd6839375362d8ba53be12e36511ceb6dfe2ef2f",
+      "size": 672044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-068.wav",
+      "sha256": "ebc0bc11e7e73a028b0737f678f84d2e6cd9cbddacd5b3da7b36a852f414c4c0",
+      "size": 661164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-069.wav",
+      "sha256": "cfc0038444ccbd8b2091b37a91ddd67b4ce8243b1d9b09db4c80b8cc588b10b4",
+      "size": 629484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-070.wav",
+      "sha256": "7a98e51a4190181e11dcfdf3cb350890c207c6c00a1cfc057874210d930707b9",
+      "size": 661804
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-071.wav",
+      "sha256": "979c6587c56889f8b2359ec097e93a3ea05739f1a80fd95463d88c53ac019c6c",
+      "size": 640364
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-072.wav",
+      "sha256": "54f0d62b4233b07b9bb825b6fb61a5a25c598b5c793bf38bd1913a45668e509c",
+      "size": 637164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-073.wav",
+      "sha256": "93dfea5de553a35eec2d43e66ad0cc6bcfa8158b9d356c6d5732b35371858458",
+      "size": 637484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-074.wav",
+      "sha256": "4da8f8d98f0a14bf3d383d83076350fab03056deb286c24f7e177f0c378eaade",
+      "size": 681964
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-075.wav",
+      "sha256": "37358f0ddd222c3d0d897148b80e7ebc48fe15a8893a6f53e658f40fa0d3d146",
+      "size": 684204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-076.wav",
+      "sha256": "f521cf626b6b7ea60bbc5d9b699657ea3d19202d40f09e98bc0cf9e0fa3ac414",
+      "size": 649644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-077.wav",
+      "sha256": "1c2e14a19e121cce6a6c8072cf664797bae8503f0f955c10216308d5c714cc24",
+      "size": 634284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-078.wav",
+      "sha256": "ec7a47f8102fb20d113e86231313ed458ee9355bd733d04311f39b8cfcb98bc4",
+      "size": 687404
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-079.wav",
+      "sha256": "6b3a39e15f307c7c5965f858a707c2895e37836def689a48f89fd11c90c758e1",
+      "size": 668524
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-080.wav",
+      "sha256": "d646652a4bf74c955e817ff7896e2a5cfadd8ea127f12176c784e17a681ab044",
+      "size": 624044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-081.wav",
+      "sha256": "412a6580548e896b4e7e5d1de75040d883e101cc41e33416e9d5eeae4ebac942",
+      "size": 619884
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-082.wav",
+      "sha256": "f6cf1acfdea3a74a3ddfc1316924968e60b2df4c44068d919e60d3f12e7ee7bb",
+      "size": 641644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-083.wav",
+      "sha256": "923a2eed2cae0dd12e9d24aa07dca518d8950d3ca299cf120223d988eafec1fe",
+      "size": 645804
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-084.wav",
+      "sha256": "11cdfd2e11148e073c2d2d84c5c73e68a7831574159013eb5a7e6493c8f12c72",
+      "size": 627244
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-085.wav",
+      "sha256": "ed7621d3faf33f26dd1f849fd4400472bf07f77e448aeaf636c304a0ddc8d106",
+      "size": 609644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-086.wav",
+      "sha256": "d2d9843f3c29b79fb14ec736d8443ee4cf1dda86c47ec2dec3c103a58e799ccf",
+      "size": 650284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-087.wav",
+      "sha256": "23026a0d855ea54b96f75400c2a335a6d28573ce8b9e4163e9ea3cf35652ade6",
+      "size": 647404
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-088.wav",
+      "sha256": "2e29c7d1bb5e81c2ed6610a051eab3827e2c3ee591ff28b395ad0876860f3cf4",
+      "size": 662124
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-089.wav",
+      "sha256": "5bdf7bda5c8e5b0fc29d3f9fc22fadf2962b0234e542a381c1655dd6448781db",
+      "size": 677164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-090.wav",
+      "sha256": "d13a44473a75fc6b1837376d0bb8a919724ccdb30ce0d283496caad1e2f12914",
+      "size": 640684
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-091.wav",
+      "sha256": "97ff6c2bef8073e6d5b5a5cb78f5c643d8cefedfa8d1e14992c0f480e3503faf",
+      "size": 647724
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-092.wav",
+      "sha256": "db2738b49a56b2a3dbac101831a88f5c94ad376610b6c9c4184622b343455279",
+      "size": 663724
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-093.wav",
+      "sha256": "29e6eb346a7c8ea86f0c7fe6b78f728da9bfd9dd874c1bf691cfd35da274dcc5",
+      "size": 627884
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-094.wav",
+      "sha256": "66a25ad371a529826b4b1889afcfb41d0464cefca29085ba8d800bbeb5819cbc",
+      "size": 697644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-095.wav",
+      "sha256": "17b7885e83ccee23a103dbf6a15e0b5971735de2e4302d6c12dad9dde9619642",
+      "size": 657644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-096.wav",
+      "sha256": "74706325ce939103977694537349a0783b4e5291a09a9e292eb1c61569f6bef6",
+      "size": 655724
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-097.wav",
+      "sha256": "5e40ecdaf13ceedf6fec341c51299cccd4287a4bb755df2a58c930b55179ef9c",
+      "size": 651884
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-098.wav",
+      "sha256": "fbb8196870d7448de451d38780494b191b3a0bd5b76939e75a9004b81a86bead",
+      "size": 638124
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-099.wav",
+      "sha256": "8bfd8db6541217c54dd3897800d53053b8d9558bc5f2d7b9bc7a5b93b4aa4d16",
+      "size": 636204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-100.wav",
+      "sha256": "9178cdd7a53665181913fd979add01ed86d36d69eff0338d071e8f73414ee099",
+      "size": 626924
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-101.wav",
+      "sha256": "ea39b28d6f1b007cc76417179b37927ca9268b94f2d01309f92e92e5d41360eb",
+      "size": 665004
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-102.wav",
+      "sha256": "88709521cf26bbc6a6d553f5741ad0a02e168ec6c9454b63578878630bf64574",
+      "size": 636844
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-103.wav",
+      "sha256": "0e9b8dd224776ed0ce2e6490a126cdb305accfe9229aff63ea8b1563afafe4a2",
+      "size": 657324
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-104.wav",
+      "sha256": "e3d063d2050937c8aadd373d4f4e07e08a3be39a2b2d144d70b45ec94acbc24d",
+      "size": 655404
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-105.wav",
+      "sha256": "f17b89aea30931c6b159c343c740e9bf3a7133dda084045bfc3e7d1d172925f7",
+      "size": 693484
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-106.wav",
+      "sha256": "bb3f3a0b87bb76357c80c61499d66064a66464ed379b23f244290076605f6da1",
+      "size": 669164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-107.wav",
+      "sha256": "a849bdac35f484db4e558d80529b1149ce4a87323c2467f268dbd964b8bebfd4",
+      "size": 609644
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-108.wav",
+      "sha256": "af56ee2c6e6fcff1f0e78bd55b2438c1558125e98b478fa0598864ca3b6d6d19",
+      "size": 676844
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-109.wav",
+      "sha256": "164f33465916b1c5037ac74858ebd963a929292c4d71afccef61b05677e658d2",
+      "size": 683244
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-110.wav",
+      "sha256": "203a2b23fcbba1979f9a075ec868309083213e9ad5d1e9be038401fc4f38b5bd",
+      "size": 693164
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-111.wav",
+      "sha256": "1e9f1fcc67f63246dea96a7862b613262757ee66e0502a7070a971cefaea5286",
+      "size": 634284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-112.wav",
+      "sha256": "f4609b6da146138dabf3dd7e75a5a5cad449bbf7aa45ae7c8c3985e8368070cb",
+      "size": 672044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-113.wav",
+      "sha256": "bdbe10c1455c5094f3c0169589ce82d23ffc9bf9200ec0aa09f70be52888c4ca",
+      "size": 660204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-114.wav",
+      "sha256": "a6875fc4a2b2e19a969b8295ff8d859079f05a96e4f36ca3c28fca62fc12346a",
+      "size": 618604
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-115.wav",
+      "sha256": "9509fef98efb2299f84ee492793845208389fb2cc5f61fd7d5e83b44e183070c",
+      "size": 628204
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-116.wav",
+      "sha256": "e5cc1ed82da0ecfd9fa77665fbdc8cf03e1385410935d8c0c4cfc5f967b54ba5",
+      "size": 642284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-117.wav",
+      "sha256": "b0b53ce952f89f8ce8a43dd73425a683f7b63879c194d24313f7a5e1a926f583",
+      "size": 642284
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-118.wav",
+      "sha256": "a0461504499a6761bbac8ec87eed12feadf061472e343e53865712c26c7a9cde",
+      "size": 657964
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-119.wav",
+      "sha256": "4cff18947541aa6bea238cd3fdaea21f8c269e8e98375179e95bd3647e09bfda",
+      "size": 664044
+    },
+    {
+      "path": "src/assets/pronunciation-us/chunk-120.wav",
+      "sha256": "9bec942551bbe07f19f46ca29534fa9dfaf98dc734ec9567c2e4a4b9cf5e1b64",
+      "size": 698284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-001.wav",
+      "sha256": "30ac5f6e7395f089f02ce08a77d91eb34589aa05108c90994eb14dcf3b7ea831",
+      "size": 615404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-002.wav",
+      "sha256": "aeca6cf45ec85916504bcad078beb3a896bfcf7fabb291917802e0c1724c2dd8",
+      "size": 602924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-003.wav",
+      "sha256": "064146cd19c9dffd710e1aaa7b90095ed6c39beaf575cfcceecd37daeba47d53",
+      "size": 630444
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-004.wav",
+      "sha256": "51b7672ce0beda3928afeb52bd23d399638adeaed5550646b7daf0b9a9849d6d",
+      "size": 616684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-005.wav",
+      "sha256": "c99b6979d35a8f6feae30f2520852bcb1e842196e84f5b458501656ebf5ccab4",
+      "size": 629804
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-006.wav",
+      "sha256": "93f7e5a8568a6653b51555afd490e0e4be694d05ae102ea178e8cd1e7b8f8d0d",
+      "size": 620844
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-007.wav",
+      "sha256": "f6ce11959404197dbacbb66a8dd1d8255f6b602bd1b71a9b4b5d7479f3bb32ae",
+      "size": 583724
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-008.wav",
+      "sha256": "19463561c0d8aa1d3082fe859cfb11489502ba11b5082b9c88acf3e83cdcadf8",
+      "size": 617324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-009.wav",
+      "sha256": "969ddfebdfa1e4ff4a708a97581baa4789fb1193c96f882024732d43c377ab0c",
+      "size": 629164
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-010.wav",
+      "sha256": "11ce954ccbbb435a77194b75da237a0a329ec8148258c6c2244d3aa143a3d989",
+      "size": 657004
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-011.wav",
+      "sha256": "71cb39cbd09a0d7c23ffe8c5161019126005a3fa3f54070119004739fc8234b8",
+      "size": 633324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-012.wav",
+      "sha256": "1525442616ef58febba41509ae26588f1f9edaec733f161daca895d20a02b45d",
+      "size": 666284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-013.wav",
+      "sha256": "9f0294255cf7c35fa06426ade652de77dfd1886cc0610085616f6952e93e5b11",
+      "size": 660204
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-014.wav",
+      "sha256": "48a1fd833cb970d07fe98f3930826718405c38527a3bc835dc57f79ad473a625",
+      "size": 663724
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-015.wav",
+      "sha256": "4e87c80c42929f5d04883b247cc36186cfb645e3fe791a8056066a27a572d7be",
+      "size": 642924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-016.wav",
+      "sha256": "423e9aecb42243424bdd85764f131dc9921f7218fcd6f5e5c70a7f2cee035374",
+      "size": 638124
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-017.wav",
+      "sha256": "d90193a9b4462b69ac31a1c99a5eb531b7495612168c4405c057806294c7d8af",
+      "size": 650284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-018.wav",
+      "sha256": "49bafd9e5e4c8a1efe3e33fcbdde729c802328825b15767bc1fa7a95ca5489fb",
+      "size": 634604
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-019.wav",
+      "sha256": "e66678aa88db30791ec7fc97d58975204a86ada3d4830e9eed0a1097178ea355",
+      "size": 653484
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-020.wav",
+      "sha256": "32fb007d9560c65104df6c6449045b80ced4cc35f5b59377a57161dd222b530a",
+      "size": 661804
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-021.wav",
+      "sha256": "2c9bcd461e20fe6e78827221828e81677483cd2c4b3527b780741cfa5bd790a3",
+      "size": 615724
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-022.wav",
+      "sha256": "b315f8609d4b5b4f9a9316afde9d3cc803d229e13da707dc383a97d696b60289",
+      "size": 616044
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-023.wav",
+      "sha256": "5489de326a698f6a7634b4661dc7e603cba4444921d9977a09761b478cf06c22",
+      "size": 598444
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-024.wav",
+      "sha256": "b4783ab87e5c6059e289610526c823943d25f518da87d66f57ec1077b5bf2c05",
+      "size": 595884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-025.wav",
+      "sha256": "a9ffeacc831d12bedadd72b0b4562f4f8df06d1f41e802860efff5d2f07ad801",
+      "size": 630444
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-026.wav",
+      "sha256": "42812e60bce5ee1d4565a379955446a67720afb65c83982c34995de6730c54b8",
+      "size": 603884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-027.wav",
+      "sha256": "65d92024624c61be251e4e1a73a97a86ed2b5976af33706dde5d7c786fdd629c",
+      "size": 628524
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-028.wav",
+      "sha256": "e2f121e2d8db2fcdc17ca7f4ebae20f7208fa0772637d5132a71d171b4b16043",
+      "size": 632684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-029.wav",
+      "sha256": "d73c05e98dfbc8127521b778dc68e98559bcc09df3af115e84bd61d4351d7334",
+      "size": 657004
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-030.wav",
+      "sha256": "832ea6a1d8101ee60c5dd17ca1de7862b703c66fa0ef8b36a5d1674b8e626c76",
+      "size": 612844
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-031.wav",
+      "sha256": "22e2694ab6e8403129c00bfd176cd8816c56568117f2fdb6c9faa194b9c36561",
+      "size": 621164
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-032.wav",
+      "sha256": "5aa371effb9838a2fd13b9ec25dd5b7ae07ee760a5dbbad37cf293a0b0e85168",
+      "size": 650284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-033.wav",
+      "sha256": "aeecc65660b0a620238f1a0cd7ece6d7d879b37e7f9b2a53773cbb74a685defe",
+      "size": 659244
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-034.wav",
+      "sha256": "442fd4d45b42008217f93549f7fecdff4a6868934e77231de3743dbca34d7715",
+      "size": 677484
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-035.wav",
+      "sha256": "49bcdbeefeeab38e6a400f049ab0c4d3f73dbf89e5b9a749e35f7d0ba5c06192",
+      "size": 680364
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-036.wav",
+      "sha256": "234a76b1e51153e3fb4db9ccd4d8a1d531dd3713d2e09e939942380ce85ee7fb",
+      "size": 636204
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-037.wav",
+      "sha256": "5c88f9f500679be8c7516d2f5de7b552bb71450db572fa3605487033d04274d3",
+      "size": 711724
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-038.wav",
+      "sha256": "938e8bd4c810e42643f55cdd56e3da956f3293f0dc522ce1a5db869b76b62114",
+      "size": 650604
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-039.wav",
+      "sha256": "657148d2e07d3cb5900be9470fdb8cb0e772bd2f73a93c6c67454678c50b0cc8",
+      "size": 640684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-040.wav",
+      "sha256": "1dd5b0a32f660128a8aef64dfb3c8f57ef6460fa014177d5a73774e366db4945",
+      "size": 648684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-041.wav",
+      "sha256": "89ae182b84baa4ac2a1a45b897910836a4524bce093323fb6fe988eee8c9fa26",
+      "size": 650284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-042.wav",
+      "sha256": "3534c38b726bc7de3baea2c9f6c42db070734dfc27b7e6179cfd28cad9aba4bd",
+      "size": 627564
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-043.wav",
+      "sha256": "317434ae6990ce6be19643339d01a5231b9bc320067e6660ac64a72d3a3b5c44",
+      "size": 615404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-044.wav",
+      "sha256": "5551bb6ac0de1a1fddb4017706366d6cb3ba2a748de507e845fb15fd876f39b3",
+      "size": 635884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-045.wav",
+      "sha256": "1d8723ad5dd7eb2bbe77e441f1f8d24b61e635161920e7eb8c971ab3115d005e",
+      "size": 636524
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-046.wav",
+      "sha256": "e51c82dd3baaf0857b02a39dfe0ad6449d4ae69ecc6ccf6380e6687815bab42c",
+      "size": 643884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-047.wav",
+      "sha256": "46185fdb0afb39441189a0f5d6a08ad80233ca754299bc626027cd96cbd3c5a2",
+      "size": 649644
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-048.wav",
+      "sha256": "7574b530f5b8731c1015ce88a4621ca2e78e6f1f9285848ae8c4802de491c936",
+      "size": 585324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-049.wav",
+      "sha256": "9fc2a52d5accbbbc68b89f2c2f15d66718c88c97cff2eebbb816ba2a33f7d7d2",
+      "size": 645804
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-050.wav",
+      "sha256": "a925b8240e14dda7a6ad5713c0bd368b00e487d05316247a483cca9d455b5bfd",
+      "size": 632684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-051.wav",
+      "sha256": "15c57af547f136a8c9b7f876bd9f3f8e193962d798d8dc642670a77838045e33",
+      "size": 591084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-052.wav",
+      "sha256": "25cf1f0f4e8bffe6beef32287ee123f6cfe858fc74436242aeeb44c1f1f99341",
+      "size": 627884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-053.wav",
+      "sha256": "b57706abe3812693f0a08c8ba7c0d690c7ce2ae64ee56aa757d3a20aede22b8c",
+      "size": 607084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-054.wav",
+      "sha256": "590288b0c3c35e58c2c9d26d2c1ea7462a5b4298102229769696f834220c4335",
+      "size": 614764
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-055.wav",
+      "sha256": "09d679aacbae51f2c347632f9c95240b5350383fbbfba3ff513ce22d8775d803",
+      "size": 630764
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-056.wav",
+      "sha256": "317fce438af4c7d7ee34dd1258971c27ec9430cc770800deb81c212dcc506385",
+      "size": 628524
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-057.wav",
+      "sha256": "7a207a672adf6b0c45b18e1f9f26b8e5699fd8e69a560dcb8e06bfe3135ee9e8",
+      "size": 607084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-058.wav",
+      "sha256": "6f738ebdca1579ba8925f93f001fab674060f0ed80bbaf209bd5b90504622411",
+      "size": 639084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-059.wav",
+      "sha256": "a1a8c48becc1b6119b4cd2685d409ea42000eda7f6ee0a8b52b13d258d2f413b",
+      "size": 637164
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-060.wav",
+      "sha256": "c6ad8f6853de5d9605553a7d4d0105ad5bac9180a4520f0bcf1b0d1ddfda08a2",
+      "size": 608044
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-061.wav",
+      "sha256": "2f15bd6b54aa336810fbeea403807af2e2936e72fdac5b1bd35b0819e4c7b7f6",
+      "size": 570924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-062.wav",
+      "sha256": "335e5fb1444a82d411b249d8800201c01a186466f7d7cbac594032b926b978a7",
+      "size": 618604
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-063.wav",
+      "sha256": "5cf089b1c84296bf4703e0db54e18cf0b643380c197292b6fd71d9a611eed3f3",
+      "size": 646124
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-064.wav",
+      "sha256": "776760f1d270c9b984013c5aaec4eb7e5540314ff49321ac8f27871f605d58cb",
+      "size": 638764
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-065.wav",
+      "sha256": "27c04edeb05a206301e2cb60f7381332b1f619a92ff1190b7aaa007ff325d737",
+      "size": 712364
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-066.wav",
+      "sha256": "96336dad769c62979af255813168926c2eaddf8e980ac24982d02e3a97e0fe1f",
+      "size": 655404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-067.wav",
+      "sha256": "b9b1672c5d626ca2eaea5f9a0a7ac0bb6a0727746d5208736bf599a85a7a1f05",
+      "size": 674284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-068.wav",
+      "sha256": "949feef406b5eb3f7dd07228c7d4ddb8cc3a52bcb9b86cc334ebcea2e3b04964",
+      "size": 652204
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-069.wav",
+      "sha256": "fd6eb73bd0e0eff29f8e36ab744297245eb78800416fb695315ac9e759bec886",
+      "size": 670124
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-070.wav",
+      "sha256": "b53136914a9f9dbfdf06eeda57b938193fcb5412e5c4b17bc5e1dac42a70fdcb",
+      "size": 659564
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-071.wav",
+      "sha256": "40014b63852bc67554e4aeaacb42f4c81616e9f06027cfa6bf57dbba0130c534",
+      "size": 591084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-072.wav",
+      "sha256": "abd0427c1c7f28d36bd583efdc68d95958083bd6de84adee4308bf03e341ded8",
+      "size": 616044
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-073.wav",
+      "sha256": "a04a878e8460aab55a09eaae7f0bec2b2e996c932452cb873b81434d4f78759f",
+      "size": 640044
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-074.wav",
+      "sha256": "fb15147395b119cab06edd59cff4e03105889d93b229b08854ec2b663e03da0c",
+      "size": 631084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-075.wav",
+      "sha256": "11dc19c229e8da17433aef55a88b6e96b2a48b010e7505710229c51d22473c9d",
+      "size": 641004
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-076.wav",
+      "sha256": "71cb3a942f6d0132d926535e1237899730823b1140cee6aff30f0178d106be70",
+      "size": 691564
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-077.wav",
+      "sha256": "7b592f27340e93c72c21f824a19990157fb8bafe20f2b2a647c0cb594603c7b6",
+      "size": 671404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-078.wav",
+      "sha256": "3023cde72cfa8cee31c97ca799656ed3d63a374fca71436a6fddbfb44c0d75c4",
+      "size": 641324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-079.wav",
+      "sha256": "c33cfee381f059062bae3d56fda2348c9d5f5ff6972bf6f8c16456d123d6d30b",
+      "size": 617644
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-080.wav",
+      "sha256": "28d98f80e1d047fe786dd7f12a496811eeb01310418d243b131657acdd50bdc5",
+      "size": 606764
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-081.wav",
+      "sha256": "12f07ac822ce7d552e57acc2962d420ae3c534e9d6405df5a3200be86b22a7c7",
+      "size": 594924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-082.wav",
+      "sha256": "de75e2762df7a4f63254bbf11e4a0d8a722f25bf6ee7e119b3fc4c8a68b6e9ea",
+      "size": 621484
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-083.wav",
+      "sha256": "41ba0a90a2def9ef29e84fe0f29ea19941629de1b6a04d75797eeb1609e0f235",
+      "size": 613804
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-084.wav",
+      "sha256": "28bcb8dd5cdde534b26dad06f29dff82aed4a5d129d9bb26587a49ec50f55d17",
+      "size": 647404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-085.wav",
+      "sha256": "7adb38b6dafe2cbd8776a1ca88610213b338f84a442a6ebcc02f785700edafbc",
+      "size": 606764
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-086.wav",
+      "sha256": "15025009197fc1939bd25fe14f458d12b2d3e0a8e964c25d8629a2f9e1e1db46",
+      "size": 608364
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-087.wav",
+      "sha256": "90cbbf64c585d6724ac47dd1f34147eba091a4d5e6f23760dea5ad4bb620ef2f",
+      "size": 572844
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-088.wav",
+      "sha256": "698dbda8357fac40114b8748e736125ccd3c03d62441ff3f5c134e1708fe23f8",
+      "size": 648044
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-089.wav",
+      "sha256": "a0a2c431a06aa4446b5f7c968b56af26048cb45f2319e7193910646238dcf527",
+      "size": 700844
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-090.wav",
+      "sha256": "14b5299c7d22974cae857b3dc7fbe8e2048408edac6a96889258dc2fe973da34",
+      "size": 681644
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-091.wav",
+      "sha256": "8ce5ba7f9217efd048298437019436be00b99cc1bce70e5f939f8b905666705d",
+      "size": 664364
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-092.wav",
+      "sha256": "c096259cee351485a746ef86775a61df816239e8c06c0f4dcc4bce00aea501d5",
+      "size": 688684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-093.wav",
+      "sha256": "3a796fc55e6aef0fc0dea20a0500c73d2e78b4a7339a68290b192f31f0422aac",
+      "size": 697324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-094.wav",
+      "sha256": "4c9766ff6bfe08e284fed514548d3cf85b513e31e9fd892a16bd9cf4ced2b22a",
+      "size": 690284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-095.wav",
+      "sha256": "3308b0c2ee92f426681a6064776d0abf9a25af7efe3cb2e3cabb32f259cf35a5",
+      "size": 692204
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-096.wav",
+      "sha256": "a201c04f88fb892ed8bb6640a076fe489f3c15144d420b357d583b4c58741396",
+      "size": 676204
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-097.wav",
+      "sha256": "6d2052ea901c9158608137d779e9a2c8a95f818517bbe22ea3fe9673a8d98aa7",
+      "size": 657324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-098.wav",
+      "sha256": "21281ad83334d7fb342ea7823483c4a2b8cc68e22186c521b6333d971c43f63a",
+      "size": 657324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-099.wav",
+      "sha256": "b492413f0fcbe2592150541b3e79a760f62897875c821a4ded0bda2a1a44e92f",
+      "size": 654444
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-100.wav",
+      "sha256": "a662c232c381a839fff91b3295482b3cccc65a2fb783e4dc5698c44d81043024",
+      "size": 649004
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-101.wav",
+      "sha256": "52860b85eaf4babcd4b0a011440cedc7c5b48cbb3700f3a5613a97353ec1c9ad",
+      "size": 642924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-102.wav",
+      "sha256": "346a02e99ee150a4267111be5dc0b80aa9ca2b349619bf4b8f121eb3a72dea9d",
+      "size": 690604
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-103.wav",
+      "sha256": "25d4b318ff4ab286bb1c9662debdbdbec4556022962f74d5399fb125fee2d15f",
+      "size": 655084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-104.wav",
+      "sha256": "a4e0a1e4b9feb47c24936ec2e5291af611581c1bbea9b046122fd7b821a18fe9",
+      "size": 623084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-105.wav",
+      "sha256": "dac49934032dd83c84f15ffc6c568aaea8dc69b7125d08b043608fe3b64997e5",
+      "size": 689004
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-106.wav",
+      "sha256": "f204a05384004afde58f426a0ee4b01dbde07d2247f4169b3fa1c698a5261c88",
+      "size": 640364
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-107.wav",
+      "sha256": "4ad00404d0836d0f2494f82e55dd16c8025ce2aaf4deb7736120714d9ad1f081",
+      "size": 675244
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-108.wav",
+      "sha256": "fda5901d28e99385cd2e9cc6de4feac09cf271cc3776c25aa43261a78881107d",
+      "size": 646444
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-109.wav",
+      "sha256": "bd5454ce8ec438ac467276ca58beab287e1a34699209e6b4effea6cbec491d8f",
+      "size": 649004
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-110.wav",
+      "sha256": "5519cb6594fa32d376eaf618f3b1af5c34af69709f9323abfa4b9a1884400377",
+      "size": 663084
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-111.wav",
+      "sha256": "8224f5d127b13d700473df36db216c6f37f3b5fd61284e1e73887e078d713d92",
+      "size": 641964
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-112.wav",
+      "sha256": "6da3ce9d193776073a588ee5705b613d0a0aa451cdd74b18969d1b9eb1597b7f",
+      "size": 642924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-113.wav",
+      "sha256": "3ac849884241f9aed29671c4b28e9ae8b77e002b6167bc4c4aaafc45dd9c46f3",
+      "size": 632684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-114.wav",
+      "sha256": "f93434c4087028458a31df4b8d64ee7a4d6bf3290122b10f390f4ff644c26afa",
+      "size": 647404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-115.wav",
+      "sha256": "98e56826f38bd85a1172f406cb77981bb73cc337a6860a9b5d44beec24bd8ec6",
+      "size": 641324
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-116.wav",
+      "sha256": "9d7eefcc76474fe2b8ab5ee3edeba5b6a2ff829ab8aa814444c887d426a9f728",
+      "size": 639404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-117.wav",
+      "sha256": "193ee09308beb99282b01eec2bbcb02177754d4f26d6d52dca1f594e38300c6d",
+      "size": 651884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-118.wav",
+      "sha256": "975dc1fb7a744afa9121da7c6a44cf6936ed6ff88fb680a55c3cbc474b384d5c",
+      "size": 655724
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-119.wav",
+      "sha256": "8aafefe39e217b1664aec1f95ce61f169a2fe28ec7b3655e490dfaaf985f744f",
+      "size": 659884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-120.wav",
+      "sha256": "d1df7852dac508c83c880a47aa384794977f6299030c21a2393810d10dfd47fa",
+      "size": 637484
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-121.wav",
+      "sha256": "246e2e8dad6ee18335a814e9cd326f7d02bef73d99af1f3b68b8a0e1d4ac417d",
+      "size": 671724
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-122.wav",
+      "sha256": "91d49cecf580b08e15b14ebaa51aad0351082e229d2b9185e95dfe6af57fa853",
+      "size": 634924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-123.wav",
+      "sha256": "2c17541755fe9863458d09e37f13a63c120d7cf7aeae42cd45b14e183184d5c6",
+      "size": 639404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-124.wav",
+      "sha256": "b34971e6077be535f6cbbeff9d2e5905d31f510d2ba1171e88cfb88cfd22c3c7",
+      "size": 661484
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-125.wav",
+      "sha256": "08cbadd75c9bb4441f7bc0b7039f7199e5319ced03520eebe4f4eb65f5f83c13",
+      "size": 667244
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-126.wav",
+      "sha256": "3887718a3951bccb11bd865663ad9a7ac29ae4c6eb2a0e95d9a473523eff2df8",
+      "size": 632684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-127.wav",
+      "sha256": "8a913aea110d510af0f4e49ed26fb1e188ce701a78dcb055125628d0e7ca80f3",
+      "size": 689964
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-128.wav",
+      "sha256": "3c60c3b1e6e324f121f82932abe26b7f0142b5e9e9f906d14d6c658d86b46362",
+      "size": 649964
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-129.wav",
+      "sha256": "8fd2c3b82b006e10122808cae70663245d8ac2c03c4237fefb2d1ee0e57add24",
+      "size": 629164
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-130.wav",
+      "sha256": "9d21907c1da986a1472d66acf1bb9b5899fd7edb2c6ab9cc99f1bb13a508f0d4",
+      "size": 642284
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-131.wav",
+      "sha256": "a27e0e357deef05bfdc70f55bc89262f9c62555012f716864180ca00c0700520",
+      "size": 663404
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-132.wav",
+      "sha256": "7e3b5160836813a9eb47eca096800ab14f6853af4367cc18ee89f37dd0768300",
+      "size": 611884
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-133.wav",
+      "sha256": "ba13e8d55b5c3bac0749ba2f501c23466df4abf46887ab0eb2a1f7fe42543aed",
+      "size": 644204
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-134.wav",
+      "sha256": "08d320bd234d58d5df06af48f712e5e1819cb7f1aa5dc6aebda316d627933062",
+      "size": 669804
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-135.wav",
+      "sha256": "599d1e96c8b98d046188e31179a9ab0f9032285597a4605a8c0b6f2f684d3a5d",
+      "size": 658924
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-136.wav",
+      "sha256": "6839da033b515a6fcbb0175e85160258927afc5413f00f8004998294e28aa76c",
+      "size": 630124
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-137.wav",
+      "sha256": "3252b0a821516e19ce29657ab1520218646b70f09eb92c8e629eea1e29b6b8cd",
+      "size": 616684
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-138.wav",
+      "sha256": "40ae27f48234c6be94ad2be8471b01ae50e639a99a5054a99dc86eb3f8225918",
+      "size": 611244
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-139.wav",
+      "sha256": "f505d69074dfd2ce5a2e61e4f62e076f1487149c2b0fa923e7c870ecfbdf2cbb",
+      "size": 664364
+    },
+    {
+      "path": "src/assets/pronunciation-kaoyan-us/chunk-140.wav",
+      "sha256": "3af8a4666fb7de0c72bc068d5a74cdf0a133a72554d4fb6044182e89a3f18374",
+      "size": 655404
     }
   ]
 }

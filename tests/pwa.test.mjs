@@ -103,17 +103,22 @@ test("logged-out users authenticate on Home before opening learning routes", asy
   assert.match(app, /if \(!currentUser && PROTECTED_ROUTES\.has\(current\)\)/u);
   assert.match(app, /function renderSignedOutHome\(\)/u);
   assert.match(app, /登录后开始学习/u);
-  assert.doesNotMatch(app, /<div class="settings-grid">\s*\$\{accountCard\(\)\}/u);
+  assert.match(app, /<div class="settings-grid">\s*\$\{accountCard\(\)\}\s*\$\{bookSelector\(\)\}/u);
+  const dashboard = app.match(/function renderDashboardHome\(\)[\s\S]*?\n\}/u)?.[0] ?? "";
+  assert.doesNotMatch(dashboard, /accountCard\(\)|bookSelector\(\)/u);
 });
 
 test("study cards and vocabulary rows expose click-to-play pronunciation", async () => {
   const app = await readText("src/app.js");
-  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=6"/u);
+  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=7"/u);
   assert.match(app, /data-speak-id/u);
   assert.match(app, /data-speak-word/u);
+  assert.match(app, /data-accent="gb"/u);
+  assert.match(app, /data-accent="us"/u);
   assert.match(app, /播放 \$\{escapeHtml\(word\.word\)\} 的英式发音/u);
   assert.match(app, /event\.stopPropagation\(\)/u);
-  assert.match(app, /await speakWord\(button\.dataset\.speakWord, \{ wordId: button\.dataset\.speakId \}\)/u);
+  assert.match(app, /accent: button\.dataset\.accent/u);
+  assert.match(app, /preloadPronunciation\(word\.id\)/u);
   assert.match(app, /发音资源暂时无法播放/u);
 });
 

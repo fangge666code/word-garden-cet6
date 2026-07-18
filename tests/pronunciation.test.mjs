@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { nativePronunciationPlugin, selectEnglishVoice, speakWord, speechSupported, webAudioSupported } from "../src/lib/pronunciation.js";
+import { nativePronunciationPlugin, preloadPronunciation, selectEnglishVoice, speakWord, speechSupported, webAudioSupported } from "../src/lib/pronunciation.js";
 
 class FakeUtterance {
   constructor(text) {
@@ -92,11 +92,31 @@ test("native pronunciation remains the final fallback", async () => {
   const nativePlugin = { speak: async (value) => { calls.push(value); return { locale: "en-GB" }; } };
   const result = await speakWord("wooden", { nativePlugin, engine: null, Utterance: null });
   assert.equal(result.source, "native");
-  assert.deepEqual(calls, [{ text: "wooden" }]);
+  assert.deepEqual(calls, [{ text: "wooden", locale: "en-GB" }]);
 });
 
 test("British voices are preferred", () => {
   assert.equal(selectEnglishVoice([{ lang: "en-US" }, { lang: "en-GB" }]).lang, "en-GB");
+});
+
+test("American voices are preferred for the US button", () => {
+  assert.equal(selectEnglishVoice([{ lang: "en-GB" }, { lang: "en-US" }], "us").lang, "en-US");
+});
+
+test("mobile preloading decodes both accent packages before the click", async () => {
+  const audio = fakeAudio("preload.wav");
+  const accents = [];
+  const loaded = await preloadPronunciation("cet6-001", {
+    audioContext: audio.context,
+    fetchFn: audio.fetchFn,
+    accents: ["gb", "us"],
+    clipResolver: (_wordId, _baseUrl, _scope, accent) => {
+      accents.push(accent);
+      return { url: `preload-${accent}.wav`, start: 0, length: 100 };
+    },
+  });
+  assert.equal(loaded, true);
+  assert.deepEqual(accents, ["gb", "us"]);
 });
 
 test("support detection covers Web Audio, browser speech and Android native speech", () => {

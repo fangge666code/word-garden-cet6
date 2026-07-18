@@ -20,7 +20,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { speakWord, speechSupported } from "./lib/pronunciation.js?v=6";
+import { preloadPronunciation, speakWord, speechSupported } from "./lib/pronunciation.js?v=7";
 import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";
@@ -373,10 +373,6 @@ function renderDashboardHome() {
 
   main.innerHTML = `
     <section class="page">
-      <div class="home-account-bar">
-        ${accountCard()}
-      </div>
-      ${bookSelector()}
       <div class="home-hero">
         <div>
           <div class="date-chip"><span aria-hidden="true">●</span>${dateLabel()}</div>
@@ -417,8 +413,6 @@ function renderDashboardHome() {
     const next = { ...data, session: makeSession(WORDS, data) };
     if (commit(next)) location.hash = "study";
   });
-  bindAccountActions();
-  bindBookSelector();
 }
 
 function statCard(label, value, icon) {
@@ -488,6 +482,9 @@ function renderStudy() {
   const ratings = document.querySelector("#rating-row");
   card.addEventListener("click", () => flipCard(card, ratings));
   bindPronunciationButtons();
+  void preloadPronunciation(word.id);
+  const nextEntry = session.queue[session.position + 1];
+  if (nextEntry) void preloadPronunciation(nextEntry.id);
   ratings.querySelectorAll("[data-rating]").forEach((button) => {
     button.addEventListener("click", () => submitRating(button.dataset.rating));
   });
@@ -582,17 +579,42 @@ function wordRow(word) {
   return `<article class="word-row"><div class="word-row-copy"><h3>${escapeHtml(word.word)} <span class="pos">${escapeHtml(word.pos)}</span></h3><p>${escapeHtml(word.meaning)}</p></div><div class="word-row-actions"><button class="speak-button" type="button" data-speak-id="${escapeHtml(word.id)}" data-speak-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 的英式发音">🔊</button><span class="state-pill ${status}">${labels[status]}</span></div></article>`;
 }
 
+function pronunciationButtons(wordId, word) {
+  const id = escapeHtml(wordId);
+  const text = escapeHtml(word);
+  return `<span class="pronunciation-actions" role="group" aria-label="${text} 发音">
+    <button class="speak-button" type="button" data-speak-id="${id}" data-speak-word="${text}" data-accent="gb" aria-label="播放 ${text} 的英式发音"><span aria-hidden="true">英</span></button>
+    <button class="speak-button" type="button" data-speak-id="${id}" data-speak-word="${text}" data-accent="us" aria-label="播放 ${text} 的美式发音"><span aria-hidden="true">美</span></button>
+  </span>`;
+}
+
 function bindPronunciationButtons(root = document) {
+  root.querySelectorAll("[data-speak-word]:not([data-accent])").forEach((button) => {
+    button.outerHTML = pronunciationButtons(button.dataset.speakId, button.dataset.speakWord);
+  });
   root.querySelectorAll("[data-speak-word]").forEach((button) => {
     const supported = speechSupported(window);
     button.disabled = !supported;
     if (!supported) button.title = "当前设备暂不支持单词发音";
+    button.addEventListener("pointerdown", () => {
+      void preloadPronunciation(button.dataset.speakId, { accents: [button.dataset.accent] });
+    }, { passive: true });
     button.addEventListener("click", async (event) => {
       event.stopPropagation();
+      document.querySelectorAll(".speak-button.playing").forEach((active) => active.classList.remove("playing"));
       button.classList.add("loading");
       button.setAttribute("aria-busy", "true");
       try {
-        const result = await speakWord(button.dataset.speakWord, { wordId: button.dataset.speakId });
+        const result = await speakWord(button.dataset.speakWord, { wordId: button.dataset.speakId, accent: button.dataset.accent });
+        if (result.ok) {
+          button.classList.add("playing");
+          if (result.node) {
+            const ended = result.node.onended;
+            result.node.onended = () => { ended?.(); button.classList.remove("playing"); };
+          } else {
+            window.setTimeout(() => button.classList.remove("playing"), 1200);
+          }
+        }
         if (!result.ok) showToast("发音资源暂时无法播放，请检查媒体音量或稍后重试");
       } finally {
         button.classList.remove("loading");
@@ -607,6 +629,8 @@ function renderSettings() {
     <section class="page">
       <div class="page-head"><div><p class="eyebrow">Preferences & Data</p><h1>设置</h1><p class="muted">调整学习节奏，也别忘了偶尔备份记录。</p></div></div>
       <div class="settings-grid">
+        ${accountCard()}
+        ${bookSelector()}
         <section class="settings-card">
           <h2>${activeBook.name}学习偏好</h2><p>本设置只影响当前词库，两套词库的目标与进度互不影响。</p>
           <form id="settings-form">
@@ -638,8 +662,8 @@ function renderSettings() {
   document.querySelector("#import-data").addEventListener("change", importData);
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
   document.querySelector("#export-corrupt")?.addEventListener("click", () => downloadText(corruptRaw, `word-garden-damaged-${localDateKey()}.json`));
-  document.querySelector("#install-app")?.addEventListener("click", installApp);
-  bindUpdateActions();
+  bindAccountActions();
+  bindBookSelector();
 }
 
 function bindAccountActions() {

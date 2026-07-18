@@ -30,7 +30,8 @@ test("Android registers native English pronunciation with safe locale fallbacks"
   assert.match(activity, /registerPlugin\(NativePronunciationPlugin\.class\)/u);
   assert.match(plugin, /@CapacitorPlugin\(name = "NativePronunciation"\)/u);
   assert.match(plugin, /TextToSpeech\.QUEUE_FLUSH/u);
-  assert.match(plugin, /Locale\.UK, Locale\.US, Locale\.ENGLISH/u);
+  assert.match(plugin, /Locale\.forLanguageTag\(requestedTag\)/u);
+  assert.match(plugin, /call\.getString\("locale", "en-GB"\)/u);
   assert.match(plugin, /TTS_MISSING_LANGUAGE/u);
   assert.match(plugin, /engine\.shutdown\(\)/u);
   assert.match(manifest, /android\.intent\.action\.TTS_SERVICE/u);
@@ -54,8 +55,8 @@ test("Android and the public update manifest share one release version", async (
     readFile("version.json", "utf8"),
   ]);
   const manifest = JSON.parse(manifestText);
-  assert.equal(manifest.versionName, "1.3.1");
-  assert.equal(manifest.versionCode, 10);
+  assert.equal(manifest.versionName, "1.4.0");
+  assert.equal(manifest.versionCode, 11);
   assert.match(gradle, new RegExp(`versionCode ${manifest.versionCode}`, "u"));
   assert.match(gradle, new RegExp(`versionName "${manifest.versionName.replaceAll(".", "\\.")}"`, "u"));
   assert.match(manifest.apkUrl, new RegExp(`/v${manifest.versionName}/word-garden-android\\.apk$`, "u"));
@@ -65,5 +66,7 @@ test("Android build is a thin shell and does not bundle large pronunciation pack
   const [pkg, build] = await Promise.all([readFile("package.json", "utf8"), readFile("scripts/build.mjs", "utf8")]);
   assert.match(pkg, /build\.mjs --android/u);
   assert.match(build, /pronunciation-kaoyan/u);
+  assert.match(build, /pronunciation-us/u);
+  assert.match(build, /pronunciation-kaoyan-us/u);
   assert.match(build, /androidBuild/u);
 });

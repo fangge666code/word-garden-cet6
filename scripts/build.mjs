@@ -28,6 +28,8 @@ const contentManifest = {
   resources: [
     ...(await contentFiles(join(root, "src", "assets", "pronunciation"), "src/assets/pronunciation")),
     ...(await contentFiles(join(root, "src", "assets", "pronunciation-kaoyan"), "src/assets/pronunciation-kaoyan")),
+    ...(await contentFiles(join(root, "src", "assets", "pronunciation-us"), "src/assets/pronunciation-us")),
+    ...(await contentFiles(join(root, "src", "assets", "pronunciation-kaoyan-us"), "src/assets/pronunciation-kaoyan-us")),
   ],
 };
 await writeFile(join(root, "src", "data", "content-manifest.json"), `${JSON.stringify(contentManifest, null, 2)}\n`);
@@ -40,6 +42,8 @@ await rm(join(dist, "src", "data", "kaoyan-examples-attribution.json"), { force:
 if (androidBuild) {
   await rm(join(dist, "src", "assets", "pronunciation"), { recursive: true, force: true });
   await rm(join(dist, "src", "assets", "pronunciation-kaoyan"), { recursive: true, force: true });
+  await rm(join(dist, "src", "assets", "pronunciation-us"), { recursive: true, force: true });
+  await rm(join(dist, "src", "assets", "pronunciation-kaoyan-us"), { recursive: true, force: true });
 }
 await Promise.all(["manifest.webmanifest", "service-worker.js", "offline.html", "version.json"].map((filename) => (
   cp(join(root, filename), join(dist, filename))
@@ -68,6 +72,8 @@ const assetPaths = [
   "/src/data/kaoyan-words.js",
   "/src/data/books.js",
   "/src/data/pronunciation-kaoyan-index.js",
+  "/src/data/pronunciation-us-index.js",
+  "/src/data/pronunciation-kaoyan-us-index.js",
   "/src/data/content-manifest.json",
 ];
 const assets = Object.fromEntries(await Promise.all(assetPaths.map(async (pathname) => [

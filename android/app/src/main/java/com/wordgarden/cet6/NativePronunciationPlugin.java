@@ -55,7 +55,7 @@ public class NativePronunciationPlugin extends Plugin {
     }
 
     private void speakNow(PluginCall call) {
-        Locale selected = selectEnglishLocale();
+        Locale selected = selectEnglishLocale(call.getString("locale", "en-GB"));
         if (selected == null) {
             call.reject("手机缺少英文语音数据", "TTS_MISSING_LANGUAGE");
             return;
@@ -74,8 +74,10 @@ public class NativePronunciationPlugin extends Plugin {
         call.resolve(response);
     }
 
-    private Locale selectEnglishLocale() {
-        Locale[] candidates = { Locale.UK, Locale.US, Locale.ENGLISH };
+    private Locale selectEnglishLocale(String requestedTag) {
+        Locale requested = Locale.forLanguageTag(requestedTag);
+        Locale alternate = "US".equalsIgnoreCase(requested.getCountry()) ? Locale.UK : Locale.US;
+        Locale[] candidates = { requested, alternate, Locale.ENGLISH };
         for (Locale locale : candidates) {
             int availability = engine.isLanguageAvailable(locale);
             if (availability >= TextToSpeech.LANG_AVAILABLE) return locale;

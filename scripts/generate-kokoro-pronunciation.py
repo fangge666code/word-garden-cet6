@@ -1,4 +1,4 @@
-"""Generate compact, indexed CET-6 pronunciation packages with Kokoro."""
+"""Generate compact, indexed, clean-boundary pronunciation packages with Kokoro."""
 
 from __future__ import annotations
 
@@ -6,21 +6,26 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import wave
 from pathlib import Path
 
 import numpy as np
+import torch
 from kokoro import KPipeline
+
+torch.set_num_threads(max(1, (os.cpu_count() or 4) // int(os.environ.get("KOKORO_PARALLEL_JOBS", "2"))))
+torch.set_num_interop_threads(1)
 
 SOURCE_RATE = 24_000
 OUTPUT_RATE = 16_000
-VOICE = "bf_emma"
 SPEED = 0.92
 BATCH_SIZE = 20
-WORDS_PER_CHUNK = 100
-PADDING_BEFORE = 0.045
+WORDS_PER_CHUNK = 25
+PADDING_BEFORE = 0.0
 PADDING_AFTER = 0.085
 GAP_SECONDS = 0.05
+LEGACY_PREROLL_SAMPLES = round(OUTPUT_RATE * 0.045)
 
 
 def arguments() -> argparse.Namespace:
@@ -29,7 +34,10 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--index", required=True, type=Path)
     parser.add_argument("--cache-dir", required=True, type=Path)
+    parser.add_argument("--legacy-cache-dir", type=Path)
     parser.add_argument("--prefix", required=True)
+    parser.add_argument("--lang-code", required=True, choices=("a", "b"))
+    parser.add_argument("--voice", required=True)
     parser.add_argument("--expected-count", required=True, type=int)
     parser.add_argument("--default-base-url", required=True)
     return parser.parse_args()
@@ -97,7 +105,7 @@ def split_result(result, expected: int) -> list[np.ndarray]:
     return [compact(result.audio, start, end) for start, end in word_ranges]
 
 
-def generate_missing(words: list[dict], cache_dir: Path) -> None:
+def generate_missing(words: list[dict], cache_dir: Path, lang_code: str, voice: str) -> None:
     missing = []
     for word in words:
         path = cache_dir / f"{word['id']}.wav"
@@ -109,18 +117,44 @@ def generate_missing(words: list[dict], cache_dir: Path) -> None:
         print("All pronunciation clips are already cached.", flush=True)
         return
 
-    pipeline = KPipeline(lang_code="b", repo_id="hexgrad/Kokoro-82M")
+    pipeline = KPipeline(lang_code=lang_code, repo_id="hexgrad/Kokoro-82M")
     for offset in range(0, len(missing), BATCH_SIZE):
         batch = missing[offset:offset + BATCH_SIZE]
         text = ". ".join(word["word"] for word in batch) + "."
-        results = list(pipeline(text, voice=VOICE, speed=SPEED, split_pattern=None))
+        results = list(pipeline(text, voice=voice, speed=SPEED, split_pattern=None))
         if len(results) != 1:
             raise ValueError(f"Kokoro unexpectedly split a {len(batch)}-word batch into {len(results)} pieces")
         clips = split_result(results[0], len(batch))
         for word, clip in zip(batch, clips, strict=True):
             write_pcm(cache_dir / f"{word['id']}.wav", clip)
         completed = min(offset + len(batch), len(missing))
-        print(f"Generated {completed}/{len(missing)} missing female clips", flush=True)
+        print(f"{voice}: generated {completed}/{len(missing)} clean clips", flush=True)
+
+
+def migrate_legacy_clips(words: list[dict], cache_dir: Path, legacy_cache_dir: Path | None) -> None:
+    if legacy_cache_dir is None:
+        return
+    migrated = 0
+    fade = round(OUTPUT_RATE * 0.008)
+    for word in words:
+        destination = cache_dir / f"{word['id']}.wav"
+        if destination.exists():
+            continue
+        source = legacy_cache_dir / f"{word['id']}.wav"
+        try:
+            clip = read_pcm(source)
+        except (FileNotFoundError, ValueError, wave.Error):
+            continue
+        if len(clip) <= LEGACY_PREROLL_SAMPLES + round(OUTPUT_RATE * 0.12):
+            continue
+        clean = clip[LEGACY_PREROLL_SAMPLES:].copy()
+        ramp_size = min(fade, len(clean) // 2)
+        if ramp_size:
+            ramp = np.linspace(0, 1, ramp_size, dtype=np.float32)
+            clean[:ramp_size] = np.round(clean[:ramp_size].astype(np.float32) * ramp).astype("<i2")
+        write_pcm(destination, clean)
+        migrated += 1
+    print(f"Migrated {migrated} legacy clips without the 45 ms preroll", flush=True)
 
 
 def write_packages(words: list[dict], output_dir: Path, index_path: Path, cache_dir: Path, prefix: str, default_base_url: str) -> None:
@@ -169,7 +203,8 @@ def main() -> None:
     if len(words) != args.expected_count:
         raise ValueError(f"Expected {args.expected_count} words, got {len(words)}")
     args.cache_dir.mkdir(parents=True, exist_ok=True)
-    generate_missing(words, args.cache_dir)
+    migrate_legacy_clips(words, args.cache_dir, args.legacy_cache_dir)
+    generate_missing(words, args.cache_dir, args.lang_code, args.voice)
     write_packages(words, args.output_dir, args.index, args.cache_dir, args.prefix, args.default_base_url)
 
 
