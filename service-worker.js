@@ -1,4 +1,4 @@
-const CACHE_NAME = "word-garden-offline-v2";
+const CACHE_NAME = "word-garden-offline-v3";
 const OFFLINE_URL = "./offline.html";
 
 self.addEventListener("install", (event) => {

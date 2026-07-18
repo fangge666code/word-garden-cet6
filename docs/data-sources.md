@@ -12,4 +12,4 @@ The checked-in candidate file is reviewed and merged into the product dataset du
 
 ## Pronunciation audio
 
-English pronunciation audio is generated during development with [eSpeak NG](https://github.com/espeak-ng/espeak-ng) 1.51 using the `en-gb` voice. eSpeak NG is open-source software distributed under the GNU General Public License v3. The application ships only the generated PCM audio packages and does not bundle the eSpeak NG executable or voice database.
+English pronunciation audio is generated during development with the Apache-2.0-licensed [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) model and its British English `bf_emma` voice. The application ships only the generated 16 kHz PCM audio packages; it does not bundle the model, Python runtime, or generation dependencies.

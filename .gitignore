@@ -44,6 +44,8 @@ next-env.d.ts
 /.superpowers/
 /.pnpm-store/
 /.secrets/
+/.audio-cache/
+/tmp-kokoro-samples/
 *.jks
 *.keystore
 *.p12

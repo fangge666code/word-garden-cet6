@@ -35,7 +35,7 @@ function fakeAudio(url = "chunk-test.wav") {
     context,
     sources,
     fetchFn: async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) }),
-    clipResolver: () => ({ url, start: 11025, length: 5512 }),
+    clipResolver: () => ({ url, start: 16000, length: 8000 }),
   };
 }
 
@@ -53,7 +53,7 @@ test("bundled audio resumes Web Audio and plays the indexed slice", async () => 
   assert.equal(result.ok, true);
   assert.equal(result.source, "bundled");
   assert.equal(audio.context.resumed, 1);
-  assert.deepEqual(audio.sources[0].started, [0, 1, 5512 / 11025]);
+  assert.deepEqual(audio.sources[0].started, [0, 1, 0.5]);
   assert.equal(audio.sources[0].connected, audio.context.destination);
 });
 

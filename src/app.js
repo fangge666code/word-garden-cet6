@@ -18,7 +18,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { speakWord, speechSupported } from "./lib/pronunciation.js?v=5";
+import { speakWord, speechSupported } from "./lib/pronunciation.js?v=6";
 import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";

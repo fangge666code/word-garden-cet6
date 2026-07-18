@@ -4,7 +4,7 @@ import test from "node:test";
 import { PRONUNCIATION_CLIPS, PRONUNCIATION_SAMPLE_RATE, pronunciationClip } from "../src/data/pronunciation-index.js";
 
 test("all 3000 words map inside 30 valid PCM audio packages", async () => {
-  assert.equal(PRONUNCIATION_SAMPLE_RATE, 11025);
+  assert.equal(PRONUNCIATION_SAMPLE_RATE, 16000);
   assert.equal(PRONUNCIATION_CLIPS.length, 3000);
   const dataSizes = new Map();
   for (let chunk = 1; chunk <= 30; chunk += 1) {
@@ -15,9 +15,9 @@ test("all 3000 words map inside 30 valid PCM audio packages", async () => {
     assert.equal(wav.readUInt16LE(20), 1);
     assert.equal(wav.readUInt16LE(22), 1);
     assert.equal(wav.readUInt32LE(24), PRONUNCIATION_SAMPLE_RATE);
-    assert.equal(wav.readUInt16LE(34), 8);
+    assert.equal(wav.readUInt16LE(34), 16);
     assert.equal(wav.toString("ascii", 36, 40), "data");
-    dataSizes.set(chunk, wav.readUInt32LE(40));
+    dataSizes.set(chunk, wav.readUInt32LE(40) / 2);
   }
 
   PRONUNCIATION_CLIPS.forEach(([chunk, start, length], index) => {
