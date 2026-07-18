@@ -1,13 +1,13 @@
 {
-  "versionName": "1.2.2",
-  "versionCode": 5,
-  "webBuild": "2026-07-18.2",
-  "apkUrl": "https://github.com/fangge666code/word-garden-cet6/releases/download/v1.2.2/word-garden-android.apk",
+  "versionName": "1.2.3",
+  "versionCode": 6,
+  "webBuild": "2026-07-18.3",
+  "apkUrl": "https://github.com/fangge666code/word-garden-cet6/releases/download/v1.2.3/word-garden-android.apk",
   "releaseNotes": [
     "支持网页、PWA 和安卓自主升级",
     "更新 3000 个单词的中英文例句",
     "修复登录状态失效时同步失败且无法退出的问题",
-    "Android 新增原生英文单词朗读，解决部分华为手机无声问题"
+    "恢复 v1.2.0 已验证可用的浏览器英语发音方式，并更新网页缓存"
   ],
   "publishedAt": "2026-07-18T00:00:00Z"
 }

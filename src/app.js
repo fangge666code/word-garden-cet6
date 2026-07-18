@@ -18,7 +18,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { speakWord, speechSupported } from "./lib/pronunciation.js?v=2";
+import { speakWord, speechSupported } from "./lib/pronunciation.js?v=4";
 import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";
@@ -523,16 +523,10 @@ function bindPronunciationButtons(root = document) {
     const supported = speechSupported(window);
     button.disabled = !supported;
     if (!supported) button.title = "当前设备暂不支持单词发音";
-    button.addEventListener("click", async (event) => {
+    button.addEventListener("click", (event) => {
       event.stopPropagation();
-      const result = await speakWord(button.dataset.speakWord);
-      if (result.ok) return;
-      const messages = {
-        "missing-language": "手机缺少英文语音数据，请在系统设置中安装英文文字转语音语音包",
-        "native-unavailable": "手机没有可用的文字转语音引擎，请先在系统设置中启用",
-        "playback-failed": "手机未能播放这个单词，请检查媒体音量后重试",
-      };
-      showToast(messages[result.reason] ?? "当前设备暂不支持单词发音");
+      const result = speakWord(button.dataset.speakWord);
+      if (!result.ok) showToast("当前设备暂不支持单词发音");
     });
   });
 }
