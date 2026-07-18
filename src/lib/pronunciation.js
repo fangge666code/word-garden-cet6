@@ -1,4 +1,15 @@
-import { PRONUNCIATION_SAMPLE_RATE, pronunciationClip } from "../data/pronunciation-index.js";
+import { PRONUNCIATION_SAMPLE_RATE, pronunciationClip as cet6PronunciationClip } from "../data/pronunciation-index.js";
+import { pronunciationClip as kaoyanPronunciationClip } from "../data/pronunciation-kaoyan-index.js";
+
+const PUBLIC_ASSET_ROOT = "https://fangge666code.github.io/word-garden-cet6/src/assets";
+
+export function pronunciationClip(wordId, baseUrl, scope = globalThis) {
+  const native = scope?.Capacitor?.isNativePlatform?.() === true;
+  if (String(wordId).startsWith("ky-")) {
+    return kaoyanPronunciationClip(wordId, baseUrl ?? (native ? `${PUBLIC_ASSET_ROOT}/pronunciation-kaoyan` : "./src/assets/pronunciation-kaoyan"));
+  }
+  return cet6PronunciationClip(wordId, baseUrl ?? (native ? `${PUBLIC_ASSET_ROOT}/pronunciation` : "./src/assets/pronunciation"));
+}
 
 export function selectEnglishVoice(voices = []) {
   return voices.find((voice) => voice.lang?.toLowerCase() === "en-gb")
@@ -48,7 +59,18 @@ function decodeAudioData(context, arrayBuffer) {
 async function decodedChunk(url, context, fetchFn) {
   if (!decodedChunks.has(url)) {
     const pending = (async () => {
-      const response = await fetchFn(url);
+      let response;
+      const cacheStorage = globalThis.caches;
+      if (cacheStorage?.open) {
+        const cache = await cacheStorage.open("word-garden-content-v1");
+        response = await cache.match(url);
+        if (!response) {
+          response = await fetchFn(url);
+          if (response?.ok) await cache.put(url, response.clone());
+        }
+      } else {
+        response = await fetchFn(url);
+      }
       if (!response?.ok) throw new Error(`Audio request failed: ${response?.status ?? "unknown"}`);
       return decodeAudioData(context, await response.arrayBuffer());
     })();
@@ -61,7 +83,7 @@ async function decodedChunk(url, context, fetchFn) {
 async function speakWithBundledAudio(wordId, options = {}) {
   const scope = options.scope ?? globalThis;
   const resolveClip = options.clipResolver ?? pronunciationClip;
-  const clip = resolveClip(wordId, options.audioBaseUrl);
+  const clip = resolveClip(wordId, options.audioBaseUrl, scope);
   const context = audioContext(scope, options.audioContext);
   const fetchFn = options.fetchFn ?? scope?.fetch?.bind(scope);
   if (!clip || !context || !fetchFn) return { ok: false, reason: "audio-unavailable" };

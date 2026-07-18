@@ -54,9 +54,16 @@ test("Android and the public update manifest share one release version", async (
     readFile("version.json", "utf8"),
   ]);
   const manifest = JSON.parse(manifestText);
-  assert.equal(manifest.versionName, "1.2.5");
-  assert.equal(manifest.versionCode, 8);
+  assert.equal(manifest.versionName, "1.3.0");
+  assert.equal(manifest.versionCode, 9);
   assert.match(gradle, new RegExp(`versionCode ${manifest.versionCode}`, "u"));
   assert.match(gradle, new RegExp(`versionName "${manifest.versionName.replaceAll(".", "\\.")}"`, "u"));
   assert.match(manifest.apkUrl, new RegExp(`/v${manifest.versionName}/word-garden-android\\.apk$`, "u"));
+});
+
+test("Android build is a thin shell and does not bundle large pronunciation packs", async () => {
+  const [pkg, build] = await Promise.all([readFile("package.json", "utf8"), readFile("scripts/build.mjs", "utf8")]);
+  assert.match(pkg, /build\.mjs --android/u);
+  assert.match(build, /pronunciation-kaoyan/u);
+  assert.match(build, /androidBuild/u);
 });

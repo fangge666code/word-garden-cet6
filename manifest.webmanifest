@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "词间 · CET-6 学习",
+  "name": "词间 · 六级与考研英语",
   "short_name": "词间",
-  "description": "个人 CET-6 单词记忆与复习 App",
+  "description": "个人六级与考研英语单词记忆与复习 App",
   "lang": "zh-CN",
   "start_url": "./#home",
   "scope": "./",

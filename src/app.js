@@ -1,13 +1,15 @@
-import { WORDS } from "./data/cet6-words.js";
+import { BOOKS, DEFAULT_BOOK_ID, getBook, moduleStorageKey } from "./data/books.js";
 import { CLOUD_CONFIG, cloudConfigured } from "./cloud-config.js";
 import { mergeLearningData, validateCredentials } from "./lib/account-sync.js";
 import {
   activateWaitingWorker,
   checkForUpdate,
+  CURRENT_VERSION_NAME,
   detectRuntime,
   snoozeUpdate,
 } from "./lib/app-update.js";
 import { syncLearningData } from "./lib/cloud-sync.js";
+import { reconcileContentCache } from "./lib/content-updater.js";
 import {
   buildProgressCsv,
   calculateStats,
@@ -22,6 +24,7 @@ import { speakWord, speechSupported } from "./lib/pronunciation.js?v=6";
 import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";
+const ACTIVE_BOOK_KEY = "word-garden-active-book-v1";
 const AUTH_KEY = "word-garden-auth-v1";
 const USER_DATA_PREFIX = "word-garden-user-data-v1";
 const SYNC_PENDING_PREFIX = "word-garden-sync-pending-v1";
@@ -29,8 +32,12 @@ const PROTECTED_ROUTES = new Set(["study", "library", "settings"]);
 const main = document.querySelector("#main-content");
 const toast = document.querySelector("#toast");
 const modalRoot = document.querySelector("#modal-root");
-const wordMap = new Map(WORDS.map((word) => [word.id, word]));
-const wordIds = new Set(wordMap.keys());
+let activeBookId = localStorage.getItem(ACTIVE_BOOK_KEY) || DEFAULT_BOOK_ID;
+let activeBook = getBook(activeBookId);
+activeBookId = activeBook.id;
+let WORDS = activeBook.words;
+let wordMap = new Map(WORDS.map((word) => [word.id, word]));
+let wordIds = new Set(wordMap.keys());
 const cloudEnabled = cloudConfigured(CLOUD_CONFIG);
 const cloudClient = cloudEnabled ? new SupabaseClient(CLOUD_CONFIG) : null;
 let libraryFilter = "all";
@@ -92,14 +99,22 @@ function loadStoredUser() {
 }
 
 function activeStorageKey() {
-  return currentUser ? `${USER_DATA_PREFIX}:${currentUser.objectId}` : STORAGE_KEY;
+  return moduleStorageKey(currentUser ? USER_DATA_PREFIX : STORAGE_KEY, currentUser?.objectId, activeBookId);
 }
 
 function pendingSyncKey(user = currentUser) {
-  return user ? `${SYNC_PENDING_PREFIX}:${user.objectId}` : "";
+  return user ? moduleStorageKey(SYNC_PENDING_PREFIX, user.objectId, activeBookId) : "";
+}
+
+function migrateLegacyCet6Storage() {
+  if (activeBookId !== "cet6" || localStorage.getItem(activeStorageKey())) return;
+  const legacy = currentUser ? `${USER_DATA_PREFIX}:${currentUser.objectId}` : STORAGE_KEY;
+  const raw = localStorage.getItem(legacy);
+  if (raw) localStorage.setItem(activeStorageKey(), raw);
 }
 
 function loadData() {
+  migrateLegacyCet6Storage();
   const raw = localStorage.getItem(activeStorageKey());
   if (!raw) {
     needsDataSave = true;
@@ -169,6 +184,7 @@ async function syncNow({ silent = false } = {}) {
     return false;
   }
   const userAtStart = currentUser;
+  const bookAtStart = activeBookId;
   const revisionAtStart = localRevision;
   syncStatus = "syncing";
   syncError = "";
@@ -180,16 +196,16 @@ async function syncNow({ silent = false } = {}) {
     localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
     let result;
     try {
-      result = await syncLearningData(cloudClient, refreshedUser, data);
+      result = await syncLearningData(cloudClient, refreshedUser, data, bookAtStart);
     } catch (error) {
       if (error.code !== "AUTH_EXPIRED" || !refreshedUser.refreshToken) throw error;
       refreshedUser = await cloudClient.restoreSession(refreshedUser, { force: true });
       if (currentUser?.objectId !== userAtStart.objectId) return false;
       currentUser = refreshedUser;
       localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
-      result = await syncLearningData(cloudClient, refreshedUser, data);
+      result = await syncLearningData(cloudClient, refreshedUser, data, bookAtStart);
     }
-    if (currentUser?.objectId !== userAtStart.objectId) return false;
+    if (currentUser?.objectId !== userAtStart.objectId || activeBookId !== bookAtStart) return false;
     const changedDuringSync = revisionAtStart !== localRevision;
     const currentSession = data.session;
     data = changedDuringSync ? mergeLearningData(data, result.data) : result.data;
@@ -278,6 +294,50 @@ function renderHome() {
   renderDashboardHome();
 }
 
+function bookSelector() {
+  return `<section class="book-selector" aria-label="选择学习词库">
+    ${Object.values(BOOKS).map((book) => {
+      let learned = 0;
+      try {
+        const key = moduleStorageKey(currentUser ? USER_DATA_PREFIX : STORAGE_KEY, currentUser?.objectId, book.id);
+        const raw = localStorage.getItem(key);
+        learned = raw ? Object.keys(JSON.parse(raw).progress ?? {}).length : 0;
+      } catch { /* A damaged inactive module must not block the current one. */ }
+      return `<button class="book-option ${book.id === activeBookId ? "active" : ""}" data-book-id="${book.id}">
+        <span>${book.englishName}</span><strong>${book.name}</strong><small>${learned} / ${book.words.length} 已接触</small>
+      </button>`;
+    }).join("")}
+  </section>`;
+}
+
+function switchBook(bookId) {
+  const nextBook = getBook(bookId);
+  if (nextBook.id === activeBookId) return;
+  localStorage.setItem(activeStorageKey(), JSON.stringify(data));
+  activeBookId = nextBook.id;
+  activeBook = nextBook;
+  WORDS = activeBook.words;
+  wordMap = new Map(WORDS.map((word) => [word.id, word]));
+  wordIds = new Set(wordMap.keys());
+  localStorage.setItem(ACTIVE_BOOK_KEY, activeBookId);
+  libraryFilter = "all";
+  libraryQuery = "";
+  corruptRaw = null;
+  needsDataSave = false;
+  data = loadData();
+  if (needsDataSave) commit(data, { skipSync: true });
+  syncStatus = currentUser ? "waiting" : "anonymous";
+  if (currentUser) queueCloudSync();
+  render();
+  showToast(`已切换到${activeBook.name}`);
+}
+
+function bindBookSelector() {
+  document.querySelectorAll("[data-book-id]").forEach((button) => {
+    button.addEventListener("click", () => switchBook(button.dataset.bookId));
+  });
+}
+
 function renderSignedOutHome() {
   main.innerHTML = `
     <section class="page auth-home">
@@ -285,7 +345,7 @@ function renderSignedOutHome() {
         <div class="date-chip"><span aria-hidden="true">●</span>${dateLabel()}</div>
         <p class="eyebrow">Personal English Routine</p>
         <h1>登录后，让每一次<br>学习自然衔接。</h1>
-        <p class="lead">3000 个 CET-6 核心词，按你的专属乱序逐步学习。登录同一账号，手机和电脑都能继续上次的进度。</p>
+        <p class="lead">六级与考研两套独立核心词库，按你的专属乱序逐步学习。登录同一账号，手机和电脑都能继续上次的进度。</p>
         <div class="auth-feature-list" aria-label="账号学习功能">
           <span>✓ 新词优先与智能复习</span>
           <span>✓ 单词英式发音</span>
@@ -293,11 +353,13 @@ function renderSignedOutHome() {
         </div>
       </div>
       <div class="auth-home-panels">
+        ${bookSelector()}
         ${accountCard()}
         ${installAppCard()}
       </div>
     </section>`;
   bindAccountActions();
+  bindBookSelector();
 }
 
 function renderDashboardHome() {
@@ -314,6 +376,7 @@ function renderDashboardHome() {
       <div class="home-account-bar">
         ${accountCard()}
       </div>
+      ${bookSelector()}
       <div class="home-hero">
         <div>
           <div class="date-chip"><span aria-hidden="true">●</span>${dateLabel()}</div>
@@ -343,7 +406,7 @@ function renderDashboardHome() {
           <div class="progress-meta"><span>每日目标</span><span>${todayProgress}%</span></div>
         </section>
         <section class="panel">
-          <div class="panel-title"><h2>CET-6 词库</h2><span class="muted">${learned} / ${WORDS.length}</span></div>
+          <div class="panel-title"><h2>${activeBook.name}词库</h2><span class="muted">${learned} / ${WORDS.length}</span></div>
           <div class="progress-track"><div class="progress-fill" style="width:${totalProgress}%"></div></div>
           <div class="progress-meta"><span>已接触词汇</span><span>${totalProgress}%</span></div>
         </section>
@@ -355,6 +418,7 @@ function renderDashboardHome() {
     if (commit(next)) location.hash = "study";
   });
   bindAccountActions();
+  bindBookSelector();
 }
 
 function statCard(label, value, icon) {
@@ -484,7 +548,7 @@ function renderLibrary() {
   main.innerHTML = `
     <section class="page">
       <div class="page-head">
-        <div><p class="eyebrow">CET-6 Library</p><h1>我的词库</h1><p class="muted">${WORDS.length} 个核心词条，慢慢认识，不必着急。</p></div>
+        <div><p class="eyebrow">${activeBook.englishName} LIBRARY</p><h1>我的${activeBook.shortName}词库</h1><p class="muted">${WORDS.length} 个核心词条，慢慢认识，不必着急。</p></div>
         <label class="search-box"><span aria-hidden="true">⌕</span><input id="word-search" type="search" value="${escapeHtml(libraryQuery)}" placeholder="搜索英文或中文释义" aria-label="搜索词库"></label>
       </div>
       <div class="filter-row" aria-label="词汇状态筛选">
@@ -525,8 +589,15 @@ function bindPronunciationButtons(root = document) {
     if (!supported) button.title = "当前设备暂不支持单词发音";
     button.addEventListener("click", async (event) => {
       event.stopPropagation();
-      const result = await speakWord(button.dataset.speakWord, { wordId: button.dataset.speakId });
-      if (!result.ok) showToast("发音资源暂时无法播放，请检查媒体音量或稍后重试");
+      button.classList.add("loading");
+      button.setAttribute("aria-busy", "true");
+      try {
+        const result = await speakWord(button.dataset.speakWord, { wordId: button.dataset.speakId });
+        if (!result.ok) showToast("发音资源暂时无法播放，请检查媒体音量或稍后重试");
+      } finally {
+        button.classList.remove("loading");
+        button.removeAttribute("aria-busy");
+      }
     });
   });
 }
@@ -537,7 +608,7 @@ function renderSettings() {
       <div class="page-head"><div><p class="eyebrow">Preferences & Data</p><h1>设置</h1><p class="muted">调整学习节奏，也别忘了偶尔备份记录。</p></div></div>
       <div class="settings-grid">
         <section class="settings-card">
-          <h2>学习偏好</h2><p>选择一个能长期坚持的数量，比一开始学得很多更重要。</p>
+          <h2>${activeBook.name}学习偏好</h2><p>本设置只影响当前词库，两套词库的目标与进度互不影响。</p>
           <form id="settings-form">
             <div class="field"><label for="daily-goal">每日新词数量</label><input id="daily-goal" name="dailyGoal" type="number" min="1" max="${WORDS.length}" step="1" value="${data.settings.dailyGoal}" required><div class="field-note">可设置 1–${WORDS.length} 个，默认建议 20 个</div></div>
             <div class="switch-line"><div><strong>减少动画</strong><div class="field-note">关闭卡片翻转等动态效果</div></div><button type="button" id="motion-switch" class="switch ${data.settings.reduceMotion ? "on" : ""}" role="switch" aria-checked="${data.settings.reduceMotion}" aria-label="减少动画"></button></div>
@@ -545,7 +616,7 @@ function renderSettings() {
           </form>
         </section>
         <section class="settings-card">
-          <h2>学习数据</h2><p>本地记录会在后台同步到你的账号，也可以继续手动备份。</p>
+          <h2>${activeBook.name}学习数据</h2><p>本地记录会在后台同步到当前词库的独立云端空间，也可以继续手动备份。</p>
           <div class="data-note">当前已记录 ${Object.keys(data.progress).length} 个单词的学习进度。导入会整体替换现有记录。</div>
           <div class="divider"></div>
           <div class="button-row">
@@ -563,7 +634,7 @@ function renderSettings() {
   document.querySelector("#settings-form").addEventListener("submit", saveSettings);
   document.querySelector("#motion-switch").addEventListener("click", toggleMotion);
   document.querySelector("#export-progress").addEventListener("click", exportProgressCsv);
-  document.querySelector("#export-data").addEventListener("click", () => exportJson(data, `word-garden-${localDateKey()}.json`));
+  document.querySelector("#export-data").addEventListener("click", () => exportJson({ bookId: activeBookId, data }, `word-garden-${activeBookId}-${localDateKey()}.json`));
   document.querySelector("#import-data").addEventListener("change", importData);
   document.querySelector("#clear-data").addEventListener("click", confirmClear);
   document.querySelector("#export-corrupt")?.addEventListener("click", () => downloadText(corruptRaw, `word-garden-damaged-${localDateKey()}.json`));
@@ -612,6 +683,7 @@ function accountCard() {
           ${syncStatus === "failed" && syncError.includes("登录状态已失效")
             ? '<button class="secondary-button" id="reauth-account">重新登录</button>'
             : '<button class="secondary-button" id="sync-now">立即同步</button>'}
+          <span class="version-badge">当前版本 v${CURRENT_VERSION_NAME}</span>
           <button class="secondary-button" type="button" data-check-update>检查更新</button>
           <button class="text-button" id="logout-account">退出账号</button>
         </div>
@@ -688,7 +760,14 @@ function showMigrationChoice(user, isNewAccount) {
 }
 
 async function activateAccount(user, mergeAnonymous) {
-  const anonymousData = structuredClone(data);
+  const anonymousByBook = {};
+  for (const book of Object.values(BOOKS)) {
+    const ids = new Set(book.words.map((word) => word.id));
+    const raw = localStorage.getItem(moduleStorageKey(STORAGE_KEY, null, book.id));
+    try { anonymousByBook[book.id] = raw ? validateData(JSON.parse(raw), ids) : createDefaultData(); }
+    catch { anonymousByBook[book.id] = createDefaultData(); }
+  }
+  anonymousByBook[activeBookId] = structuredClone(data);
   currentUser = {
     objectId: user.objectId,
     username: user.username,
@@ -697,22 +776,31 @@ async function activateAccount(user, mergeAnonymous) {
     expiresAt: user.expiresAt,
   };
   localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
-  const userKey = activeStorageKey();
-  let userData = createDefaultData();
-  const cached = localStorage.getItem(userKey);
-  if (cached) {
-    try { userData = validateData(JSON.parse(cached), wordIds); } catch { userData = createDefaultData(); }
+  for (const book of Object.values(BOOKS)) {
+    const ids = new Set(book.words.map((word) => word.id));
+    const userKey = moduleStorageKey(USER_DATA_PREFIX, currentUser.objectId, book.id);
+    let userData = createDefaultData();
+    const cached = localStorage.getItem(userKey);
+    if (cached) {
+      try { userData = validateData(JSON.parse(cached), ids); } catch { userData = createDefaultData(); }
+    }
+    const merged = ensureShuffleSeed(mergeAnonymous ? mergeLearningData(anonymousByBook[book.id], userData) : userData);
+    merged.session = null;
+    localStorage.setItem(userKey, JSON.stringify(merged));
+    localStorage.setItem(moduleStorageKey(SYNC_PENDING_PREFIX, currentUser.objectId, book.id), "1");
   }
-  data = ensureShuffleSeed(mergeAnonymous ? mergeLearningData(anonymousData, userData) : userData);
-  data.session = null;
+  data = loadData();
   syncStatus = "waiting";
   syncError = "";
   modalRoot.innerHTML = "";
   commit(data, { skipSync: true });
-  localStorage.setItem(pendingSyncKey(), "1");
   render();
   const synced = await syncNow();
-  if (synced && mergeAnonymous) localStorage.setItem(STORAGE_KEY, JSON.stringify(newPersonalData()));
+  if (synced && mergeAnonymous) {
+    Object.keys(BOOKS).forEach((bookId) => {
+      localStorage.setItem(moduleStorageKey(STORAGE_KEY, null, bookId), JSON.stringify(newPersonalData()));
+    });
+  }
 }
 
 async function logoutAccount() {
@@ -728,8 +816,10 @@ async function logoutAccount() {
     return;
   }
   try { await cloudClient.logout(user); } catch { /* Local logout still protects this device. */ }
-  localStorage.removeItem(`${USER_DATA_PREFIX}:${user.objectId}`);
-  localStorage.removeItem(`${SYNC_PENDING_PREFIX}:${user.objectId}`);
+  Object.keys(BOOKS).forEach((bookId) => {
+    localStorage.removeItem(moduleStorageKey(USER_DATA_PREFIX, user.objectId, bookId));
+    localStorage.removeItem(moduleStorageKey(SYNC_PENDING_PREFIX, user.objectId, bookId));
+  });
   localStorage.removeItem(AUTH_KEY);
   currentUser = null;
   syncStatus = "anonymous";
@@ -745,13 +835,14 @@ async function logoutAccount() {
 function reauthAccount() {
   if (!currentUser) return;
   let anonymousData = createDefaultData();
-  const anonymousRaw = localStorage.getItem(STORAGE_KEY);
+  const anonymousKey = moduleStorageKey(STORAGE_KEY, null, activeBookId);
+  const anonymousRaw = localStorage.getItem(anonymousKey);
   if (anonymousRaw) {
     try { anonymousData = validateData(JSON.parse(anonymousRaw), wordIds); } catch { anonymousData = createDefaultData(); }
   }
   const preserved = ensureShuffleSeed(mergeLearningData(anonymousData, data));
   preserved.session = data.session;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(preserved));
+  localStorage.setItem(anonymousKey, JSON.stringify(preserved));
   localStorage.removeItem(AUTH_KEY);
   currentUser = null;
   syncStatus = "anonymous";
@@ -796,7 +887,7 @@ function installAppCard() {
   } else if (isAppleMobile()) {
     message = "请使用 Safari 打开本网站，点击分享按钮，再选择“添加到主屏幕”。使用时需要连接网络。";
   }
-  action += '<button class="secondary-button" type="button" data-check-update>检查更新</button>';
+  action += `<span class="version-badge">当前版本 v${CURRENT_VERSION_NAME}</span><button class="secondary-button" type="button" data-check-update>检查更新</button>`;
   return `
     <section class="settings-card install-app-card">
       <div class="install-mark" aria-hidden="true">W</div>
@@ -846,12 +937,13 @@ function showUpdatePrompt(result, runtime) {
     web: "立即刷新",
   };
   const notes = result.manifest?.releaseNotes ?? ["新版本已经准备好，可以由你选择何时升级。"];
-  const version = result.manifest?.versionName ? ` v${escapeHtml(result.manifest.versionName)}` : "";
+  const targetVersion = result.manifest?.versionName ? `v${escapeHtml(result.manifest.versionName)}` : "新版本";
   modalRoot.innerHTML = `
     <div class="modal-backdrop" role="presentation">
       <section class="modal update-modal" role="dialog" aria-modal="true" aria-labelledby="update-title">
         <p class="eyebrow">Update available</p>
-        <h2 id="update-title">词间${version} 可以升级</h2>
+        <h2 id="update-title">词间 ${targetVersion} 可以升级</h2>
+        <p class="update-version-line">当前版本：v${CURRENT_VERSION_NAME}<span aria-hidden="true"> → </span>目标版本：${targetVersion}</p>
         <ul class="update-notes">${notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
         <div class="button-row update-actions">
           <button class="primary-button" id="apply-update">${labels[runtime]}</button>
@@ -941,7 +1033,7 @@ function exportProgressCsv() {
   }
   try {
     const csv = buildProgressCsv(orderedWords, data, formatLocalDate);
-    downloadText(csv, `词间-学习状态-${localDateKey()}.csv`, "text/csv;charset=utf-8");
+    downloadText(csv, `词间-${activeBook.shortName}-学习状态-${localDateKey()}.csv`, "text/csv;charset=utf-8");
     showToast("学习状态表格已导出，可使用 Excel 或 WPS 打开");
   } catch {
     showToast("表格生成失败，学习记录没有受到影响");
@@ -962,7 +1054,9 @@ async function importData(event) {
   const file = event.target.files?.[0];
   if (!file) return;
   try {
-    const imported = ensureShuffleSeed(validateData(JSON.parse(await file.text()), wordIds));
+    const parsed = JSON.parse(await file.text());
+    if (parsed.bookId && parsed.bookId !== activeBookId) throw new Error(`这是${getBook(parsed.bookId).name}的备份，请先切换词库`);
+    const imported = ensureShuffleSeed(validateData(parsed.data ?? parsed, wordIds));
     if (imported.settings.dailyGoal > WORDS.length) throw new Error(`每日目标不能超过 ${WORDS.length}`);
     imported.session = null;
     if (commit(imported)) {
@@ -1031,6 +1125,10 @@ window.addEventListener("offline", () => {
   refreshAccountIfVisible();
 });
 window.addEventListener("load", () => {
+  const manifestUrl = isNativeApp()
+    ? "https://fangge666code.github.io/word-garden-cet6/src/data/content-manifest.json"
+    : "./src/data/content-manifest.json";
+  reconcileContentCache({ scope: window, manifestUrl }).catch(() => {});
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       if (!updateReloadRequested) return;

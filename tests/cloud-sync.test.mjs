@@ -31,3 +31,20 @@ test("cloud synchronization merges records, preserves the session and uploads ch
   assert.ok(saved.some((record) => record.className === "WordProgress" && record.values.wordId === "w2"));
   assert.ok(saved.every((record) => record.user.objectId === "user-1"));
 });
+
+test("Kaoyan synchronization uses only the separate Kaoyan tables", async () => {
+  const classes = [];
+  const client = {
+    async listOwned(className) { classes.push(className); return []; },
+    async saveOwned(className) { classes.push(className); return {}; },
+  };
+  const local = createDefaultData();
+  local.settings.shuffleSeed = "kaoyan-seed";
+  local.progress["ky-0001"] = { status: "learning", totalRatings: 1, lastRating: "fuzzy" };
+  local.daily["2026-07-18"] = { newIds: ["ky-0001"], reviewIds: [], ratings: 1, completed: false };
+  await syncLearningData(client, { objectId: "u2" }, local, "kaoyan");
+  assert.ok(classes.includes("KaoyanUserProfile"));
+  assert.ok(classes.includes("KaoyanWordProgress"));
+  assert.ok(classes.includes("KaoyanDailyRecord"));
+  assert.ok(classes.every((name) => name.startsWith("Kaoyan")));
+});

@@ -63,6 +63,15 @@ h1 { margin-bottom: 16px; font-size: clamp(38px, 5vw, 66px); line-height: 1.08; 
 .home-hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 42px; align-items: end; margin-bottom: 46px; }
 .home-account-bar { margin-bottom: 28px; }
 .home-account-bar .account-card { width: 100%; }
+.book-selector { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 0 0 28px; }
+.book-option { display: grid; gap: 5px; padding: 18px 22px; text-align: left; color: var(--ink); border: 1px solid rgba(31,107,79,.12); border-radius: 18px; background: rgba(255,255,255,.68); cursor: pointer; transition: .2s ease; }
+.book-option:hover { transform: translateY(-2px); border-color: rgba(31,107,79,.3); }
+.book-option.active { border-color: var(--green); background: var(--mint); box-shadow: 0 8px 24px rgba(31,107,79,.1); }
+.book-option span { color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+.book-option strong { font-size: 20px; }
+.book-option small, .update-version-line { color: var(--muted); }
+.version-badge { display: inline-flex; align-items: center; padding: 8px 12px; color: var(--muted); font-size: 13px; }
+.update-version-line { margin: 8px 0 16px; font-size: 14px; }
 .auth-home { display: grid; grid-template-columns: .82fr 1.18fr; gap: 34px; align-items: start; }
 .auth-home-intro { position: sticky; top: 130px; padding-top: 18px; }
 .auth-home-panels { display: grid; gap: 18px; }
@@ -120,6 +129,8 @@ h1 { margin-bottom: 16px; font-size: clamp(38px, 5vw, 66px); line-height: 1.08; 
 .speak-button:hover { background: var(--sage); transform: translateY(-1px); }
 .speak-button:focus-visible { outline: 3px solid rgba(31, 107, 79, .25); outline-offset: 2px; }
 .speak-button:disabled { cursor: not-allowed; opacity: .45; transform: none; }
+.speak-button.loading { animation: audio-pulse .8s ease-in-out infinite alternate; }
+@keyframes audio-pulse { to { transform: scale(.9); opacity: .55; } }
 .phonetic { color: var(--muted); font-size: 18px; line-height: 1.5; }
 .reveal-hint { position: absolute; right: 24px; bottom: 20px; left: 24px; margin: 0; color: #91a098; font-size: 12px; text-align: center; }
 .word-details { width: 100%; margin-top: 34px; animation: reveal-answer .3s ease both; }
@@ -226,7 +237,7 @@ input:focus, select:focus, button:focus-visible, a:focus-visible { outline: 3px 
   .site-header { grid-template-columns: 1fr auto; width: min(100% - 28px, 1120px); padding: 14px 0; }
   .desktop-nav { display: none; }
   .header-status { font-size: 11px; }
-  .home-hero, .progress-section, .settings-grid, .auth-home { grid-template-columns: 1fr; }
+  .home-hero, .progress-section, .settings-grid, .auth-home, .book-selector { grid-template-columns: 1fr; }
   .auth-home-intro { position: static; padding-top: 0; }
   .home-hero { gap: 24px; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }

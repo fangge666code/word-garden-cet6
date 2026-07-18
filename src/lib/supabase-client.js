@@ -1,6 +1,6 @@
 const USER_DOMAIN = "users.word-garden.invalid";
 
-const TABLES = Object.freeze({
+const BASE_TABLES = {
   UserProfile: {
     name: "user_profiles",
     conflict: "user_id",
@@ -68,6 +68,13 @@ const TABLES = Object.freeze({
       completed: value.completed,
     }),
   },
+};
+
+const TABLES = Object.freeze({
+  ...BASE_TABLES,
+  KaoyanUserProfile: { ...BASE_TABLES.UserProfile, name: "ky_user_profiles" },
+  KaoyanWordProgress: { ...BASE_TABLES.WordProgress, name: "ky_word_progress" },
+  KaoyanDailyRecord: { ...BASE_TABLES.DailyRecord, name: "ky_daily_records" },
 });
 
 export function usernameToEmail(username) {

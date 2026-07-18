@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import wave
@@ -28,6 +29,9 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--index", required=True, type=Path)
     parser.add_argument("--cache-dir", required=True, type=Path)
+    parser.add_argument("--prefix", required=True)
+    parser.add_argument("--expected-count", required=True, type=int)
+    parser.add_argument("--default-base-url", required=True)
     return parser.parse_args()
 
 
@@ -119,13 +123,14 @@ def generate_missing(words: list[dict], cache_dir: Path) -> None:
         print(f"Generated {completed}/{len(missing)} missing female clips", flush=True)
 
 
-def write_packages(words: list[dict], output_dir: Path, index_path: Path, cache_dir: Path) -> None:
+def write_packages(words: list[dict], output_dir: Path, index_path: Path, cache_dir: Path, prefix: str, default_base_url: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     for old in output_dir.glob("chunk-*.wav"):
         old.unlink()
 
     gap = np.zeros(round(OUTPUT_RATE * GAP_SECONDS), dtype="<i2")
     rows = []
+    hashes = []
     for chunk_start in range(0, len(words), WORDS_PER_CHUNK):
         chunk_words = words[chunk_start:chunk_start + WORDS_PER_CHUNK]
         parts = []
@@ -136,18 +141,22 @@ def write_packages(words: list[dict], output_dir: Path, index_path: Path, cache_
             rows.append([chunk_number, cursor, len(clip)])
             parts.extend((clip, gap))
             cursor += len(clip) + len(gap)
-        write_pcm(output_dir / f"chunk-{chunk_number:03d}.wav", np.concatenate(parts))
+        chunk_path = output_dir / f"chunk-{chunk_number:03d}.wav"
+        write_pcm(chunk_path, np.concatenate(parts))
+        hashes.append(hashlib.sha256(chunk_path.read_bytes()).hexdigest()[:16])
 
     module = (
         f"export const PRONUNCIATION_SAMPLE_RATE = {OUTPUT_RATE};\n"
         f"export const PRONUNCIATION_CLIPS = {json.dumps(rows, separators=(',', ':'))};\n\n"
-        "export function pronunciationClip(wordId, baseUrl = \"./src/assets/pronunciation\") {\n"
-        "  const match = /^cet6-(\\d{3,4})$/u.exec(String(wordId ?? \"\"));\n"
+        f"export const PRONUNCIATION_CHUNK_HASHES = {json.dumps(hashes, separators=(',', ':'))};\n\n"
+        f"export function pronunciationClip(wordId, baseUrl = {json.dumps(default_base_url)}) {{\n"
+        f"  const match = /^{prefix}-(\\d{{3,4}})$/u.exec(String(wordId ?? \"\"));\n"
         "  if (!match) return null;\n"
         "  const entry = PRONUNCIATION_CLIPS[Number(match[1]) - 1];\n"
         "  if (!entry) return null;\n"
         "  const [chunk, start, length] = entry;\n"
-        "  return { url: `${baseUrl}/chunk-${String(chunk).padStart(3, \"0\")}.wav`, start, length };\n"
+        "  const version = PRONUNCIATION_CHUNK_HASHES[chunk - 1];\n"
+        "  return { url: `${baseUrl}/chunk-${String(chunk).padStart(3, \"0\")}.wav?v=${version}`, start, length };\n"
         "}\n"
     )
     index_path.write_text(module, encoding="utf-8")
@@ -157,11 +166,11 @@ def write_packages(words: list[dict], output_dir: Path, index_path: Path, cache_
 def main() -> None:
     args = arguments()
     words = json.loads(args.input.read_text(encoding="utf-8"))
-    if len(words) != 3000:
-        raise ValueError(f"Expected 3000 CET-6 words, got {len(words)}")
+    if len(words) != args.expected_count:
+        raise ValueError(f"Expected {args.expected_count} words, got {len(words)}")
     args.cache_dir.mkdir(parents=True, exist_ok=True)
     generate_missing(words, args.cache_dir)
-    write_packages(words, args.output_dir, args.index, args.cache_dir)
+    write_packages(words, args.output_dir, args.index, args.cache_dir, args.prefix, args.default_base_url)
 
 
 if __name__ == "__main__":

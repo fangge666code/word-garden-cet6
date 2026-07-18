@@ -6,7 +6,7 @@ const readText = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf
 
 test("web app manifest describes an installable standalone app", async () => {
   const manifest = JSON.parse(await readText("manifest.webmanifest"));
-  assert.equal(manifest.name, "词间 · CET-6 学习");
+  assert.equal(manifest.name, "词间 · 六级与考研英语");
   assert.equal(manifest.short_name, "词间");
   assert.equal(manifest.display, "standalone");
   assert.equal(manifest.start_url, "./#home");
@@ -44,7 +44,8 @@ test("service worker caches the offline fallback and played pronunciation packag
   assert.match(worker, /offline\.html/u);
   assert.match(worker, /request\.mode === "navigate"/u);
   assert.match(worker, /caches\.match/u);
-  assert.match(worker, /src\/assets\/pronunciation\/chunk-/u);
+  assert.match(worker, /src\/assets\/pronunciation/u);
+  assert.match(worker, /RESOURCE_CACHE_NAME/u);
   assert.match(worker, /cache\.put/u);
   assert.doesNotMatch(worker, /cet6-words|src\/app|index\.html/u);
   assert.match(worker, /addEventListener\("message"/u);
@@ -72,6 +73,8 @@ test("Home offers user-controlled updates for Web, PWA and Android", async () =>
   assert.match(app, /立即升级/u);
   assert.match(app, /立即更新/u);
   assert.match(app, /稍后提醒/u);
+  assert.match(app, /当前版本：v/u);
+  assert.match(app, /目标版本/u);
   assert.match(app, /controllerchange/u);
   assert.match(css, /\.update-notes/u);
   assert.match(css, /\.update-actions/u);
@@ -110,6 +113,8 @@ test("hosted worker embeds the reviewed bilingual example module", async () => {
   assert.match(buildScript, /\/src\/data\/cet6-examples\.js/u);
   assert.match(buildScript, /\/src\/data\/pronunciation-index\.js/u);
   assert.match(buildScript, /\/src\/data\/cet6-words\.js/u);
+  assert.match(buildScript, /\/src\/data\/kaoyan-words\.js/u);
+  assert.match(buildScript, /content-manifest/u);
 });
 
 test("authentication and pronunciation controls have responsive accessible styles", async () => {

@@ -4,6 +4,8 @@
 
 新增词条的音标和中文释义来自 ECDICT；例句由本项目模板生成。学习队列按日期进行确定性乱序，不复制新东方或其他商业词书的释义、例句、词根联想和编排顺序。
 
+考研模块收录 3500 个独立词条，来自 ECDICT 的 `ky` 考研标签，并结合 Collins、Oxford、BNC 与当代语料频率筛选常见原形。中英例句优先使用可署名的 Tatoeba 句对，覆盖不足部分使用本项目原创情境句；逐句来源记录保存在 `src/data/kaoyan-examples-attribution.json`。
+
 - 来源：https://github.com/JavaProgrammerLB/cet-word-list
 - 许可：https://github.com/JavaProgrammerLB/cet-word-list/blob/master/LICENSE
 - 扩充来源：https://github.com/skywind3000/ECDICT

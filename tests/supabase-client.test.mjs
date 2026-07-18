@@ -95,6 +95,19 @@ test("expired authorization errors are marked for one automatic refresh", async 
   ));
 });
 
+test("Kaoyan records use physically separate cloud tables", async () => {
+  const urls = [];
+  const client = new SupabaseClient({ projectURL: "https://project.supabase.co", anonKey: "anon-key" }, async (url, options) => {
+    urls.push(url);
+    return options.method === "GET" ? response([]) : response([], 201);
+  });
+  const user = { objectId: "user-2", sessionToken: "access" };
+  await client.listOwned("KaoyanWordProgress", user);
+  await client.saveOwned("KaoyanDailyRecord", { date: "2026-07-18", newIds: [], reviewIds: [], ratings: 0, completed: false }, user);
+  assert.match(urls[0], /\/ky_word_progress\?/u);
+  assert.match(urls[1], /\/ky_daily_records\?/u);
+});
+
 test("invalid refresh tokens are treated as expired sessions instead of cloud outages", async () => {
   const messages = [
     "Invalid Refresh Token: Refresh Token Not Found",

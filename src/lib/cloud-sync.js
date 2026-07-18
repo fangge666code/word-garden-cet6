@@ -65,11 +65,14 @@ async function runLimited(tasks, limit = 4) {
   await Promise.all(workers);
 }
 
-export async function syncLearningData(client, user, localData) {
+export async function syncLearningData(client, user, localData, bookId = "cet6") {
+  const names = bookId === "kaoyan"
+    ? { profile: "KaoyanUserProfile", word: "KaoyanWordProgress", daily: "KaoyanDailyRecord" }
+    : { profile: "UserProfile", word: "WordProgress", daily: "DailyRecord" };
   const [profiles, words, dailyRecords] = await Promise.all([
-    client.listOwned("UserProfile", user),
-    client.listOwned("WordProgress", user),
-    client.listOwned("DailyRecord", user),
+    client.listOwned(names.profile, user),
+    client.listOwned(names.word, user),
+    client.listOwned(names.daily, user),
   ]);
   const merged = mergeLearningData(localData, remoteData(profiles, words, dailyRecords));
   merged.session = structuredClone(localData.session ?? null);
@@ -82,19 +85,19 @@ export async function syncLearningData(client, user, localData) {
     settingsUpdatedAt: merged.settingsUpdatedAt || new Date().toISOString(),
     dataVersion: merged.version,
   };
-  const tasks = [() => client.saveOwned("UserProfile", profileValues, user, profile?.objectId)];
+  const tasks = [() => client.saveOwned(names.profile, profileValues, user, profile?.objectId)];
   const wordMap = new Map(words.map((record) => [record.wordId, record]));
   for (const [wordId, value] of Object.entries(merged.progress)) {
     const remote = wordMap.get(wordId);
     if (!remote || !equalWord(value, remote)) {
-      tasks.push(() => client.saveOwned("WordProgress", { wordId, ...selectFields(value, WORD_FIELDS) }, user, remote?.objectId));
+      tasks.push(() => client.saveOwned(names.word, { wordId, ...selectFields(value, WORD_FIELDS) }, user, remote?.objectId));
     }
   }
   const dailyMap = new Map(dailyRecords.map((record) => [record.date, record]));
   for (const [date, value] of Object.entries(merged.daily)) {
     const remote = dailyMap.get(date);
     if (!remote || !equalDaily(value, remote)) {
-      tasks.push(() => client.saveOwned("DailyRecord", { date, ...dailyFromCloud(value) }, user, remote?.objectId));
+      tasks.push(() => client.saveOwned(names.daily, { date, ...dailyFromCloud(value) }, user, remote?.objectId));
     }
   }
   await runLimited(tasks);
