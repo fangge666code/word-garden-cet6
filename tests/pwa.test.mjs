@@ -46,6 +46,7 @@ test("service worker caches the offline fallback and played pronunciation packag
   assert.match(worker, /caches\.match/u);
   assert.match(worker, /src\/assets\/pronunciation/u);
   assert.match(worker, /RESOURCE_CACHE_NAME/u);
+  assert.match(worker, /headers\.has\("range"\)/u);
   assert.match(worker, /cache\.put/u);
   assert.doesNotMatch(worker, /cet6-words|src\/app|index\.html/u);
   assert.match(worker, /addEventListener\("message"/u);
@@ -110,7 +111,7 @@ test("logged-out users authenticate on Home before opening learning routes", asy
 
 test("study cards and vocabulary rows expose click-to-play pronunciation", async () => {
   const app = await readText("src/app.js");
-  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=7"/u);
+  assert.match(app, /from "\.\/lib\/pronunciation\.js\?v=8"/u);
   assert.match(app, /data-speak-id/u);
   assert.match(app, /data-speak-word/u);
   assert.match(app, /data-accent="gb"/u);
@@ -119,6 +120,8 @@ test("study cards and vocabulary rows expose click-to-play pronunciation", async
   assert.match(app, /event\.stopPropagation\(\)/u);
   assert.match(app, /accent: button\.dataset\.accent/u);
   assert.match(app, /preloadPronunciation\(word\.id\)/u);
+  assert.match(app, /currentPreload\.finally/u);
+  assert.match(app, /resume: true/u);
   assert.match(app, /发音资源暂时无法播放/u);
 });
 

@@ -41,6 +41,7 @@ export function speechSupported(scope = globalThis) {
 }
 
 const decodedChunks = new Map();
+const decodedClips = new Map();
 let sharedContext = null;
 let activeSource = null;
 
@@ -88,6 +89,77 @@ async function decodedChunk(url, context, fetchFn) {
   return decodedChunks.get(url);
 }
 
+function pcmWave(pcm, sampleRate = PRONUNCIATION_SAMPLE_RATE) {
+  const source = new Uint8Array(pcm);
+  const output = new ArrayBuffer(44 + source.byteLength);
+  const bytes = new Uint8Array(output);
+  const view = new DataView(output);
+  const writeAscii = (offset, value) => {
+    for (let index = 0; index < value.length; index += 1) bytes[offset + index] = value.charCodeAt(index);
+  };
+  writeAscii(0, "RIFF");
+  view.setUint32(4, 36 + source.byteLength, true);
+  writeAscii(8, "WAVE");
+  writeAscii(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeAscii(36, "data");
+  view.setUint32(40, source.byteLength, true);
+  bytes.set(source, 44);
+  return output;
+}
+
+async function decodedClip(clip, context, fetchFn) {
+  const key = `${clip.url}#${clip.start}:${clip.length}`;
+  if (!decodedClips.has(key)) {
+    const pending = (async () => {
+      const firstByte = 44 + clip.start * 2;
+      const lastByte = firstByte + clip.length * 2 - 1;
+      let response;
+      try {
+        response = await fetchFn(clip.url, {
+          cache: "no-store",
+          headers: { Range: `bytes=${firstByte}-${lastByte}` },
+        });
+        if (response?.ok && response.status === 206) {
+          const pcm = await response.arrayBuffer();
+          if (pcm.byteLength === clip.length * 2) {
+            return {
+              buffer: await decodeAudioData(context, pcmWave(pcm)),
+              offset: 0,
+              duration: clip.length / PRONUNCIATION_SAMPLE_RATE,
+              partial: true,
+            };
+          }
+        } else if (response?.ok) {
+          return {
+            buffer: await decodeAudioData(context, await response.arrayBuffer()),
+            offset: clip.start / PRONUNCIATION_SAMPLE_RATE,
+            duration: clip.length / PRONUNCIATION_SAMPLE_RATE,
+            partial: false,
+          };
+        }
+      } catch {
+        // A full-chunk request below preserves compatibility with hosts without Range support.
+      }
+      return {
+        buffer: await decodedChunk(clip.url, context, fetchFn),
+        offset: clip.start / PRONUNCIATION_SAMPLE_RATE,
+        duration: clip.length / PRONUNCIATION_SAMPLE_RATE,
+        partial: false,
+      };
+    })();
+    decodedClips.set(key, pending);
+    pending.catch(() => decodedClips.delete(key));
+  }
+  return decodedClips.get(key);
+}
+
 async function speakWithBundledAudio(wordId, options = {}) {
   const scope = options.scope ?? globalThis;
   const resolveClip = options.clipResolver ?? pronunciationClip;
@@ -98,14 +170,14 @@ async function speakWithBundledAudio(wordId, options = {}) {
 
   try {
     if (context.state === "suspended" && typeof context.resume === "function") await context.resume();
-    const buffer = await decodedChunk(clip.url, context, fetchFn);
+    const loaded = await decodedClip(clip, context, fetchFn);
     if (activeSource) {
       try { activeSource.stop(); } catch {}
     }
     const source = context.createBufferSource();
-    source.buffer = buffer;
+    source.buffer = loaded.buffer;
     source.connect(context.destination);
-    source.start(0, clip.start / PRONUNCIATION_SAMPLE_RATE, clip.length / PRONUNCIATION_SAMPLE_RATE);
+    source.start(0, loaded.offset, loaded.duration);
     activeSource = source;
     source.onended = () => { if (activeSource === source) activeSource = null; };
     return { ok: true, source: "bundled", clip, node: source };
@@ -161,10 +233,13 @@ export async function preloadPronunciation(wordId, options = {}) {
   const context = audioContext(scope, options.audioContext);
   const fetchFn = options.fetchFn ?? scope?.fetch?.bind(scope);
   if (!context || !fetchFn || !wordId) return false;
+  if (options.resume && context.state === "suspended" && typeof context.resume === "function") {
+    try { await context.resume(); } catch { /* Decoding can still continue before the next user gesture. */ }
+  }
   const accents = options.accents ?? ["gb", "us"];
   const loaded = await Promise.allSettled(accents.map((accent) => {
     const clip = resolveClip(wordId, options.audioBaseUrl, scope, accent);
-    return clip ? decodedChunk(clip.url, context, fetchFn) : Promise.reject(new Error("Audio unavailable"));
+    return clip ? decodedClip(clip, context, fetchFn) : Promise.reject(new Error("Audio unavailable"));
   }));
   return loaded.some((result) => result.status === "fulfilled");
 }

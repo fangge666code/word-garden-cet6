@@ -1,13 +1,13 @@
 {
-  "versionName": "1.4.0",
-  "versionCode": 11,
-  "webBuild": "2026-07-18.8",
-  "apkUrl": "https://github.com/fangge666code/word-garden-cet6/releases/download/v1.4.0/word-garden-android.apk",
+  "versionName": "1.4.1",
+  "versionCode": 12,
+  "webBuild": "2026-07-18.9",
+  "apkUrl": "https://github.com/fangge666code/word-garden-cet6/releases/download/v1.4.1/word-garden-android.apk",
   "releaseNotes": [
-    "清理全部英式女声切片边界，修复 ocean 等单词混入前一词尾音的问题",
-    "为六级与考研全部单词新增统一的美式女声按钮",
-    "手机端提前加载当前词和下一词的小型音频包，点击发音响应更快",
-    "今日页移除账号同步、检查更新和词库选择，相关功能集中到设置页"
+    "手机发音改为只获取当前单词对应的音频字节，不再等待整包下载",
+    "当前单词的英式与美式发音优先加载，下一词随后后台加载",
+    "按下发音按钮时提前唤醒音频通道，进一步缩短点击后的等待",
+    "保留完整音频包、浏览器语音与安卓系统语音作为兼容回退"
   ],
-  "publishedAt": "2026-07-18T13:30:00Z"
+  "publishedAt": "2026-07-18T12:45:00Z"
 }

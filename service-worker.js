@@ -1,4 +1,4 @@
-const CACHE_NAME = "word-garden-offline-v4";
+const CACHE_NAME = "word-garden-offline-v5";
 const RESOURCE_CACHE_NAME = "word-garden-content-v1";
 const OFFLINE_URL = "./offline.html";
 
@@ -21,6 +21,10 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (event.request.method === "GET" && url.pathname.includes("/src/assets/pronunciation") && url.pathname.includes("/chunk-")) {
+    if (event.request.headers.has("range")) {
+      event.respondWith(fetch(event.request));
+      return;
+    }
     event.respondWith(
       caches.open(RESOURCE_CACHE_NAME).then(async (cache) => {
         const cached = await cache.match(event.request);

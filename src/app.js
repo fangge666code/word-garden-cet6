@@ -20,7 +20,7 @@ import {
   rateCurrent,
   validateData,
 } from "./lib/core.js";
-import { preloadPronunciation, speakWord, speechSupported } from "./lib/pronunciation.js?v=7";
+import { preloadPronunciation, speakWord, speechSupported } from "./lib/pronunciation.js?v=8";
 import { SupabaseClient } from "./lib/supabase-client.js?v=5";
 
 const STORAGE_KEY = "word-garden-data-v1";
@@ -482,9 +482,9 @@ function renderStudy() {
   const ratings = document.querySelector("#rating-row");
   card.addEventListener("click", () => flipCard(card, ratings));
   bindPronunciationButtons();
-  void preloadPronunciation(word.id);
+  const currentPreload = preloadPronunciation(word.id);
   const nextEntry = session.queue[session.position + 1];
-  if (nextEntry) void preloadPronunciation(nextEntry.id);
+  if (nextEntry) void currentPreload.finally(() => preloadPronunciation(nextEntry.id));
   ratings.querySelectorAll("[data-rating]").forEach((button) => {
     button.addEventListener("click", () => submitRating(button.dataset.rating));
   });
@@ -597,7 +597,7 @@ function bindPronunciationButtons(root = document) {
     button.disabled = !supported;
     if (!supported) button.title = "当前设备暂不支持单词发音";
     button.addEventListener("pointerdown", () => {
-      void preloadPronunciation(button.dataset.speakId, { accents: [button.dataset.accent] });
+      void preloadPronunciation(button.dataset.speakId, { accents: [button.dataset.accent], resume: true });
     }, { passive: true });
     button.addEventListener("click", async (event) => {
       event.stopPropagation();

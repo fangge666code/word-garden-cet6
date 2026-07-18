@@ -57,6 +57,45 @@ test("bundled audio resumes Web Audio and plays the indexed slice", async () => 
   assert.equal(audio.sources[0].connected, audio.context.destination);
 });
 
+test("a byte-range response decodes and plays only the selected word", async () => {
+  const requests = [];
+  const decoded = [];
+  const sources = [];
+  const context = {
+    state: "running",
+    destination: {},
+    async decodeAudioData(value) { decoded.push(value); return { decoded: true }; },
+    createBufferSource() {
+      const source = {
+        connect() {},
+        start(...args) { this.started = args; },
+        stop() {},
+      };
+      sources.push(source);
+      return source;
+    },
+  };
+  const clip = { url: "chunk-range-unique.wav", start: 16000, length: 8000 };
+  const result = await speakWord("abandon", {
+    wordId: "cet6-001",
+    audioContext: context,
+    fetchFn: async (url, options) => {
+      requests.push({ url, options });
+      return { ok: true, status: 206, arrayBuffer: async () => new ArrayBuffer(16000) };
+    },
+    clipResolver: () => clip,
+    engine: null,
+    Utterance: null,
+    nativePlugin: null,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].options.headers.Range, "bytes=32044-48043");
+  assert.equal(decoded[0].byteLength, 16044);
+  assert.equal(new TextDecoder().decode(decoded[0].slice(0, 4)), "RIFF");
+  assert.deepEqual(sources[0].started, [0, 0, 0.5]);
+});
+
 test("starting another word stops the previous bundled pronunciation", async () => {
   const first = fakeAudio("chunk-first.wav");
   await speakWord("abandon", { wordId: "cet6-001", audioContext: first.context, fetchFn: first.fetchFn, clipResolver: first.clipResolver });
@@ -117,6 +156,18 @@ test("mobile preloading decodes both accent packages before the click", async ()
   });
   assert.equal(loaded, true);
   assert.deepEqual(accents, ["gb", "us"]);
+});
+
+test("pointer preloading can resume a suspended mobile audio context", async () => {
+  const audio = fakeAudio("preload-resume-unique.wav");
+  await preloadPronunciation("cet6-001", {
+    audioContext: audio.context,
+    fetchFn: audio.fetchFn,
+    accents: ["gb"],
+    resume: true,
+    clipResolver: audio.clipResolver,
+  });
+  assert.equal(audio.context.resumed, 1);
 });
 
 test("support detection covers Web Audio, browser speech and Android native speech", () => {

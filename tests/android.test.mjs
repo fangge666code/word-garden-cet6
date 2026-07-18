@@ -55,8 +55,8 @@ test("Android and the public update manifest share one release version", async (
     readFile("version.json", "utf8"),
   ]);
   const manifest = JSON.parse(manifestText);
-  assert.equal(manifest.versionName, "1.4.0");
-  assert.equal(manifest.versionCode, 11);
+  assert.equal(manifest.versionName, "1.4.1");
+  assert.equal(manifest.versionCode, 12);
   assert.match(gradle, new RegExp(`versionCode ${manifest.versionCode}`, "u"));
   assert.match(gradle, new RegExp(`versionName "${manifest.versionName.replaceAll(".", "\\.")}"`, "u"));
   assert.match(manifest.apkUrl, new RegExp(`/v${manifest.versionName}/word-garden-android\\.apk$`, "u"));
